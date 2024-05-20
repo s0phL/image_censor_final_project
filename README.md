@@ -3,4 +3,4 @@
 
 **Email:** sliu50@stuy.edu
 
-**Period:** 1
+**Period:** 6
