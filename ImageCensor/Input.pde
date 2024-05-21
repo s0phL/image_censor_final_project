@@ -1,6 +1,6 @@
 import javax.swing.JOptionPane;
 
-public static class Input {
+public static class input {
   
   static String prompt(String s) {
      println(s);
