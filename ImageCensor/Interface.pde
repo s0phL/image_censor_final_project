@@ -8,6 +8,7 @@ void setup() {
     insertImage();
   } catch (NullPointerException e) { //defaults to bird.jpg if user input
     image_path = "bird.jpg";
+    //image_path = input.getString("Invalid path. Please try again");
     insertImage();
   }
   print("image path: " + image_path);
