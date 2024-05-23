@@ -16,12 +16,12 @@ public class Pixelate {
     for (int i = 0; i < img.pixels.length; i+=blockSize) {
       if (i+blockSize+extraXPixels == img.width-1) {
         color blockColor = avgRGB(img, blockSize+extraXPixels, i);
-        setBlockColor(img, blockColor, blockSize+extraXPixels, i);
+        setBlockColor(blockColor, img, blockSize+extraXPixels, i);
         i += img.width*blockSize;
       }
       else {
         color blockColor = avgRGB(img, blockSize+extraXPixels, i);
-        setBlockColor(img, blockColor, blockSize+extraXPixels, i);
+        setBlockColor(blockColor, img, blockSize+extraXPixels, i);
       }
     }
   }
@@ -45,7 +45,7 @@ public class Pixelate {
     return color(rAvg, gAvg, bAvg);
   }
   
-  void setBlockColor(PImage img, color blockColor, int blockSize, int startIndex) {
+  void setBlockColor(color blockColor, PImage img, int blockSize, int startIndex) {
     for (int x = 0; x < blockSize; x++) {
       for (int y = 0; y < blockSize; y++) {
         int currentPos = startIndex+x + (y*img.width);
