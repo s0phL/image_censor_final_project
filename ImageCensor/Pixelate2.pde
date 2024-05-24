@@ -1,10 +1,10 @@
-public class Pixelate {
+public class Pixelate2 {
 
   PImage img;
   
   int counter =0;
   
-  public Pixelate(PImage img) {
+  public Pixelate2(PImage img) {
     this.img = img;
   }
   //int rAvg = 0;
@@ -12,38 +12,39 @@ public class Pixelate {
   //int bAvg = 0;
     
    void pixelate(int blockSize) {
-    int extraXPixels = img.width % blockSize; // additional pixels to be added to end of each block if img dimentions not divisible by block dimentions
-    int extraYPixels = img.height % blockSize;
+    int extraXPixels = 7 % blockSize; // additional pixels to be added to end of each block if img dimentions not divisible by block dimentions
+    int extraYPixels = 7 % blockSize;
     
     int yBlockSize = blockSize;
     //int yBlockSize = blockSize + extraYPixels;
     
     // need to do extra pixels for height (if height doesn't fit into block size)
-    for (int i = 0; i < img.pixels.length; i+=blockSize) {
+    for (int i = 0; i < 49; i+=blockSize) {
      //for (int i = 0; i < 136116; i+=blockSize) {
        //for (int i = 135432; i < img.pixels.length; i+=blockSize) {
          //for (int i = 136116; i < img.pixels.length; i+=blockSize) {
        
-       if ((i/img.width)+blockSize+extraYPixels == img.height) {
+       if ((i/7)+blockSize+extraYPixels == 7) {
           println("adashds");
           println(i);
           //println(yBlockSize);
-          //println((i/img.width));
+          //println((i/7));
           //println(blockSize);
           yBlockSize += extraYPixels;
           println(yBlockSize);
           extraYPixels = -1;
         }
         
-      if ((i+blockSize+extraXPixels) % img.width == 0) { //if reached end of img width
+      if ((i+blockSize+extraXPixels) % 7==0) { //if reached end of img width
       
       
         color blockColor = avgRGB(blockSize+extraXPixels, yBlockSize, i);
         setBlockColor(blockColor, blockSize+extraXPixels, yBlockSize, i);
         
       
-        
-        i += extraXPixels + img.width*(yBlockSize-1);
+        print(i + " : " + extraXPixels + " : " + yBlockSize + " : ");
+        i += extraXPixels + 7*(yBlockSize-1);
+        print(i + "||" );
         
         
       }
@@ -64,7 +65,7 @@ public class Pixelate {
       //for (int y = 0; y < yBlockSize; y++) {
      for (int y = 0; y < yBlockSize; y++) {
        for (int x = 0; x < xBlockSize; x++) {
-        int currentPos = startIndex+x + (y*img.width);
+        int currentPos = startIndex+x + (y*7);
         print(currentPos + ", ");
         rSum += red(img.pixels[currentPos]);
         gSum += green(img.pixels[currentPos]);
@@ -83,7 +84,7 @@ public class Pixelate {
   private void setBlockColor(color blockColor, int xBlockSize, int yBlockSize, int startIndex) {
     for (int x = 0; x < xBlockSize; x++) {
       for (int y = 0; y < yBlockSize; y++) {
-        int currentPos = startIndex+x + (y*img.width);
+        int currentPos = startIndex+x + (y*7);
         img.pixels[currentPos] = blockColor;
       }
     }
