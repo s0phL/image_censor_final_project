@@ -14,7 +14,9 @@ void draw() {
   stroke(255);
   strokeWeight(2);
   noFill();
-  //rect(a, b, c, d);
+  if (mousePressed) {
+    rect(a, b, c, d);
+  }
 }
 
 
@@ -27,10 +29,14 @@ void mousePressed() {
 void mouseDragged() {
   c=mouseX-a;
   d=mouseY-b;
-  rect(a, b, c, d);
+  //rect(a, b, c, d);
 }
 
 void mouseReleased() {
-  //background(0);
+  background(0);
   println(a + ":" + b + ":" + c + ":" + d);
+  a=0;
+  b=0;
+  c=0;
+  d=0;
 }
