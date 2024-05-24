@@ -1,38 +1,40 @@
+// THIS IS AN ALT VERSION FOR USER_INPUT
+// instead of defaulting to bird.jpg, asks user to input a valid path
+
 PImage img;
 
 void setup() {
   size(1000, 500);
-  try {
-    String image_path = input.getString("Enter image path");
-    insertImage(image_path);
-  } catch (NullPointerException e) { //defaults to bird.jpg if user input
-    String image_path = "bird.jpg";
-    //image_path = input.getString("Invalid path. Please try again");
-    insertImage(image_path);
-  }
   
-   Pixelate pixel = new Pixelate(img);
+  getImage("Enter image path");
   
-  /*
-   println(img.width); //342
-   println(img.height); //400
-   println(img.pixels.length); //136800
-   println(img.height % 3); //1
-   */
-   pixel.pixelate(3);
-   img.updatePixels();
-   image(img, 500-(img.width/2), 250-(img.height/2));
+  Pixelate pixel = new Pixelate(img);
+  pixel.pixelate(3);
+  img.updatePixels();
+  image(img, 500-(img.width/2), 250-(img.height/2));
   
 }
 
-void insertImage(String image_path) {
-  println("image path: " + image_path);
+/* asks user for image path of the image they want to edit. 
+ * image will then be inserted into the processing screen
+ * if path does not exist, asks user again for a valid path.
+*/
+void getImage(String inputPrompt){
+  String image_path;
+  try {
+    image_path = input.getString(inputPrompt);
+    
+    println("image path: " + image_path);
   
-  img = loadImage(image_path);
-  while (img.width > width || img.height > height) {
-    img.resize(img.width/2, img.height/2);
+    img = loadImage(image_path);
+    while (img.width > width || img.height > height) {
+      img.resize(img.width/2, img.height/2);
+    }
+      
+    image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
+     
+  } catch (NullPointerException e) { 
+    getImage("Invalid path. Please try again");
   }
-  
-  image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
 }
     
