@@ -1,5 +1,6 @@
 PImage img;
 int a, b, c, d;
+//Pixelate pixel;
 
 void setup() {
   size(1000, 500);
@@ -45,13 +46,20 @@ void insertImage(String image_path) {
   image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
 }
 
+
+
 void draw() {
-  background(255);
+  //background(255);
+  background(0);
   image(img, 500-(img.width/2), 250-(img.height/2));
-  stroke(0);
+  stroke(255);
   strokeWeight(2);
   noFill();
-  //rect(a, b, c, d);
+  if (mousePressed) {
+    rect(a, b, c, d);
+  }
+
+  println(mouseX + "::" + mouseY + "||" + (500-(img.width/2)) + ":" + (250-(img.height/2)) + "||" + a + ":" + b);
 }
 
 
@@ -64,16 +72,23 @@ void mousePressed() {
 void mouseDragged() {
   c=mouseX-a;
   d=mouseY-b;
-  rect(a, b, c, d);
+  //rect(a, b, c, d);
 }
 
 void mouseReleased() {
-  //background(0);
+  background(0);
   println(a + ":" + b + ":" + c + ":" + d);
-  Pixelate pixel = new Pixelate(img, a, 0);
+  
+  Pixelate pixel = new Pixelate(img, abs(a-(500-(img.width/2))), abs(b-(250-(img.height/2))), c, d);
   
   pixel.pixelate(3);
-   img.updatePixels();
-   image(img, 500-(img.width/2), 250-(img.height/2));
+  img.updatePixels();
+  image(img, 500-(img.width/2), 250-(img.height/2));
+  
+  a=0;
+  b=0;
+  c=0;
+  d=0;
+  
 }
     
