@@ -7,9 +7,6 @@ public class Pixelate {
   public Pixelate(PImage img) {
     this.img = img;
   }
-  //int rAvg = 0;
-  //int gAvg = 0;
-  //int bAvg = 0;
     
    void pixelate(int blockSize) {
     int extraXPixels = img.width % blockSize; // additional pixels to be added to end of each block if img dimentions not divisible by block dimentions
@@ -26,12 +23,7 @@ public class Pixelate {
        
        if ((i/img.width)+blockSize+extraYPixels == img.height) {
           println("adashds");
-          println(i);
-          //println(yBlockSize);
-          //println((i/img.width));
-          //println(blockSize);
           yBlockSize += extraYPixels;
-          println(yBlockSize);
           extraYPixels = -1;
         }
         
@@ -59,11 +51,8 @@ public class Pixelate {
     int rSum = 0;
     int gSum = 0;
     int bSum = 0;
-    //println(startIndex);
-    //for (int x = 0; x < xBlockSize; x++) {
-      //for (int y = 0; y < yBlockSize; y++) {
-     for (int y = 0; y < yBlockSize; y++) {
-       for (int x = 0; x < xBlockSize; x++) {
+    for (int y = 0; y < yBlockSize; y++) {
+      for (int x = 0; x < xBlockSize; x++) {
         int currentPos = startIndex+x + (y*img.width);
         print(currentPos + ", ");
         rSum += red(img.pixels[currentPos]);
