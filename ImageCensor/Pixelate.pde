@@ -1,8 +1,11 @@
 public class Pixelate {
   PImage img;
+  int startPixel, endPixel;
   
-  public Pixelate(PImage img) {
+  public Pixelate(PImage img, int startPixel, int endPixel) {
     this.img = img;
+    this.startPixel = startPixel;
+    this.endPixel = endPixel;
   }
   
   /* pixelates the image based off block size.
@@ -15,7 +18,7 @@ public class Pixelate {
   
     int yBlockSize = blockSize;
  
-    for (int i = 0; i < img.pixels.length; i += blockSize) {
+    for (int i = startPixel; i < endPixel; i += blockSize) {
      
        if ((i / img.width) + blockSize + extraYPixels == img.height) { //if reach final block row before img end. i/img.width == curr row
           yBlockSize += extraYPixels;
