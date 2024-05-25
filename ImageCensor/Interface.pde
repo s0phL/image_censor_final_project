@@ -22,6 +22,7 @@ void setup() {
 void getImage(String inputPrompt){
   String image_path;
   try {
+    //image_path = "../../../../" + input.getString(inputPrompt);
     image_path = input.getString(inputPrompt);
     
     println("image path: " + image_path);
