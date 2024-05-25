@@ -1,7 +1,7 @@
 PImage img, imgCopy;
 PImage pixelizeIcon;
 Selection selectionTool;
-Button btn;
+Button btn, btn2;
 
 void setup() {
   size(1000, 500);
@@ -37,6 +37,7 @@ void setup() {
    pixelizeIcon.resize(50, 50);
    image(pixelizeIcon, 76-pixelizeIcon.width-10, 93);
    btn = new Button(76, 93, 100, 60, 5, "Pixelate", 25, 255, "pixelate");
+   btn2 = new Button(76, 200, 100, 60, 5, "Download", 25, 255, "download");
   
 }
 
@@ -61,6 +62,7 @@ void draw() {
   
   selectionTool.draw();
   btn.draw();
+  btn2.draw();
   //println(mouseX, mouseY);
 }
 
@@ -71,11 +73,13 @@ void mousePressed() {
 void mouseDragged() {
   selectionTool.mouseDragged();
   btn.mouseDragged();
+  btn2.mouseDragged();
 }
 
 void mouseReleased() {
   selectionTool.mouseReleased();
   btn.mouseReleased();
+  btn2.mouseReleased();
   
 }
    

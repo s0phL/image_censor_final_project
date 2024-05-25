@@ -3,9 +3,9 @@ public class Button {
   private float x, y, w, h, padding, fontSize;
   private String text;
   private color c;
-  private String mode;
+  private String function;
   
-  public Button(float x, float y, float btnWidth, float btnHeight, float padding, String text, float fontSize, color c, String mode) {
+  public Button(float x, float y, float btnWidth, float btnHeight, float padding, String text, float fontSize, color c, String function) {
     this.x = x;
     this.y = y;
     w = btnWidth;
@@ -14,7 +14,7 @@ public class Button {
     this.text = text;
     this.fontSize = fontSize;
     this.c = c;
-    this.mode = mode;
+    this.function = function;
   }
   
   /* creates a rectangle button.
@@ -37,9 +37,14 @@ public class Button {
       text(text, (x + ((w-textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
       //blacken when directly clicked
       if (mousePressed && !mouseDragged){
-        selectionTool = new Selection(mode);
         fill(0);
         rect(x, y, w, h);
+        if (function == "download") {
+          img.save("censored_bird.jpg");
+        }
+        else {
+          selectionTool = new Selection(function);
+        }
       }
     }
   }
