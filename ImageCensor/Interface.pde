@@ -1,4 +1,5 @@
 PImage img, imgCopy;
+PImage pixelizeIcon;
 Selection selectionTool;
 Button btn;
 
@@ -29,8 +30,13 @@ void setup() {
    image(img, 500-(img.width/2), 250-(img.height/2));
    */
    
-   selectionTool = new Selection();
-   btn = new Button(76, 93, 100, 60, 5, "Pixelate", 25, 255);
+   //selectionTool = new Selection("pixelate");
+   selectionTool = new Selection("none");
+   
+   pixelizeIcon = loadImage("images/pixelize.png");
+   pixelizeIcon.resize(50, 50);
+   image(pixelizeIcon, 76-pixelizeIcon.width-10, 93);
+   btn = new Button(76, 93, 100, 60, 5, "Pixelate", 25, 255, "pixelate");
   
 }
 
@@ -49,6 +55,10 @@ void insertImage(String image_path) {
 }
 
 void draw() {
+  background(0);
+  image(pixelizeIcon, 76-pixelizeIcon.width-10, 93);
+  image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen again
+  
   selectionTool.draw();
   btn.draw();
   //println(mouseX, mouseY);

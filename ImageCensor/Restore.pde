@@ -1,6 +1,6 @@
 public class Restore {
-  PImage originalImg, editedImg;
-  int startPixel, endPixel, cropWidth, cropHeight; //startPixel = starting index of selected area, endPixel = ending index of selected area
+  private PImage originalImg, editedImg;
+  private int startPixel, endPixel, cropWidth, cropHeight; //startPixel = starting index of selected area, endPixel = ending index of selected area
   
   public Restore(PImage originalImg, PImage editedImg, int x, int y, int cropWidth, int cropHeight) {
     
@@ -42,7 +42,6 @@ public class Restore {
    * changes edited img pixel's to match its original state
   */
   void restore() {
-  
     int indexPassed = 0;
     for (int i = startPixel; i < endPixel; i++) {
       
