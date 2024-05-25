@@ -1,23 +1,23 @@
 public class Selection {
-  int xStart, yStart, rectWidth, rectHeight; //selection box outlines
+  private int xStart, yStart, rectWidth, rectHeight; //selection box outlines
+  private String mode;
   
   //initialize to 0 so rectangle selection box doesn't appear
-  public Selection() {
+  public Selection(String mode) {
     xStart = 0;
     yStart = 0;
     rectWidth = 0;
     rectHeight = 0;
+    this.mode = mode;
     
   }
   
   /* shows a rectangle based off mouse initial and last position when mouse is pressed */
   void draw() {
-  background(0);
-  image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen again
   stroke(255);
   strokeWeight(2);
   noFill();
-  if (mousePressed) {
+  if (mousePressed && (mode != "none")) {
     rect(xStart, yStart, rectWidth, rectHeight);
     }
   }
@@ -42,27 +42,21 @@ public class Selection {
     println("");
     println("=========");
     
-    //Pixelate pixel;
     println(xStart, yStart, rectWidth, rectHeight);
     if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
-      Pixelate pixel = new Pixelate(img, (xStart-(500-(img.width/2))), (yStart-(250-(img.height/2))), rectWidth, rectHeight);
-      pixel.pixelate(8);
+      editImage((xStart-(500-(img.width/2))), (yStart-(250-(img.height/2))));
     }
     else if (rectWidth < 0 && rectHeight > 0) { //top-right to bottom-left
-      Pixelate pixel = new Pixelate(img, (mouseX-(500-(img.width/2))), (yStart-(250-(img.height/2))), abs(rectWidth), rectHeight);
-      pixel.pixelate(8);
+      editImage((mouseX-(500-(img.width/2))), (yStart-(250-(img.height/2))));
     }
     else if (rectWidth > 0 && rectHeight < 0) { //bottom-left to top-right
-      Pixelate pixel = new Pixelate(img, (xStart-(500-(img.width/2))), (mouseY-(250-(img.height/2))), rectWidth, abs(rectHeight));
-      pixel.pixelate(8);
+      editImage((xStart-(500-(img.width/2))), (mouseY-(250-(img.height/2))));
     }
     else { //bottom-right to top-left, end point is start pixel
       //pixel = new Pixelate(img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
       Restore pixel = new Restore(imgCopy, img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
       pixel.restore();
     }
-    
-    //pixel.pixelate(8);
     
     img.updatePixels();
     
@@ -71,7 +65,14 @@ public class Selection {
     yStart = 0;
     rectWidth = 0;
     rectHeight = 0;
-    
+  }
+  
+  /* edits image based off mode and given start coords */
+  private void editImage(int x, int y) {
+    if (mode == "pixelate") {
+      Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));
+      pixel.pixelate(8);
+    }
   }
     
 }
