@@ -4,26 +4,34 @@ public class Pixelate {
   
   public Pixelate(PImage img, int x, int y, int cropWidth, int cropHeight) {
     this.img = img;
-    if (x > img.width) { //if leftmost coord off image (right), no pixelization
+    if (y < 0) { //if leftmost coord above image
+      y = 0;
+    }
+    if (cropWidth == 0) { //if vertical line, no pixelization
+      startPixel = img.pixels.length;
+    }
+    else if (x > img.width) { //if leftmost coord off image (right), no pixelization
       startPixel = img.pixels.length;
     }
     else if (x < 0) { //if leftmost coord off image (left):
       cropWidth += x;
       x = 0;
       if (cropWidth > 0) { //if some of the selection box is on the image, pixelize image selection
-        startPixel = y * img.width;
+        startPixel = constrain((y * img.width), 0, img.pixels.length-1);
       }
       else { //if no selection box on image, no pixelization
         startPixel = img.pixels.length;
       }
     }
     else { //if leftmost coord on image, pixelization
-      startPixel = (y * img.width) + x;
+      println("Ad");
+      println((y * img.width) + x);
+      startPixel = constrain(((y * img.width) + x), 0, img.pixels.length-1);
     }
     println(cropWidth, cropHeight);
     endPixel = constrain(startPixel + ((cropHeight - 1) * img.width) + (cropWidth - 1), 0, (img.pixels.length - 1));
-    this.cropWidth = constrain((cropWidth + x), 1, img.width) - x;
-    this.cropHeight = constrain((cropHeight + y), 0, img.height) - y;
+    this.cropWidth = constrain((cropWidth + x), x, img.width) - x;
+    this.cropHeight = constrain((cropHeight + y), y, img.height) - y;
     endHeight = this.cropHeight + y;
     
     println(x, y);
