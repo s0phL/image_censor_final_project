@@ -54,8 +54,6 @@ void draw() {
   if (mousePressed) {
     rect(xStart, yStart, rectWidth, rectHeight);
   }
-
-  //println(mouseX + "::" + mouseY + "||" + (500-(img.width/2)) + ":" + (250-(img.height/2)) + "||" + a + ":" + b);
 }
 
 void mousePressed() {
