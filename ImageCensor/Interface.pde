@@ -1,5 +1,6 @@
-PImage img;
-int xStart, yStart, rectWidth, rectHeight = 0; //for selection tool. initialize to 0 so doesn't appear
+PImage img, imgCopy;
+Selection selectionTool;
+Button btn;
 
 void setup() {
   size(1000, 500);
@@ -27,6 +28,9 @@ void setup() {
    img.updatePixels();
    image(img, 500-(img.width/2), 250-(img.height/2));
    */
+   
+   selectionTool = new Selection();
+   btn = new Button(76, 93, 100, 60, 5, "Pixelate", 25, 255);
   
 }
 
@@ -34,64 +38,36 @@ void insertImage(String image_path) {
   println("image path: " + image_path);
   
   img = loadImage(image_path);
+  imgCopy = loadImage(image_path); //img to reference when restoring edited img
   while (img.width > width || img.height > height) {
+    imgCopy.resize(img.width/2, img.height/2);
     img.resize(img.width/2, img.height/2);
   }
   
   image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
+  
 }
 
-
-
-/* SELECTION TOOL */
-
 void draw() {
-  background(0);
-  image(img, 500-(img.width/2), 250-(img.height/2));
-  stroke(255);
-  strokeWeight(2);
-  noFill();
-  if (mousePressed) {
-    rect(xStart, yStart, rectWidth, rectHeight);
-  }
-
-  //println(mouseX + "::" + mouseY + "||" + (500-(img.width/2)) + ":" + (250-(img.height/2)) + "||" + a + ":" + b);
+  selectionTool.draw();
+  btn.draw();
+  //println(mouseX, mouseY);
 }
 
 void mousePressed() {
-  xStart = mouseX;
-  yStart = mouseY;
+  selectionTool.mousePressed();
 }
 
 void mouseDragged() {
-  rectWidth = mouseX - xStart;
-  rectHeight = mouseY - yStart;
+  selectionTool.mouseDragged();
+  btn.mouseDragged();
 }
 
-/* pixelize image based off what's inside the rectangle selection */
 void mouseReleased() {
-  //background(0);
-  
-  println("");
-  println("=========");
-  
-  Pixelate pixel;
-  if (rectWidth > 0) { //if user selects from top-left to bottom-right, start point is start pixel
-    pixel = new Pixelate(img, (xStart-(500-(img.width/2))), (yStart-(250-(img.height/2))), rectWidth, rectHeight);
-  }
-  else { //if user selects from bottom-right to top-left, end point is start pixel
-    pixel = new Pixelate(img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
-  }
-  
-  pixel.pixelate(8);
-  
-  img.updatePixels();
-  
-  /* make selection rectangle disappear after mouse release */
-  xStart = 0;
-  yStart = 0;
-  rectWidth = 0;
-  rectHeight = 0;
+  selectionTool.mouseReleased();
+  btn.mouseReleased();
   
 }
+   
+   
     
