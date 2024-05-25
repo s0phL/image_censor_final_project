@@ -1,6 +1,6 @@
 public class Pixelate {
-  PImage img;
-  int startPixel, endPixel, cropWidth, cropHeight, endHeight; //startPixel = starting index of selected area, endPixel = ending index of selected area, endHeight = last row index of selected area in relation to whole image
+  private PImage img;
+  private int startPixel, endPixel, cropWidth, cropHeight, endHeight; //startPixel = starting index of selected area, endPixel = ending index of selected area, endHeight = last row index of selected area in relation to whole image
   
   public Pixelate(PImage img, int x, int y, int cropWidth, int cropHeight) {
     this.img = img;
