@@ -1,26 +1,21 @@
 PImage img;
-int a, b, c, d;
-//Pixelate pixel;
+int xStart, yStart, rectWidth, rectHeight = 0; //for selection tool. initialize to 0 so doesn't appear
 
 void setup() {
   size(1000, 500);
   
-    a=0;
-    b=0;
-    c=0;
-    d=0;
-  
   try {
     String image_path = input.getString("Enter image path");
     insertImage(image_path);
-  } catch (NullPointerException e) { //defaults to bird.jpg if user input
+  } 
+  catch (NullPointerException e) { //defaults to bird.jpg if user input
     String image_path = "bird.jpg";
     //image_path = input.getString("Invalid path. Please try again");
     insertImage(image_path);
   }
   
   /*
-   Pixelate pixel = new Pixelate(img, 0, 0);
+   Pixelate2 pixel2 = new Pixelate2(img, 0, 0, 342, 400);
   
   
    println(img.width); //342
@@ -28,7 +23,7 @@ void setup() {
    println(img.pixels.length); //136800
    println(img.height % 3); //1
    
-   pixel.pixelate(3);
+   pixel2.pixelate(3);
    img.updatePixels();
    image(img, 500-(img.width/2), 250-(img.height/2));
    */
@@ -48,47 +43,55 @@ void insertImage(String image_path) {
 
 
 
+/* SELECTION TOOL */
+
 void draw() {
-  //background(255);
   background(0);
   image(img, 500-(img.width/2), 250-(img.height/2));
   stroke(255);
   strokeWeight(2);
   noFill();
   if (mousePressed) {
-    rect(a, b, c, d);
+    rect(xStart, yStart, rectWidth, rectHeight);
   }
 
-  println(mouseX + "::" + mouseY + "||" + (500-(img.width/2)) + ":" + (250-(img.height/2)) + "||" + a + ":" + b);
+  //println(mouseX + "::" + mouseY + "||" + (500-(img.width/2)) + ":" + (250-(img.height/2)) + "||" + a + ":" + b);
 }
-
 
 void mousePressed() {
-  a=mouseX;
-  b=mouseY;
+  xStart = mouseX;
+  yStart = mouseY;
 }
-
 
 void mouseDragged() {
-  c=mouseX-a;
-  d=mouseY-b;
-  //rect(a, b, c, d);
+  rectWidth = mouseX - xStart;
+  rectHeight = mouseY - yStart;
 }
 
+/* pixelize image based off what's inside the rectangle selection */
 void mouseReleased() {
-  background(0);
-  println(a + ":" + b + ":" + c + ":" + d);
+  //background(0);
   
-  Pixelate pixel = new Pixelate(img, abs(a-(500-(img.width/2))), abs(b-(250-(img.height/2))), c, d);
+  println("");
+  println("=========");
   
-  pixel.pixelate(3);
+  Pixelate pixel;
+  if (rectWidth > 0) { //if user selects from top-left to bottom-right, start point is start pixel
+    pixel = new Pixelate(img, (xStart-(500-(img.width/2))), (yStart-(250-(img.height/2))), rectWidth, rectHeight);
+  }
+  else { //if user selects from bottom-right to top-left, end point is start pixel
+    pixel = new Pixelate(img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
+  }
+  
+  pixel.pixelate(8);
+  
   img.updatePixels();
-  image(img, 500-(img.width/2), 250-(img.height/2));
   
-  a=0;
-  b=0;
-  c=0;
-  d=0;
+  /* make selection rectangle disappear after mouse release */
+  xStart = 0;
+  yStart = 0;
+  rectWidth = 0;
+  rectHeight = 0;
   
 }
     
