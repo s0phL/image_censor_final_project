@@ -71,6 +71,7 @@ void draw() {
 
 void mousePressed() {
   selectionTool.mousePressed();
+  slide.mousePressed();
 }
 
 void mouseDragged() {
