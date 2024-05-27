@@ -1,9 +1,8 @@
 public class Button {
   private boolean mouseDragged = false;
   private float x, y, w, h, padding, fontSize;
-  private String text;
+  private String text, function;
   private color c;
-  private String function;
   
   public Button(float x, float y, float btnWidth, float btnHeight, float padding, String text, float fontSize, color c, String function) {
     this.x = x;
