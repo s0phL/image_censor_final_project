@@ -24,7 +24,6 @@ public class Pixelate {
       }
     }
     else { //if leftmost coord on image, pixelization
-      println("Ad");
       println((y * img.width) + x);
       startPixel = constrain(((y * img.width) + x), 0, img.pixels.length-1);
     }
