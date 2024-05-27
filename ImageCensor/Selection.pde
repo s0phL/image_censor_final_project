@@ -71,7 +71,7 @@ public class Selection {
   private void editImage(int x, int y) {
     if (mode == "pixelate") {
       Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));
-      pixel.pixelate(8);
+      pixel.pixelate(slide.getValue());
     }
   }
     

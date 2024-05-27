@@ -26,6 +26,7 @@ public class Button {
     fill(c);
     rect(x, y, w, h);
     fill(55);
+    textAlign(LEFT);
     textSize(fontSize);
     text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
     if (onButton()) {
