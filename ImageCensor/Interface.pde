@@ -1,6 +1,7 @@
 PImage img, imgCopy;
 PImage pixelizeIcon;
 Selection selectionTool;
+Draw draw;
 Button btn, btn2;
 Slider slide;
 
@@ -33,6 +34,7 @@ void setup() {
    
    //selectionTool = new Selection("pixelate");
    selectionTool = new Selection("none");
+   draw = new Draw();
    
    pixelizeIcon = loadImage("images/pixelize.png");
    pixelizeIcon.resize(50, 50);
@@ -76,6 +78,7 @@ void mousePressed() {
 
 void mouseDragged() {
   selectionTool.mouseDragged();
+  draw.mouseDragged();
   btn.mouseDragged();
   btn2.mouseDragged();
   slide.mouseDragged();
