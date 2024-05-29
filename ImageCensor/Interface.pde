@@ -1,12 +1,22 @@
+// to future sophie, CHANGE THE 'TO BE CHANGED' SECTIONS !!!
+
 PImage img, imgCopy;
 PImage pixelizeIcon;
 Selection selectionTool;
 Button btn, btn2;
 Slider slide;
 
+int leftCenterW;
+int leftCenterH;
+
+
+
 void setup() {
-  size(1000, 500);
-  
+  //size(1000, 500);
+    //size(1200, 800);
+    //size(100, 100);
+   fullScreen();
+    print(width);
   try {
     String image_path = input.getString("Enter image path");
     insertImage(image_path);
@@ -48,19 +58,32 @@ void insertImage(String image_path) {
   
   img = loadImage(image_path);
   imgCopy = loadImage(image_path); //img to reference when restoring edited img
-  while (img.width > width || img.height > height) {
+  // TO BE CHANGED
+  int temp = 200;
+
+
+  while (img.width > (width - temp) || img.height > (height - 25)) {
     imgCopy.resize(img.width/2, img.height/2);
     img.resize(img.width/2, img.height/2);
+    windowResize(img.width+temp, img.height+100);
   }
   
-  image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
+   //TO BE CHANGED
+   temp = 658;
+  windowResize(img.width+temp, img.height+100);
+  
+  leftCenterW = (width - img.width) / 2;
+  leftCenterH = (height - img.height) / 2;
+  
+  
+  image(img, leftCenterW, leftCenterH); // place image at center of screen
   
 }
 
 void draw() {
   background(13, 21, 28);
   image(pixelizeIcon, 76-pixelizeIcon.width-10, 93);
-  image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen again
+  image(img, leftCenterW, leftCenterH); // place image at center of screen again
   
   selectionTool.draw();
   btn.draw();
