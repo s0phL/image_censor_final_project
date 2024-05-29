@@ -4,7 +4,7 @@ Selection selectionTool;
 Draw draw;
 Button btn, btn2;
 Slider slide;
-private PGraphics pg;
+private PGraphics pg, pg2;
   private int penWidth = 5;
 
 void setup() {
@@ -59,6 +59,7 @@ void insertImage(String image_path) {
   image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
   
   pg = createGraphics(width, height);
+  pg2 = createGraphics(width, height);
   
 }
 
@@ -88,7 +89,7 @@ void mouseDragged() {
 void mouseReleased() {
   pg.save("test.png");
   //image(pg, 50, 50);
-  img = pg.get((500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
+  //img = pg.get((500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
   imgCopy = pg.get();
   //imgCopy = pg.get((500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
   imgCopy.resize(img.width, img.height);
@@ -96,7 +97,19 @@ void mouseReleased() {
   println(imgCopy.width, imgCopy.height);
   //print(drawLayer.width);
   //image(imgCopy, 500, 50);
-  img.copy(pg, 0, 0, pg.width, pg.height, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
+  print(pg.width);
+  //img.copy(pg, 0, 0, pg.width, pg.height, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
+  
+  pg2.beginDraw();
+  pg2.image(img, 500-(img.width/2), 250-(img.height/2));
+  pg2.image(pg, 0, 0);
+  pg2.endDraw();
+  
+  img = pg2.get((500-(img.width/2)), 50, img.width, img.height);
+  
+  pg2.save("ahdsah.png");
+  
+  
   
   pushMatrix();
   translate(120, 80);
