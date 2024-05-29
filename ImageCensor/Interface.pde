@@ -1,4 +1,5 @@
 // to future sophie, CHANGE THE 'TO BE CHANGED' SECTIONS !!!
+// also image coming off on bottom (because the window top for mac taking up some display height space)
 
 PImage img, imgCopy;
 PImage pixelizeIcon;
@@ -14,8 +15,8 @@ int leftCenterH;
 void setup() {
   //size(1000, 500);
     //size(1200, 800);
-    //size(100, 100);
-   fullScreen();
+    size(100, 100);
+   //fullScreen();
     print(width);
   try {
     String image_path = input.getString("Enter image path");
@@ -61,16 +62,24 @@ void insertImage(String image_path) {
   // TO BE CHANGED
   int temp = 200;
 
-
-  while (img.width > (width - temp) || img.height > (height - 25)) {
+  int tempWidth = displayWidth;
+  int tempHeight = displayHeight;
+  
+  while (img.width > (tempWidth - temp) || img.height > (tempHeight - 25)) {
     imgCopy.resize(img.width/2, img.height/2);
     img.resize(img.width/2, img.height/2);
-    windowResize(img.width+temp, img.height+100);
+    tempWidth = img.width+temp;
+    tempHeight = img.height+100;
+    windowResize(tempWidth, tempHeight);
+    //windowResize(img.width+temp, img.height+100);
   }
   
    //TO BE CHANGED
    temp = 658;
-  windowResize(img.width+temp, img.height+100);
+   tempWidth = img.width+temp;
+    tempHeight = img.height+100;
+    windowResize(tempWidth, tempHeight);
+  //windowResize(img.width+temp, img.height+100);
   
   leftCenterW = (width - img.width) / 2;
   leftCenterH = (height - img.height) / 2;
