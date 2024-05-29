@@ -4,7 +4,23 @@ Selection selectionTool;
 Draw draw;
 Button btn, btn2;
 Slider slide;
+private PGraphics pg;
+  private int penWidth = 5;
 
+void setup() {
+  size(1000, 500);
+  /*
+  img = loadImage("bird.jpg");
+  img.resize(img.width/2, img.height/2);
+  image(img, 0, 0);
+  pg = createGraphics(img.width, img.height);
+  */
+  insertImage("bird.jpg");
+
+}
+
+
+/*
 void setup() {
   size(1000, 500);
   
@@ -18,32 +34,17 @@ void setup() {
     insertImage(image_path);
   }
   
-  /*
-   Pixelate2 pixel2 = new Pixelate2(img, 0, 0, 342, 400);
-  
-  
-   println(img.width); //342
-   println(img.height); //400
-   println(img.pixels.length); //136800
-   println(img.height % 3); //1
-   
-   pixel2.pixelate(3);
-   img.updatePixels();
-   image(img, 500-(img.width/2), 250-(img.height/2));
-   */
    
    //selectionTool = new Selection("pixelate");
-   selectionTool = new Selection("none");
-   draw = new Draw();
+
+   //draw = new Draw(img, 5);
    
-   pixelizeIcon = loadImage("images/pixelize.png");
-   pixelizeIcon.resize(50, 50);
-   image(pixelizeIcon, 76-pixelizeIcon.width-10, 93);
-   btn = new Button(76, 93, 100, 60, 5, "Pixelate", 25, 255, "pixelate");
-   btn2 = new Button(76, 200, 100, 60, 5, "Download", 25, 255, "download");
-   slide = new Slider(76, 400, 100, 10, 3, 25);
+
+   
+   
   
 }
+*/
 
 void insertImage(String image_path) {
   println("image path: " + image_path);
@@ -57,38 +58,53 @@ void insertImage(String image_path) {
   
   image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
   
+  pg = createGraphics(width, height);
+  
 }
 
 void draw() {
-  background(13, 21, 28);
-  image(pixelizeIcon, 76-pixelizeIcon.width-10, 93);
-  image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen again
-  
-  selectionTool.draw();
-  btn.draw();
-  btn2.draw();
-  slide.draw();
+  //background(13, 21, 28);
+  //image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen again
+
   //println(mouseX, mouseY);
+  //image(imgCopy, 10, 10);
 }
 
 void mousePressed() {
-  selectionTool.mousePressed();
-  slide.mousePressed();
+
 }
 
 void mouseDragged() {
-  selectionTool.mouseDragged();
-  draw.mouseDragged();
-  btn.mouseDragged();
-  btn2.mouseDragged();
-  slide.mouseDragged();
+  strokeWeight(5);
+  line(pmouseX, pmouseY, mouseX, mouseY);
+  pg.beginDraw();
+  pg.strokeWeight(5);
+  pg.line(pmouseX, pmouseY, mouseX, mouseY);
+
+  //pg.image(pg, mouseX - pg.width / 2, mouseY - pg.height / 2);
+  pg.endDraw();
 }
 
 void mouseReleased() {
-  selectionTool.mouseReleased();
-  btn.mouseReleased();
-  btn2.mouseReleased();
-}
+  pg.save("test.png");
+  img = pg.get();
+  imgCopy = pg.get();
+  imgCopy.resize(img.width, img.height);
+  imgCopy.save("testt.png");
+  println(imgCopy.width, imgCopy.height);
+  //print(drawLayer.width);
+  img.copy(pg, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
+  image(img, 0, 0);
+  img.save("etsy.png");
+  
+
+  
+  
+  }
+private boolean onImage() {
+    //mouseIndexRelativeToImg
+    return (((mouseX-(500-(img.width/2))) > 0) && ((mouseX-(500-(img.width/2))) < img.width) && ((mouseY-(250-(img.width/2))) > 0) && ((mouseY-(250-(img.width/2))) < img.height));
+  }
    
    
     

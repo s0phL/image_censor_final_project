@@ -69,9 +69,10 @@ public class Selection {
   
   /* edits image based off mode and given start coords */
   private void editImage(int x, int y) {
-    if (mode == "pixelate") {
-      Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));
-      pixel.pixelate(slide.getValue());
+    switch (mode) {
+      case "pixelate": 
+        Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));
+        pixel.pixelate(slide.getValue());
     }
   }
     
