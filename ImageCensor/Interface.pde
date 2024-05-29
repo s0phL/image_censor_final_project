@@ -3,13 +3,18 @@ PImage pixelizeIcon;
 Selection selectionTool;
 Button btn, btn2;
 Slider slide;
+float op = 3;
+
+PGraphics pg;
+
 
 void setup() {
-  size(1000, 500);
+  size(1000, 500, P3D);
   
   try {
-    String image_path = input.getString("Enter image path");
-    insertImage(image_path);
+    //String image_path = input.getString("Enter image path");
+    //insertImage(image_path);
+    insertImage("bird.jpg");
   } 
   catch (NullPointerException e) { //defaults to bird.jpg if user input
     String image_path = "bird.jpg";
@@ -55,6 +60,8 @@ void insertImage(String image_path) {
   
   image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
   
+  pg = createGraphics(img.width, img.height);
+  
 }
 
 void draw() {
@@ -67,6 +74,32 @@ void draw() {
   btn2.draw();
   slide.draw();
   //println(mouseX, mouseY);
+  
+ 
+  if (keyPressed && key == 'a') {
+    
+     op += 0.05; 
+     float fov = PI/op+0.01;
+     //float cameraZ = (height/2.0) / tan(fov/2.0);    
+     float cameraZ = (height/2.0) / tan(fov/2.0);    
+    
+    pg.beginDraw();
+     perspective(fov, float(width)/float(height), cameraZ/10.0, cameraZ*10.0);
+     pg.endDraw();
+     //perspective(fov, img.width/img.height, cameraZ/10.0, cameraZ*10.0);
+  }
+  
+  if (keyPressed && key == 'b' && op > 3) {
+    
+     op -= 0.05; 
+     
+     float fov = PI/op+0.01;
+     //float cameraZ = (height/2.0) / tan(fov/2.0);    
+     float cameraZ = (height/2.0) / tan(fov/2.0);    
+    
+     perspective(fov, float(width)/float(height), cameraZ/10.0, cameraZ*10.0);
+     //perspective(fov, img.width/img.height, cameraZ/10.0, cameraZ*10.0);
+  }
 }
 
 void mousePressed() {
@@ -86,6 +119,6 @@ void mouseReleased() {
   btn.mouseReleased();
   btn2.mouseReleased();
 }
-   
+
    
     
