@@ -87,14 +87,21 @@ void mouseDragged() {
 
 void mouseReleased() {
   pg.save("test.png");
-  img = pg.get();
+  //image(pg, 50, 50);
+  img = pg.get((500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
   imgCopy = pg.get();
+  //imgCopy = pg.get((500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
   imgCopy.resize(img.width, img.height);
   imgCopy.save("testt.png");
   println(imgCopy.width, imgCopy.height);
   //print(drawLayer.width);
-  img.copy(pg, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
-  image(img, 0, 0);
+  //image(imgCopy, 500, 50);
+  img.copy(pg, 0, 0, pg.width, pg.height, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
+  
+  pushMatrix();
+  translate(120, 80);
+  //image(img, 0, 0);
+  popMatrix();
   img.save("etsy.png");
   
 
