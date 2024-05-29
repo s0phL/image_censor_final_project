@@ -89,7 +89,7 @@ void mouseDragged() {
   //line(pmouseX, pmouseY, mouseX, mouseY);
   pg.beginDraw();
     pg.pushMatrix();
-  pg.translate(-leftCenterW, -50);
+  pg.translate(-leftCenterW, -leftCenterH);
 
 
   
