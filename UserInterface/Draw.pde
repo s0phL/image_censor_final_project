@@ -1,12 +1,13 @@
 public class Draw {
-  private PGraphics pg;
+  private PGraphics pg, pg2;
   private PImage drawingLayer;
   private int penWidth;
   
   public Draw(PImage img, int penWidth) {
     this.penWidth = penWidth;
     //this.img = img;
-    pg = createGraphics(img.width, img.height);
+      pg = createGraphics(img.width, img.height);
+      pg2 = createGraphics(img.width, img.height);
   }
   
   //for future sophie: come up with a variable name for ((mouseX-(500-(img.width/2)))

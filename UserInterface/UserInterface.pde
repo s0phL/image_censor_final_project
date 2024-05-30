@@ -4,7 +4,7 @@ Selection selectionTool;
 Draw draw;
 Button btn, btn2;
 Slider slide;
-private PGraphics pg, pg2, pg3;
+PGraphics pg, pg2, pg3;
   private int penWidth = 5;
 
 int leftCenterW;
