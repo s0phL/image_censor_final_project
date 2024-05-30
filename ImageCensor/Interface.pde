@@ -94,12 +94,13 @@ void draw() {
      op -= 0.05; 
      
      float fov = PI/op+0.01;
-     //float cameraZ = (height/2.0) / tan(fov/2.0);    
+     //flosat cameraZ = (height/2.0) / tan(fov/2.0);    
      float cameraZ = (height/2.0) / tan(fov/2.0);    
     
      perspective(fov, float(width)/float(height), cameraZ/10.0, cameraZ*10.0);
      //perspective(fov, img.width/img.height, cameraZ/10.0, cameraZ*10.0);
   }
+  
 }
 
 void mousePressed() {
