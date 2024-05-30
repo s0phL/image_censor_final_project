@@ -1,40 +1,50 @@
 public class Draw {
   private PGraphics pg, pg2;
   private PImage drawingLayer;
-  private int penWidth;
+  private int penSize;
   
-  public Draw(PImage img, int penWidth) {
-    this.penWidth = penWidth;
+  public Draw(PImage img, int penSize) {
+    this.penSize = penSize;
     //this.img = img;
-      pg = createGraphics(img.width, img.height);
-      pg2 = createGraphics(img.width, img.height);
-  }
-  
-  //for future sophie: come up with a variable name for ((mouseX-(500-(img.width/2)))
-  
-  /*
-  void setup() {
     pg = createGraphics(img.width, img.height);
+    pg2 = createGraphics(img.width, img.height);
   }
-  */
   
   void mouseDragged() {
     if (onImage()) {
-      strokeWeight(penWidth);
+      strokeWeight(penSize);
       line(pmouseX, pmouseY, mouseX, mouseY);
       
       pg.beginDraw();
-      pg.strokeWeight(penWidth);
+      pg.pushMatrix();
+      pg.translate(-leftCenterW, -leftCenterH);
+
+      pg.strokeWeight(penSize);
       pg.line(pmouseX, pmouseY, mouseX, mouseY);
+
+      pg.popMatrix();
       pg.endDraw();
-      img = pg.get();
-      //img.copy(drawingLayer, 500-(img.width/2), 250-(img.height/2), drawingLayer.width, drawingLayer.height, 500-(img.width/2), 250-(img.height/2), img.width, img.height);
-      
     }
   }
+
+  void mouseReleased() {
+    println(imgCopy.width, imgCopy.height);
+    print(pg.width);
+
+    pg2.beginDraw();
+    pg2.image(img, 0, 0);
+    pg2.image(pg, 0, 0);
+    pg2.endDraw();
+  
+    img = pg2.get(0, 0, img.width, img.height);
+  
+    pg2.save("ahdsah.png");
+  
+    img.save("etsy.png");
+}
   
   private boolean onImage() {
     //mouseIndexRelativeToImg
-    return (((mouseX-(500-(img.width/2))) > 0) && ((mouseX-(500-(img.width/2))) < img.width) && ((mouseY-(250-(img.width/2))) > 0) && ((mouseY-(250-(img.width/2))) < img.height));
+    return (((mouseX - leftCenterW) > 0) && ((mouseX-leftCenterW) < img.width) && ((mouseY - leftCenterH) > 0) && ((mouseY - leftCenterH) < img.height));
   }
 }
