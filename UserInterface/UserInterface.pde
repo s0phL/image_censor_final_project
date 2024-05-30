@@ -64,6 +64,7 @@ void insertImage(String image_path) {
   
   //pg = createGraphics(width, height);
   pg2 = createGraphics(width, height);
+  pg3 = createGraphics(img.width, img.height);
   pg = createGraphics(img.width, img.height);
   //pg = createGraphics(width-50, height-50);
   
@@ -86,7 +87,7 @@ void mousePressed() {
 
 void mouseDragged() {
   strokeWeight(5);
-  //line(pmouseX, pmouseY, mouseX, mouseY);
+  line(pmouseX, pmouseY, mouseX, mouseY);
   pg.beginDraw();
     pg.pushMatrix();
   pg.translate(-leftCenterW, -leftCenterH);
@@ -102,29 +103,44 @@ void mouseDragged() {
 }
 
 void mouseReleased() {
-  img.save("testsss.png");
-  pg.save("test.png");
+  //img.save("testsss.png");
+    //pg.save("test.png");
   //image(pg, 50, 50);
   //img = pg.get((500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
-  imgCopy = pg.get();
+    //imgCopy = pg.get();
   //imgCopy = pg.get((500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
-  imgCopy.resize(img.width, img.height);
-  imgCopy.save("testt.png");
+    //imgCopy.resize(img.width, img.height);
+    //imgCopy.save("testt.png");
   println(imgCopy.width, imgCopy.height);
   //print(drawLayer.width);
   //image(imgCopy, 500, 50);
   print(pg.width);
   //img.copy(pg, 0, 0, pg.width, pg.height, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
   
+  /*
   pg2.beginDraw();
   pg2.image(img, 500-(img.width/2), 250-(img.height/2));
   pg2.image(pg, 0, 0);
   pg2.endDraw();
+  */
+  
+  /*
+  pg2.beginDraw();
+  pg2.image(img, 500-(img.width/2), 250-(img.height/2));
+  pg2.image(pg, 500-(img.width/2), 250-(img.height/2));
+  pg2.endDraw();
+  */
+  pg3.beginDraw();
+  pg3.image(img, 0, 0);
+  pg3.image(pg, 0, 0);
+  pg3.endDraw();
   
   //img = pg2.get((500-(img.width/2)), 50, img.width, img.height);
-  img = pg2.get(leftCenterW, leftCenterH, img.width, img.height);
+  //img = pg2.get(leftCenterW, leftCenterH, img.width, img.height);
+  img = pg3.get(0, 0, img.width, img.height);
   
-  pg2.save("ahdsah.png");
+  //pg2.save("ahdsah.png");
+  pg3.save("ahdsah.png");
   
   
   
