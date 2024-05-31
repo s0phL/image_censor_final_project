@@ -34,17 +34,27 @@ public class Button {
       fill(200);
       rect(x, y, w, h);
       fill(0);
-      text(text, (x + ((w-textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
-      //blacken when directly clicked
+      text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
+      
+      // blackens when directly clicked. activates btn function
       if (mousePressed && !mouseDragged){
         fill(0);
         rect(x, y, w, h);
-        if (function == "download") {
-          img.save("censored_bird.jpg");
-        }
-        else {
-          selectionTool = new Selection(function);
-        }
+        
+        switch (function) {
+          case "download" : 
+            img.save("censored_bird.jpg");
+            break;
+          case "pixelate" :
+          case "blur" :
+            selectionTool = new Selection(function);
+            drawTool = new Draw(false);
+            break;
+          case "draw" :
+            drawTool = new Draw(true);
+            selectionTool = new Selection("none");
+            break;
+        } 
       }
     }
   }

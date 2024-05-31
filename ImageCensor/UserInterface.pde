@@ -1,12 +1,14 @@
 PImage img, imgCopy;
 PImage pixelizeIcon;
+PGraphics pg; //so Restore class can edit pg created in Draw class
 Selection selectionTool;
-Button btn, btn2;
+Draw drawTool;
+int penSize = 5;
+Button btn, btn2, btn3;
 Slider slide;
-float op = 3;
 
-PGraphics pg;
-
+int leftCenterW; //x pos of left side of img so it is in the center
+int leftCenterH; //y pos of left side of img so it is in the center
 
 void setup() {
   size(1000, 500);
@@ -22,27 +24,21 @@ void setup() {
   }
   
   /*
-   Pixelate2 pixel2 = new Pixelate2(img, 0, 0, 342, 400);
-  
-  
    println(img.width); //342
    println(img.height); //400
    println(img.pixels.length); //136800
-   println(img.height % 3); //1
+   println(img.height % 3); //1 
+  */
    
-   pixel2.pixelate(3);
-   img.updatePixels();
-   image(img, 500-(img.width/2), 250-(img.height/2));
-   */
-   
-   //selectionTool = new Selection("pixelate");
    selectionTool = new Selection("none");
+   drawTool = new Draw(false);
    
-   pixelizeIcon = loadImage("images/pixelize.png");
+   pixelizeIcon = loadImage("assets/pixelize.png");
    pixelizeIcon.resize(50, 50);
    image(pixelizeIcon, 76-pixelizeIcon.width-10, 93);
    btn = new Button(76, 93, 100, 60, 5, "Pixelate", 25, 255, "pixelate");
-   btn2 = new Button(76, 200, 100, 60, 5, "Download", 25, 255, "download");
+   btn2 = new Button(76, 200, 100, 60, 5, "Draw", 25, 255, "draw");
+   btn3 = new Button(76, 300, 100, 60, 5, "Download", 25, 255, "download");
    slide = new Slider(76, 400, 100, 10, 3, 25);
   
 }
@@ -57,20 +53,22 @@ void insertImage(String image_path) {
     img.resize(img.width/2, img.height/2);
   }
   
-  image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
+  leftCenterW = (width - img.width) / 2;
+  leftCenterH = (height - img.height) / 2;
   
-  pg = createGraphics(img.width, img.height);
+  image(img, leftCenterW, leftCenterH); // place image at center of screen
   
 }
 
 void draw() {
   background(13, 21, 28);
   image(pixelizeIcon, 76-pixelizeIcon.width-10, 93);
-  image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen again
+  image(img, leftCenterW, leftCenterH); // place image at center of screen again
   
   selectionTool.draw();
   btn.draw();
   btn2.draw();
+  btn3.draw();
   slide.draw();
   //println(mouseX, mouseY);
 }
@@ -82,8 +80,10 @@ void mousePressed() {
 
 void mouseDragged() {
   selectionTool.mouseDragged();
+  drawTool.mouseDragged();
   btn.mouseDragged();
   btn2.mouseDragged();
+  btn3.mouseDragged();
   slide.mouseDragged();
 }
 
@@ -91,6 +91,21 @@ void mouseReleased() {
   selectionTool.mouseReleased();
   btn.mouseReleased();
   btn2.mouseReleased();
+  btn3.mouseReleased();
+}
+
+void keyPressed() {
+  drawTool.keyPressed();
+  /*
+  if (key == 'r') {
+    img = loadImage(image_path);
+  }
+  */
+  if (key == 'r') { //reset
+    Restore pixel = new Restore(imgCopy, img, 0, 0, img.width, img.height);
+    pixel.restore();
+    img.updatePixels();
+  }
 }
 
    

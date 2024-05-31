@@ -9,7 +9,6 @@ public class Selection {
     rectWidth = 0;
     rectHeight = 0;
     this.mode = mode;
-    
   }
   
   /* shows a rectangle based off mouse initial and last position when mouse is pressed */
@@ -37,41 +36,44 @@ public class Selection {
    * if user selects from bottom-right to top-left --> restores
   */
   void mouseReleased() {
-    //background(0);
-    
-    println("");
-    println("=========");
-    
-    println(xStart, yStart, rectWidth, rectHeight);
-    if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
-      editImage((xStart-(500-(img.width/2))), (yStart-(250-(img.height/2))));
+    if (mode != "none") {
+      
+      println("");
+      println("=========");
+      
+      println(xStart, yStart, rectWidth, rectHeight);
+      if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
+        editImage((xStart - leftCenterW), (yStart - leftCenterH));
+      }
+      else if (rectWidth < 0 && rectHeight > 0) { //top-right to bottom-left
+        editImage((mouseX - leftCenterW), (yStart - leftCenterH));
+      }
+      else if (rectWidth > 0 && rectHeight < 0) { //bottom-left to top-right
+        editImage((xStart - leftCenterW), (mouseY - leftCenterH));
+      }
+      else { //bottom-right to top-left, end point is start pixel
+        //pixel = new Pixelate(img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
+        Restore pixel = new Restore(imgCopy, img, (mouseX - leftCenterW), (mouseY - leftCenterH), abs(rectWidth), abs(rectHeight));
+        pixel.restore();
+      }
+      
+      img.updatePixels();
+      
+      /* make selection rectangle disappear after mouse release */
+      xStart = 0;
+      yStart = 0;
+      rectWidth = 0;
+      rectHeight = 0;
     }
-    else if (rectWidth < 0 && rectHeight > 0) { //top-right to bottom-left
-      editImage((mouseX-(500-(img.width/2))), (yStart-(250-(img.height/2))));
-    }
-    else if (rectWidth > 0 && rectHeight < 0) { //bottom-left to top-right
-      editImage((xStart-(500-(img.width/2))), (mouseY-(250-(img.height/2))));
-    }
-    else { //bottom-right to top-left, end point is start pixel
-      //pixel = new Pixelate(img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
-      Restore pixel = new Restore(imgCopy, img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
-      pixel.restore();
-    }
-    
-    img.updatePixels();
-    
-    /* make selection rectangle disappear after mouse release */
-    xStart = 0;
-    yStart = 0;
-    rectWidth = 0;
-    rectHeight = 0;
   }
   
   /* edits image based off mode and given start coords */
   private void editImage(int x, int y) {
-    if (mode == "pixelate") {
-      Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));
-      pixel.pixelate(slide.getValue());
+    switch (mode) {
+      case "pixelate" : 
+        Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));
+        pixel.pixelate(slide.getValue());
+        break;
     }
   }
     

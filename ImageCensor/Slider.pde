@@ -1,7 +1,7 @@
 public class Slider {
   
   int x, y, w, h, min, max;
-  int xStart; //starting position of value indicator
+  int indicatorX; //x position of value indicator
   
   public Slider(int x, int y, int sliderWidth, int sliderHeight, int min, int max) {
     this.x = x;
@@ -10,12 +10,12 @@ public class Slider {
     h = sliderHeight;
     this.min = min;
     this.max = max;
-    xStart = x+2;
+    indicatorX = x + 2;
   }
   
   /* gets value associated with the value indicator position */
   int getValue() {
-    return (int) map(xStart, x, (x + w), min, max);
+    return (int) map(indicatorX, x, (x + w), min, max);
   }
 
   /* creates a rectangle slider with min and max labels */
@@ -27,10 +27,11 @@ public class Slider {
     textAlign(LEFT);
     text(min, x, (y + 20));
     textAlign(RIGHT);
-    text(max, (x + w), (y + 20));        
+    text(max, (x + w), (y + 20));
+    
     if (!mousePressed || !onSlider()) {
       fill(0);
-      rect(xStart, y, 2, 10); //value indicator
+      rect(indicatorX, y, 2, 10); //value indicator
     }
   }
   
@@ -45,8 +46,8 @@ public class Slider {
   private void moveValueIndicator() {
     if (onSlider()) {
       fill(0);
-      xStart = constrain(mouseX, x, (x + w - 2));
-      rect(xStart, y, 2, 10);
+      indicatorX = constrain(mouseX, x, (x + w - 2));
+      rect(indicatorX, y, 2, 10);
     }
   }
   

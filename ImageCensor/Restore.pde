@@ -56,5 +56,6 @@ public class Restore {
       
       indexPassed ++;
     }
+    pg = createGraphics(img.width, img.height);
   }
 }
