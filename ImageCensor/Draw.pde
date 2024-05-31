@@ -40,7 +40,7 @@ public class Draw {
     if (key == 'a' || keyCode == UP) {
       penSize++;
     }
-    if ((key == 'd' || keyCode == DOWN) && penSize > 0) {
+    if ((key == 'd' || keyCode == DOWN) && (penSize > 0)) {
       penSize--;
     }
   }
