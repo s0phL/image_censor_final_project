@@ -1,6 +1,7 @@
 public class Draw {
   private PGraphics pg2;
   private boolean penDown;
+  private boolean onRestore = false;
   
   public Draw(boolean penDown) {
     this.penDown = penDown;
@@ -42,6 +43,18 @@ public class Draw {
     }
     if ((key == 'd' || keyCode == DOWN) && (penSize > 0)) {
       penSize--;
+    }
+    
+    if (key == 't') {
+      if (onRestore) {
+        drawTool = new Draw(false);
+        onRestore = false;
+      }
+      else {
+        drawTool = new Draw(true);
+        selectionTool = new Selection("restore");
+        onRestore = true;
+      }
     }
   }
   

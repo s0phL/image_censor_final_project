@@ -1,6 +1,7 @@
 public class Selection {
   private int xStart, yStart, rectWidth, rectHeight; //selection box outlines
   private String mode;
+  private boolean onRestore = false;
   
   //initialize to 0 so rectangle selection box doesn't appear
   public Selection(String mode) {
@@ -63,6 +64,20 @@ public class Selection {
       yStart = 0;
       rectWidth = 0;
       rectHeight = 0;
+    }
+  }
+  
+  void keyPressed() {
+    if (key == 't') {
+      println("AAA" + onRestore);
+      if (onRestore) {
+        selectionTool = new Selection("pixelate");
+        onRestore = false;
+      }
+      else {
+        selectionTool = new Selection("restore");
+        onRestore = true;
+      }
     }
   }
   
