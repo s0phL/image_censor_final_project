@@ -3,7 +3,7 @@ public class Draw {
   private PImage drawingLayer;
   private int penSize;
   
-  public Draw(PImage img, int penSize) {
+  public Draw(int penSize) {
     this.penSize = penSize;
     //this.img = img;
     pg = createGraphics(img.width, img.height);

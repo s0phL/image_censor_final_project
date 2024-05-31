@@ -1,9 +1,6 @@
 PImage img, imgCopy;
 PImage pixelizeIcon;
-Selection selectionTool;
 Draw draw;
-Button btn, btn2;
-Slider slide;
 PGraphics pg, pg2, pg3;
   private int penWidth = 5;
 
@@ -20,6 +17,8 @@ void setup() {
   pg = createGraphics(img.width, img.height);
   */
   insertImage("bird.jpg");
+  
+  draw = new Draw(5);
 
 }
 
@@ -41,6 +40,7 @@ void setup() {
    
    //selectionTool = new Selection("pixelate");
 
+
    //draw = new Draw(img, 5);
    
 
@@ -49,6 +49,7 @@ void setup() {
   
 }
 */
+
 
 void insertImage(String image_path) {
   println("image path: " + image_path);
@@ -63,9 +64,9 @@ void insertImage(String image_path) {
   image(img, 500-(img.width/2), 250-(img.height/2)); // place image at center of screen
   
   //pg = createGraphics(width, height);
-  pg2 = createGraphics(width, height);
-  pg3 = createGraphics(img.width, img.height);
-  pg = createGraphics(img.width, img.height);
+    //pg2 = createGraphics(width, height);
+    //pg3 = createGraphics(img.width, img.height);
+    //pg = createGraphics(img.width, img.height);
   //pg = createGraphics(width-50, height-50);
   
   leftCenterW = (width - img.width) / 2;
@@ -86,6 +87,8 @@ void mousePressed() {
 }
 
 void mouseDragged() {
+  draw.mouseDragged();
+  /*
   strokeWeight(5);
   line(pmouseX, pmouseY, mouseX, mouseY);
   pg.beginDraw();
@@ -100,9 +103,11 @@ void mouseDragged() {
 
   //pg.image(pg, mouseX - pg.width / 2, mouseY - pg.height / 2);
   pg.endDraw();
+  */
 }
 
 void mouseReleased() {
+  draw.mouseReleased();
   //img.save("testsss.png");
     //pg.save("test.png");
   //image(pg, 50, 50);
@@ -114,7 +119,7 @@ void mouseReleased() {
   println(imgCopy.width, imgCopy.height);
   //print(drawLayer.width);
   //image(imgCopy, 500, 50);
-  print(pg.width);
+    //print(pg.width);
   //img.copy(pg, 0, 0, pg.width, pg.height, (500-(img.width/2)), (500-(img.width/2)), img.width, img.height);
   
   /*
@@ -130,17 +135,23 @@ void mouseReleased() {
   pg2.image(pg, 500-(img.width/2), 250-(img.height/2));
   pg2.endDraw();
   */
+  
+  //======
+  /*
   pg3.beginDraw();
   pg3.image(img, 0, 0);
   pg3.image(pg, 0, 0);
   pg3.endDraw();
+  */
+  //======
   
   //img = pg2.get((500-(img.width/2)), 50, img.width, img.height);
   //img = pg2.get(leftCenterW, leftCenterH, img.width, img.height);
-  img = pg3.get(0, 0, img.width, img.height);
+  
+    //img = pg3.get(0, 0, img.width, img.height);
   
   //pg2.save("ahdsah.png");
-  pg3.save("ahdsah.png");
+    //pg3.save("ahdsah.png");
   
   
   
@@ -150,7 +161,7 @@ void mouseReleased() {
   //image(img, 0, 0);
   popMatrix();
   */
-  img.save("etsy.png");
+    //img.save("etsy.png");
   
 
   
