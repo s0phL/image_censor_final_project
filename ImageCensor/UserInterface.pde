@@ -10,6 +10,8 @@ Slider slide;
 int leftCenterW; //x pos of left side of img so it is in the center
 int leftCenterH; //y pos of left side of img so it is in the center
 
+private boolean onRestore = false;
+
 void setup() {
   size(1000, 500);
   
@@ -105,6 +107,9 @@ void keyPressed() {
     Restore pixel = new Restore(imgCopy, img, 0, 0, img.width, img.height);
     pixel.restore();
     img.updatePixels();
+  }
+  if (key == 't') {
+    onRestore == true? selectionTool = new Selection("none") : selectionTool = new Selection("restore");
   }
 }
 

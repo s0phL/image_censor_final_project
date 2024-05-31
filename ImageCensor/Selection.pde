@@ -53,8 +53,7 @@ public class Selection {
       }
       else { //bottom-right to top-left, end point is start pixel
         //pixel = new Pixelate(img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
-        Restore pixel = new Restore(imgCopy, img, (mouseX - leftCenterW), (mouseY - leftCenterH), abs(rectWidth), abs(rectHeight));
-        pixel.restore();
+        editImage((mouseX - leftCenterW), (mouseY - leftCenterH));
       }
       
       img.updatePixels();
@@ -73,6 +72,10 @@ public class Selection {
       case "pixelate" : 
         Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));
         pixel.pixelate(slide.getValue());
+        break;
+      case "restore" :
+        Restore pixel2 = new Restore(imgCopy, img, x, y, abs(rectWidth), abs(rectHeight));
+        pixel2.restore();
         break;
     }
   }
