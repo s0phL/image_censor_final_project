@@ -74,6 +74,10 @@ public class Selection {
         Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));
         pixel.pixelate(slide.getValue());
         break;
+      case "blur" :
+        Blur pixel2 = new Blur(img, x, y, abs(rectWidth), abs(rectHeight));
+        pixel2.blur();
+        break;
     }
   }
     

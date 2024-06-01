@@ -44,7 +44,8 @@ void setup() {
    btnArray[0] = btn1;
    btn2 = new Button(76, 200, 100, 60, 5, "Draw", 25, 255, "draw");
    btnArray[1] = btn2;
-   btn3 = new Button(76, 300, 100, 60, 5, "Download", 25, 255, "download");
+   //btn3 = new Button(76, 300, 100, 60, 5, "Download", 25, 255, "download");
+   btn3 = new Button(76, 300, 100, 60, 5, "Blur", 25, 255, "blur");
    btnArray[2] = btn3;
    
    /* appears on draw. changes pen size */
@@ -123,7 +124,7 @@ void mouseReleased() {
 
 void keyPressed() {
   drawTool.keyPressed();  
-  /* //Maybe try this later with alt user input setup (b/c right now image_path is null//
+  /* //Maybe try this later with alt user input setup (b/c right now image_path is null)
   if (key == 'b') {
     img = loadImage(image_path); 
   }
