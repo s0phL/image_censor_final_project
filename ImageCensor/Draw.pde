@@ -1,15 +1,31 @@
 public class Draw {
+  private boolean penDown = false;
   private PGraphics pg2;
-  private boolean penDown;
   
-  public Draw(boolean penDown) {
-    this.penDown = penDown;
+  public Draw() {
     pg = createGraphics(img.width, img.height);
     pg2 = createGraphics(img.width, img.height);
   }
   
-  /* draws a black line under user's cursor if cursor is on the image */
+  void mousePressed() {
+    drawOnImage();
+  }
+  
   void mouseDragged() {
+    drawOnImage();
+  }
+  
+  void keyPressed() {
+    if (key == 'a' || keyCode == UP) {
+      penSize++;
+    }
+    if ((key == 'd' || keyCode == DOWN) && (penSize > 0)) {
+      penSize--;
+    }
+  }
+  
+  /* draws a black line under user's cursor if cursor is on the image */
+  private void drawOnImage() {
     if (onImage() && penDown) {
       /* what the user sees */
       strokeWeight(penSize);
@@ -33,15 +49,6 @@ public class Draw {
       pg2.endDraw();
       
       img = pg2.get(0, 0, img.width, img.height);
-    }
-  }
-  
-  void keyPressed() {
-    if (key == 'a' || keyCode == UP) {
-      penSize++;
-    }
-    if ((key == 'd' || keyCode == DOWN) && (penSize > 0)) {
-      penSize--;
     }
   }
   

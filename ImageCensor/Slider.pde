@@ -1,7 +1,8 @@
+/* creates a vertical slider */
 public class Slider {
-  
-  int x, y, w, h, min, max;
-  int indicatorX; //x position of value indicator
+  private boolean hide = true;
+  private int x, y, w, h, min, max;
+  private int indicatorPos;
   
   public Slider(int x, int y, int sliderWidth, int sliderHeight, int min, int max) {
     this.x = x;
@@ -10,28 +11,28 @@ public class Slider {
     h = sliderHeight;
     this.min = min;
     this.max = max;
-    indicatorX = x + 2;
+    indicatorPos = y + 2; //start position
   }
   
   /* gets value associated with the value indicator position */
   int getValue() {
-    return (int) map(indicatorX, x, (x + w), min, max);
+    return (int) map(indicatorPos, y, (y + h), min, max);
   }
 
   /* creates a rectangle slider with min and max labels */
   void draw() {
-    fill(255);
-    stroke(0);
-    rect(x, y, w, h); //bg display
-    textSize(10);
-    textAlign(LEFT);
-    text(min, x, (y + 20));
-    textAlign(RIGHT);
-    text(max, (x + w), (y + 20));
-    
-    if (!mousePressed || !onSlider()) {
-      fill(0);
-      rect(indicatorX, y, 2, 10); //value indicator
+    if (!hide) {
+      fill(255);
+      stroke(0);
+      rect(x, y, w, h); //bg display
+      textSize(10);
+      text(min, (x + 20), (y + 7));
+      text(max, (x + 20), (y + h));
+      
+      if (!mousePressed || !onSlider()) {
+        fill(0);
+        rect(x, indicatorPos, w, (h / 100)); //value indicator
+      }
     }
   }
   
@@ -46,8 +47,8 @@ public class Slider {
   private void moveValueIndicator() {
     if (onSlider()) {
       fill(0);
-      indicatorX = constrain(mouseX, x, (x + w - 2));
-      rect(indicatorX, y, 2, 10);
+      indicatorPos = constrain(mouseY, y, (y + h - 2));
+      rect(x, indicatorPos, w, (h / 100));
     }
   }
   

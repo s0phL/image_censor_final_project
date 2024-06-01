@@ -21,22 +21,16 @@ public class Button {
    * fills rectangle with black on mouse click
   */
   void draw(){
+    textAlign(LEFT);
     strokeWeight(1);
     stroke(255);
-    fill(c);
-    rect(x, y, w, h);
-    fill(55);
-    textAlign(LEFT);
-    textSize(fontSize);
-    text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
+    drawBtn(c, 55);
+    
     if (onButton()) {
-      //darken on hover
-      fill(200);
-      rect(x, y, w, h);
-      fill(0);
-      text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
+      /* darken on hover */
+      drawBtn(200, 0);
       
-      // blackens when directly clicked. activates btn function
+      /* blackens when directly clicked. activates btn function */
       if (mousePressed && !mouseDragged){
         fill(0);
         rect(x, y, w, h);
@@ -45,14 +39,31 @@ public class Button {
           case "download" : 
             img.save("censored_bird.jpg");
             break;
+            
           case "pixelate" :
-          case "blur" :
-            selectionTool = new Selection(function);
-            drawTool = new Draw(false);
+            selectionTool.mode = function;
+            slide.hide = false;
+            
+            drawTool.penDown = false;
+            hideExtraDrawBtns();
             break;
+            
+          case "blur" :
+            selectionTool.mode = function;
+            
+            slide.hide = true;
+            drawTool.penDown = false;
+            hideExtraDrawBtns();
+            break;
+            
           case "draw" :
-            drawTool = new Draw(true);
-            selectionTool = new Selection("none");
+            drawTool.penDown = true;
+            for (CircleOnBtn btn : penSizeBtns) {
+              btn.hide = false;
+            }
+            
+            selectionTool.mode = "none";
+            slide.hide = true;
             break;
         } 
       }
@@ -67,8 +78,23 @@ public class Button {
     mouseDragged = false;
   }
   
+  private void drawBtn(color bgColor, color txtColor) {
+    fill(bgColor);
+    rect(x, y, w, h);
+    fill(txtColor);
+    textSize(fontSize);
+    text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
+  }
+    
   private boolean onButton() {
     return (((mouseX > x) && (mouseX < x + w)) && ((mouseY > y) && (mouseY < y + h)));
+  }
+  
+  /* hides the buttons that allow you to change the pen's size which appear when user clicks the 'Draw' button */
+  private void hideExtraDrawBtns() {
+    for (CircleOnBtn btn : penSizeBtns) {
+      btn.hide = true;
+    }
   }
   
 }

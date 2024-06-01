@@ -46,16 +46,14 @@ public class Restore {
     for (int i = startPixel; i < endPixel; i++) {
       
       if ((indexPassed + 1) % cropWidth == 0) { //if reached end of selected area width
-      //println(indexPassed + ":" + i);
         i += (editedImg.width - cropWidth); //get to next block row
       }
       else {
-        //println(editedImg.pixels[i] + "//" + originalImg.pixels[i]);
         editedImg.pixels[i] = originalImg.pixels[i];
       }
       
       indexPassed ++;
     }
-    pg = createGraphics(img.width, img.height);
+    pg = createGraphics(img.width, img.height); //erase existing drawings
   }
 }
