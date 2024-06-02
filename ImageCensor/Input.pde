@@ -7,7 +7,7 @@ public static class input {
      println(s);
      String entry = JOptionPane.showInputDialog(s);
      if (entry == null) { // to prevent user from cancelling out of input box
-        return prompt(s);
+        //return prompt(s);
      }
      return entry;
   }

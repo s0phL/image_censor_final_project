@@ -37,7 +37,11 @@ public class Button {
         
         switch (function) {
           case "download" : 
-            img.save("censored_bird.jpg");
+            String path = System.getProperty("user.home") + "/" + input.getString("test") + "/" + "censored_bird.jpg";
+            print(path);
+            img.save(path);
+            println(mousePressed);
+            //img.save("censored_bird.jpg");
             break;
             
           case "pixelate" :
