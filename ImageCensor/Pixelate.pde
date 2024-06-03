@@ -49,7 +49,7 @@ public class Pixelate {
     int yBlockSize = blockSize;
     
     int indexPassed = 0;
-    for (int i = startPixel; i < endPixel; i += blockSize) {
+    for (int i = startPixel; i < endPixel; i+=blockSize) {
       
       if ((i / img.width) + blockSize + extraYPixels == endHeight) { //if reach final block chunck before end of selected area. i/img.width == curr row
           yBlockSize += extraYPixels;

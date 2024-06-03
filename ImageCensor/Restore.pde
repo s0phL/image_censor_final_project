@@ -52,7 +52,7 @@ public class Restore {
         editedImg.pixels[i] = originalImg.pixels[i];
       }
       
-      indexPassed ++;
+      indexPassed++;
     }
     pg = createGraphics(img.width, img.height); //erase existing drawings
   }

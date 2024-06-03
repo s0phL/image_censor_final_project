@@ -4,9 +4,9 @@ PGraphics pg; //so Restore class can edit pg created in Draw class
 Selection selectionTool;
 Draw drawTool;
 int penSize = 5;
-private Button btn1, btn2, btn3;
+private Button btn1, btn2, btn3, btn9;
 private CircleOnBtn btn4, btn5, btn6, btn7, btn8;
-Button[] btnArray = new Button[8];
+Button[] btnArray = new Button[9];
 CircleOnBtn[] penSizeBtns = new CircleOnBtn[5];
 Slider slide;
 
@@ -44,9 +44,11 @@ void setup() {
    btnArray[0] = btn1;
    btn2 = new Button(76, 200, 100, 60, 5, "Draw", 25, 255, "draw");
    btnArray[1] = btn2;
-   //btn3 = new Button(76, 300, 100, 60, 5, "Download", 25, 255, "download");
    btn3 = new Button(76, 300, 100, 60, 5, "Blur", 25, 255, "blur");
    btnArray[2] = btn3;
+   
+   btn9 = new Button(76, 400, 100, 30, -1, "Download", 20, 255, "download");
+   btnArray[8] = btn9;
    
    /* appears on draw. changes pen size */
    btn4 = new CircleOnBtn(225, 150, 30, 30, 5, "", 25, 255, "penChange", 25);
