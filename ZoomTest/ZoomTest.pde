@@ -2,8 +2,8 @@ PGraphics pg;
 PImage img, imgCopy;
 int zoomSize = 2;
 int zoomCount = 0;
-int thingX; // image centered at mouse x
-int thingY; 
+double thingX; // image centered at mouse x
+double thingY; 
 
 int xStart;
 int yStart;
@@ -17,6 +17,8 @@ void setup() {
   image(img, 0, 0);
   pg = createGraphics(img.width*2, img.height*2);
   //pg = createGraphics(img.width, img.height);
+  
+  println(img.width, img.height);
 }
 
 void draw() {
@@ -31,20 +33,62 @@ void keyPressed() {
     //image(img, 0, 0);
     //image(img, 0-(mouseX*(zoomSize-1)), 0-(mouseY*(zoomSize-1)));
     zoomCount++;
-    println(0-(mouseX*(zoomSize-1)), 0-(mouseY*(zoomSize-1)));
-    println(0-(mouseX*((int)(Math.pow(zoomSize, zoomCount)))-mouseX), 
-            0-(mouseY*((int)(Math.pow(zoomSize, zoomCount)))-mouseY));
     thingX = 0-(mouseX*((int)(Math.pow(zoomSize, zoomCount)))-mouseX);
     thingY = 0-(mouseY*((int)(Math.pow(zoomSize, zoomCount)))-mouseY);
-    image(img, thingX, thingY);
+    println(thingX, thingY);
+    image(img, (float)thingX, (float)thingY);
     println(img.height);
   }
   
   if (key == 'b') {
-    //thingX = 0+(mouseX/((int)(Math.pow(zoomSize, zoomCount)))+mouseX);
-    //thingY = 0+(mouseY/((int)(Math.pow(zoomSize, zoomCount)))+mouseY);
+    //img.resize(img.width/zoomSize, img.height/zoomSize);
+    //zoomCount++;
+    //thingX = 0+(mouseX*((int)(Math.pow(zoomSize, zoomCount)))+mouseX);
+    //thingY = 0+(mouseY*((int)(Math.pow(zoomSize, zoomCount)))+mouseY);
+    
+    
+    //thingX = 0+(mouseX-(mouseX/((int)(Math.pow(zoomSize, zoomCount)))));
+   //thingY = 0+(mouseY-(mouseY/((int)(Math.pow(zoomSize, zoomCount)))));
+    
+    //thingX = 0+(int)Math.pow(mouseX, 1/zoomSize);
+    //thingY = 0+(int)Math.pow(mouseY, 1/zoomSize);
+    
+    //thingX = 0+(mouseX/zoomSize);
+    //thingY = 0+(mouseY/zoomSize);
+    
+    //thingX = 0+(mouseX*((int)(Math.pow(zoomSize, zoomCount)))-mouseX);
+    //thingY = 0+(mouseY*((int)(Math.pow(zoomSize, zoomCount)))-mouseY);
+    
+    ///thingX = 0+(mouseX*((int)(Math.pow(zoomSize, zoomCount)))+mouseX);
+    //thingY = 0+(mouseY*((int)(Math.pow(zoomSize, zoomCount)))+mouseY);
+    
+    //thingX /= 3;
+    //thingY /= 3;
+    
+    thingX = mouseX-mouseX/3;
+    thingY = mouseY-mouseY/3;
+    
+    //thingX = 143-143/3;
+    //thingY = 114-114/3;
+    
+    //thingX = 143/3;
+    //thingY = 114/3;
+    
+    //thingX = 144-(144/(img.width/144));
+    //thingY = 114-(114/(img.height/114));
+    
+    thingX = mouseX-(mouseX/((double)img.width/mouseX));
+    println((double)img.width/mouseX);
+    //thingX = 155; 165
+    //thingX = 155;
+    thingY = mouseY-(mouseY/((double)img.height/mouseY));
+    //thingY = 165;
+    
+    
+    println(thingX, thingY);
     img.resize(img.width/zoomSize, img.height/zoomSize);
-    image(img, thingX, thingY);
+    image(img, (float)thingX, (float)thingY);
+    //image(img, 0, 0);
   }
   
   if (key == 'r') {
@@ -52,13 +96,19 @@ void keyPressed() {
     img.resize(342, 400);
     image(img, 0, 0);
   }
+  
+  if (key == 'e') {
+    println(mouseX, mouseY);
+  }
+  
+
 }
 
 void mousePressed() {
   xStart = mouseX;
   yStart = mouseY;
 }
-
+/*
 void mouseDragged() {
   if (mouseButton == LEFT) {
     line(pmouseX, pmouseY, mouseX, mouseY);
@@ -88,3 +138,4 @@ void mouseReleased() {
   
   img = pg.get(0, 0, img.width, img.height);
 }
+*/
