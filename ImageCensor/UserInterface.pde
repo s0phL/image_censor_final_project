@@ -7,6 +7,9 @@ int penSize = 5;
 Button btn, btn2, btn3;
 Slider slide;
 
+boolean onRestore = false;
+boolean onDraw = false;
+
 int leftCenterW; //x pos of left side of img so it is in the center
 int leftCenterH; //y pos of left side of img so it is in the center
 
@@ -31,7 +34,7 @@ void setup() {
   */
    
    selectionTool = new Selection("none");
-   drawTool = new Draw(false);
+   drawTool = new Draw();
    
    pixelizeIcon = loadImage("assets/pixelize.png");
    pixelizeIcon.resize(50, 50);

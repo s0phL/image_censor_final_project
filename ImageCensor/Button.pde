@@ -48,10 +48,12 @@ public class Button {
           case "pixelate" :
           case "blur" :
             selectionTool = new Selection(function);
-            drawTool = new Draw(false);
+            drawTool.penDown = false;
+            onDraw = false;
             break;
           case "draw" :
-            drawTool = new Draw(true);
+            drawTool.penDown = true;
+            onDraw = true;
             selectionTool = new Selection("none");
             break;
         } 

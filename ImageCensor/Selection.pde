@@ -1,7 +1,6 @@
 public class Selection {
   private int xStart, yStart, rectWidth, rectHeight; //selection box outlines
   private String mode;
-  private boolean onRestore = false;
   
   //initialize to 0 so rectangle selection box doesn't appear
   public Selection(String mode) {
@@ -37,12 +36,15 @@ public class Selection {
    * if user selects from bottom-right to top-left --> restores
   */
   void mouseReleased() {
+    println(mode);
     if (mode != "none") {
+      //mode = "restore";
+      //mode = "pixelate";
       
-      println("");
-      println("=========");
+      //println("");
+      //println("=========");
       
-      println(xStart, yStart, rectWidth, rectHeight);
+      //println(xStart, yStart, rectWidth, rectHeight);
       if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
         editImage((xStart - leftCenterW), (yStart - leftCenterH));
       }
@@ -69,20 +71,21 @@ public class Selection {
   
   void keyPressed() {
     if (key == 't') {
-      println("AAA" + onRestore);
-      if (onRestore) {
-        selectionTool = new Selection("pixelate");
+      if (onRestore && (mode != "none")) {
+        mode = "pixelate";
         onRestore = false;
       }
       else {
-        selectionTool = new Selection("restore");
+        mode = "restore";
         onRestore = true;
       }
     }
+    println(mode);
   }
   
   /* edits image based off mode and given start coords */
   private void editImage(int x, int y) {
+    println(mode);
     switch (mode) {
       case "pixelate" : 
         Pixelate pixel = new Pixelate(img, x, y, abs(rectWidth), abs(rectHeight));

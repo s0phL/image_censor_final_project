@@ -1,10 +1,9 @@
 public class Draw {
   private PGraphics pg2;
-  private boolean penDown;
-  private boolean onRestore = false;
+  private boolean penDown = false;
+  private boolean onDraw = false;
   
-  public Draw(boolean penDown) {
-    this.penDown = penDown;
+  public Draw() {
     pg = createGraphics(img.width, img.height);
     pg2 = createGraphics(img.width, img.height);
   }
@@ -46,13 +45,13 @@ public class Draw {
     }
     
     if (key == 't') {
-      if (onRestore) {
-        drawTool = new Draw(false);
+      if (onRestore && onDraw) {
+        drawTool.penDown = true;
         onRestore = false;
       }
       else {
-        drawTool = new Draw(true);
-        selectionTool = new Selection("restore");
+        drawTool.penDown = false;
+        selectionTool.mode = "restore";
         onRestore = true;
       }
     }
