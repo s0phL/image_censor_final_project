@@ -80,8 +80,10 @@ public class Selection {
         onRestore = true;
       }
     }
-    println(mode);
+    println("(keypressed):"+mode);
+    println("==========");
   }
+  
   
   /* edits image based off mode and given start coords */
   private void editImage(int x, int y) {

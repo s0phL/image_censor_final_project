@@ -1,6 +1,6 @@
 public class Restore {
   private PImage originalImg, editedImg;
-  private int startPixel, endPixel, cropWidth, cropHeight; //startPixel = starting index of selected area, endPixel = ending index of selected area
+  private int startPixel, endPixel, cropWidth; //startPixel = starting index of selected area, endPixel = ending index of selected area
   
   public Restore(PImage originalImg, PImage editedImg, int x, int y, int cropWidth, int cropHeight) {
     
