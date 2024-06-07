@@ -10,8 +10,8 @@ int xStart;
 int yStart;
 
 void setup() {
-  //size(342, 400);
-  size(1000, 500);
+  size(342, 400);
+  //size(1000, 500);
   img = loadImage("bird.jpg");
   img.resize(342, 400);
   rect(0, 0, 342, 400);
@@ -43,17 +43,18 @@ void keyPressed() {
     println(img.height);
   }
   
-  if (key == 'b' && zoomCount > 0) {
-  //if (key == 'b') {
+  //if (key == 'b' && zoomCount > 0) {
+  if (key == 'b') {
 
     //thingX = mouseX-mouseX/3;
     //thingY = mouseY-mouseY/3;
     
     //zoomCount--;
-  //  zoomCount++;
+    //zoomCount++;
     println("B:" + zoomCount);
     thingX = 0+(mouseX-(mouseX/((int)(Math.pow(zoomSize, zoomCount)))));
     thingY = 0+(mouseY-(mouseY/((int)(Math.pow(zoomSize, zoomCount)))));
+    zoomCount--;
     
     println(thingX, thingY);
     img.resize(img.width/zoomSize, img.height/zoomSize);
