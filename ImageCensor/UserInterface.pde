@@ -15,8 +15,6 @@ int leftCenterH; //y pos of left side of img so it is in the center
 
 private boolean usedUndo = false;
 
- int count =0;
-
 void setup() {
   size(1000, 500);
   
