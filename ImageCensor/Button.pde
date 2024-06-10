@@ -84,6 +84,7 @@ public class Button {
     mouseDragged = false;
   }
   
+  /* displays a button */
   private void drawBtn(color bgColor, color txtColor) {
     fill(bgColor);
     rect(x, y, w, h);

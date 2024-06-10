@@ -1,4 +1,4 @@
-PImage img, imgCopy, oldImg, exOldImg;
+PImage img, imgCopy, oldImg, exOldImg; //imgCopy==reference for restore, oldImg+exOldImg==for undo/redo
 PImage pixelizeIcon, drawIcon, blurIcon, downloadIcon, fullCensorIcon;
 PGraphics pg; //so Restore class can edit pg created in Draw class
 Selection selectionTool;
@@ -83,6 +83,7 @@ boolean onImage() {
 
 void draw() {
   background(13, 21, 28);
+  //background(19, 31, 41);
   image(pixelizeIcon, 86-pixelizeIcon.width-10, 80);
   image(drawIcon, 86-drawIcon.width-10, 180);
   image(blurIcon, 86-blurIcon.width-10, 280);
@@ -137,7 +138,7 @@ void keyPressed() {
     slide.indicatorPos = 152;
   }
   
-  if (key == '9' && !usedUndo) { //undo recent action
+  if (key == '9' && !usedUndo) { //undo most recent action
     exOldImg = oldImg.get(0, 0, img.width, img.height);
     oldImg = img.get(0, 0, img.width, img.height); //for redo
     img = exOldImg.get(0, 0, img.width, img.height);
@@ -154,7 +155,7 @@ void keyPressed() {
 }
 
 /* asks user for image path of the image they want to edit. 
- * image will then be inserted into the processing screen
+ * once gets path, calls insertImage method
  * if path does not exist, asks user again for a valid path.
 */
 private void getImage(String inputPrompt){
@@ -171,9 +172,13 @@ private void getImage(String inputPrompt){
   }
 }
 
+/* inserts image into the processing screen 
+ * makes image smaller if it exceeds processing screen dimentions
+*/
 private void insertImage(String image_path) {
   img = loadImage(image_path);
   imgCopy = loadImage(image_path); //img to reference when restoring edited img
+  
   while (img.width > width || img.height > height) {
     imgCopy.resize(img.width/2, img.height/2);
     img.resize(img.width/2, img.height/2);
