@@ -37,7 +37,9 @@ public class Button {
         
         switch (function) {
           case "download" : 
-            img.save("censored_bird.jpg");
+            String download_path = System.getProperty("user.home") + "/downloads/censored_bird.jpg";
+            img.save(download_path);
+            //img.save("censored_bird.jpg");
             break;
             
           case "pixelate" :
@@ -64,6 +66,10 @@ public class Button {
             
             selectionTool.mode = "none";
             slide.hide = true;
+            break;
+            
+          case "fullCensor" :
+            blackenImg();
             break;
         } 
       }
@@ -95,6 +101,24 @@ public class Button {
     for (CircleOnBtn btn : penSizeBtns) {
       btn.hide = true;
     }
+  }
+  
+  /* blackens entire image */
+  private void blackenImg() {
+    oldImg = img.get(0, 0, img.width, img.height); //save img before action in case want to undo
+    usedUndo = false;
+    delay(90); //to give time to save prev img before pgraphic covers it
+    
+    PGraphics tempPG = createGraphics(img.width, img.height);
+    tempPG.beginDraw();
+    tempPG.translate(-leftCenterW, -leftCenterH); //move pg pos to img pos
+
+    tempPG.fill(0);
+    tempPG.rect(leftCenterW, leftCenterH, img.width, img.height);
+
+    tempPG.endDraw();
+    
+    img = tempPG.get(0, 0, img.width, img.height);
   }
   
 }

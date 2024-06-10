@@ -51,8 +51,4 @@ public class Draw {
       img = pg2.get(0, 0, img.width, img.height);
     }
   }
-  
-  private boolean onImage() {
-    return (((mouseX - leftCenterW) > 0) && ((mouseX - leftCenterW) < img.width) && ((mouseY - leftCenterH) > 0) && ((mouseY - leftCenterH) < img.height));
-  }
 }

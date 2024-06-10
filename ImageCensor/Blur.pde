@@ -1,14 +1,10 @@
 public class Blur {
   private PImage img;
-  private int startPixel, endPixel, cropWidth, cropHeight, endHeight; //startPixel = starting index of selected area, endPixel = ending index of selected area, endHeight = last row index of selected area in relation to whole image
+  private int startPixel, endPixel, cropWidth, endHeight; //startPixel = starting index of selected area, endPixel = ending index of selected area, endHeight = last row index of selected area in relation to whole image
   private float[][] kernel = {
-    {0, 0, 0, 0, 0, 0, 0},
-    {0, 0, .01, .01, .01, 0, 0},
-    {0, .01, .05, .11, .05, .01, 0},
-    {0, .01, .11, .25, .11, .01, 0},
-    {0, .01, .05, .11, .05, .01, 0},
-    {0, 0, .01, .01, .01, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0}
+    {.111, .111, .111},
+    {.111, .111, .111},
+    {.111, .111, .111}
   };
 
   /**Constructor takes the kernel that will be applied to the image
@@ -42,50 +38,44 @@ public class Blur {
     println(cropWidth, cropHeight);
     endPixel = constrain(startPixel + ((cropHeight - 1) * img.width) + (cropWidth - 1), 0, (img.pixels.length - 1));
     this.cropWidth = constrain((cropWidth + x), x, img.width) - x;
-    this.cropHeight = constrain((cropHeight + y), y, img.height) - y;
-    endHeight = this.cropHeight + y;
-  }
-
-  /**Apply the kernel to the source,
-  *and saves the data to the destination.*/
-  void blur() {
-    int x = 0;
-    for (int i = 0; i < img.pixels.length; i++) {
-      img.pixels[i] = calcNewColor(img, x, i/img.width);
-      x++;
-      if (x == img.width) { //reset column index after row length equals image width
-        x = 0;
-      }
-    }    
   }
   
-  /**If part of the kernel is off of the image, return black, Otherwise
-  *Calculate the convolution of r/g/b separately, and return that color\
-  *if the calculation for any of the r,g,b values is outside the range
-  *     0-255, then clamp it to that range (< 0 becomes 0, >255 becomes 255)
+  /* apply the kernel to img */
+  void blur() {
+    int indexPassed = 0;
+    for (int i = startPixel; i < endPixel; i++) {
+      
+      if ((indexPassed + 1) % cropWidth == 0) { //if reached end of selected area width
+        i += (img.width - cropWidth); //get to next block row
+      }
+      else {
+        img.pixels[i] = calcNewColor(i);
+      }
+      
+      indexPassed ++;
+    }
+  }
+  
+  /* iterates through kernel. calculates the convolution of r/g/b separately, and return that color
+   * clamp calculation for any of the r,g,b values to 0-255
   */
-  private color calcNewColor(PImage img, int x, int y) {
-    int centerPixel = img.width * y + x;
-    int upperRightPixel = centerPixel-img.width-1;
+  private color calcNewColor(int startIndex) {
     int rTotal = 0;
     int gTotal = 0;
     int bTotal = 0;
     
-    if (x <= 0 || x >= img.width-1) {
-      return 0;
-    }
-    if (y <= 0 || y >= img.height-1) {
-      return 0;
-    }
-    
-    for (int i = 0; i < 7; i++) {
-      for (int j = 0; j < 7; j++) {
-        //println(finalRedValue);
-        rTotal += red(img.pixels[upperRightPixel+j]) * kernel[i][j];
-        gTotal += green(img.pixels[upperRightPixel+j]) * kernel[i][j];
-        bTotal += blue(img.pixels[upperRightPixel+j]) * kernel[i][j];
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        try {
+          rTotal += red(img.pixels[startIndex+j]) * kernel[i][j];
+          gTotal += green(img.pixels[startIndex+j]) * kernel[i][j];
+          bTotal += blue(img.pixels[startIndex+j]) * kernel[i][j];
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+          break;
+        }
       }
-      upperRightPixel += img.width;
+      startIndex += img.width;
     }
     
     rTotal = constrain(rTotal, 0, 255);

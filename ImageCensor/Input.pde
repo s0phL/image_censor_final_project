@@ -6,8 +6,8 @@ public static class input {
   static String prompt(String s) {
      println(s);
      String entry = JOptionPane.showInputDialog(s);
-     if (entry == null) { // to prevent user from cancelling out of input box
-        return prompt(s);
+     if (entry == null) { //ends program if user presses cancel
+       System.exit(0);
      }
      return entry;
   }
