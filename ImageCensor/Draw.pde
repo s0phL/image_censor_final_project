@@ -16,11 +16,13 @@ public class Draw {
   }
   
   void keyPressed() {
-    if (key == 'a' || keyCode == UP) {
-      penSize++;
-    }
-    if ((key == 'd' || keyCode == DOWN) && (penSize > 0)) {
-      penSize--;
+    if (penDown) {
+      if (key == 'a' || keyCode == UP) {
+        penSize++;
+      }
+      if ((key == 'd' || keyCode == DOWN) && (penSize > 0)) {
+        penSize--;
+      }
     }
   }
   

@@ -1,6 +1,7 @@
 PImage img, imgCopy;
 PImage pixelizeIcon;
 PGraphics pg; //so Restore class can edit pg created in Draw class
+PGraphics imgArea; 
 Selection selectionTool;
 Draw drawTool;
 int penSize = 5;
@@ -12,6 +13,14 @@ Slider slide;
 
 int leftCenterW; //x pos of left side of img so it is in the center
 int leftCenterH; //y pos of left side of img so it is in the center
+
+int zoomSize = 2;
+int zoomCount = 0;
+int thingX; // image centered at mouse x
+int thingY; 
+
+int xStart;
+int yStart;
 
 void setup() {
   size(1000, 500);
@@ -82,14 +91,23 @@ void insertImage(String image_path) {
   leftCenterW = (width - img.width) / 2;
   leftCenterH = (height - img.height) / 2;
   
+  imgArea = createGraphics(img.width, img.height);
+  imgArea.beginDraw();
+  imgArea.pushMatrix();
+  imgArea.translate(-leftCenterW, -leftCenterH); //move imgArea pos to img pos
+  imgArea.image(img, leftCenterW, leftCenterH);
+  imgArea.popMatrix();
+  imgArea.endDraw();
+  
   image(img, leftCenterW, leftCenterH); // place image at center of screen
   
 }
 
 void draw() {
-  background(13, 21, 28);
-  image(pixelizeIcon, 76-pixelizeIcon.width-10, 100);
-  image(img, leftCenterW, leftCenterH); // place image at center of screen again
+  //background(13, 21, 28);
+  //image(pixelizeIcon, 76-pixelizeIcon.width-10, 100);
+  //image(img, leftCenterW, leftCenterH); // place image at center of screen again
+  //image(imgArea, leftCenterW, leftCenterH); // place image at center of screen again
   
   selectionTool.draw();
   for (Button btn : btnArray) {
@@ -134,11 +152,70 @@ void keyPressed() {
     pixel.restore();
     img.updatePixels();
   }
-  if (key == 'e') { //reset settings
+  if (key == '4') { //reset settings
     penSize = 5;
     slide.indicatorPos = 152;
   }
+  
+  if (key == 'q' && zoomCount < 3) { //zoom in
+    img.resize(img.width*zoomSize, img.height*zoomSize);
+    zoomCount++;
+    //println("Q:" + zoomCount);
+    //thingX = leftCenterW-(mouseX*((int)(Math.pow(zoomSize, zoomCount)))-mouseX);
+    //thingY = leftCenterH-(mouseY*((int)(Math.pow(zoomSize, zoomCount)))-mouseY);
     
+    thingX = leftCenterW+(mouseX-(((abs(thingX))+mouseX)*zoomSize));
+    thingY = leftCenterH+(mouseY-(((abs(thingY))+mouseY)*zoomSize)); //<-- doesn't work when zoomCount = 0
+    //println(thingX, thingY);
+
+    resetImgQuality();
+    //image(img, (float)thingX, (float)thingY);
+    confineImg();
+
+  }
+  
+  if (key == 'e' && zoomCount > -1) { //zoom out
+    //println("B:" + zoomCount);
+    
+    //thingX = leftCenterW+(mouseX-(((abs(thingX))+mouseX)/zoomSize));
+    //thingY = leftCenterH+(mouseY-(((abs(thingY))+mouseY)/zoomSize));
+    thingX = 0+(mouseX-(((abs(thingX))+mouseX)/zoomSize));
+    thingY = 0+(mouseY-(((abs(thingY))+mouseY)/zoomSize));
+    zoomCount--;
+    
+    println(thingX, thingY);
+    img.resize(img.width/zoomSize, img.height/zoomSize);
+    
+    background(150);
+    resetImgQuality();
+    confineImg();
+    //img.save("zoomOut.png");
+    //image(img, (float)thingX, (float)thingY);
+    
+  }
+  if (key == '8') {
+    println (mouseX, mouseY);
+  }
+    
+}
+
+private void resetImgQuality() {
+  int imgWidth = img.width;
+  int imgHeight = img.height;
+  img = loadImage("bird.jpg");
+  img.resize(imgWidth, imgHeight);
+}
+
+/* confines image to the borders of imgArea */
+private void confineImg() {
+  image(img, thingX, thingY);
+  imgArea.beginDraw();
+  //imgArea.background(150);
+  imgArea.background(255);
+  imgArea.image(img, thingX, thingY);
+  imgArea.endDraw();
+  image(imgArea, leftCenterW, leftCenterH);
+  //imgArea.save("imgArea.png");
 }
 
    
