@@ -107,7 +107,6 @@ public class Button {
   /* blackens entire image */
   private void blackenImg() {
     oldImg = img.get(0, 0, img.width, img.height); //save img before action in case want to undo
-    usedUndo = false;
     delay(90); //to give time to save prev img before pgraphic covers it
     
     PGraphics tempPG = createGraphics(img.width, img.height);
