@@ -99,6 +99,9 @@ void insertImage(String image_path) {
   imgArea.popMatrix();
   imgArea.endDraw();
   
+  //thingX = leftCenterW;
+  //thingY = leftCenterH;
+  
   image(img, leftCenterW, leftCenterH); // place image at center of screen
   
 }
@@ -146,6 +149,7 @@ void keyPressed() {
     img = loadImage(image_path); 
   }
   */
+  if(key=='1')println(mouseX, mouseY);
   
   if (key == 'r') { //reset image
     Restore pixel = new Restore(imgCopy, img, 0, 0, img.width, img.height);
@@ -177,8 +181,11 @@ void keyPressed() {
   if (key == 'e' && zoomCount > -1) { //zoom out
     //println("B:" + zoomCount);
     
-    //thingX = leftCenterW+(mouseX-(((abs(thingX))+mouseX)/zoomSize));
-    //thingY = leftCenterH+(mouseY-(((abs(thingY))+mouseY)/zoomSize));
+    //thingX = leftCenterW-(mouseX-(((abs(thingX))+mouseX)/zoomSize));
+    //thingY = leftCenterH-(mouseY-(((abs(thingY))+mouseY)/zoomSize));
+    println(thingX+mouseX);
+    println((thingX+mouseX)/zoomSize);
+    println(mouseX - 
     thingX = 0+(mouseX-(((abs(thingX))+mouseX)/zoomSize));
     thingY = 0+(mouseY-(((abs(thingY))+mouseY)/zoomSize));
     zoomCount--;
@@ -213,6 +220,7 @@ private void confineImg() {
   //imgArea.background(150);
   imgArea.background(255);
   imgArea.image(img, thingX, thingY);
+  rect(thingX, thingY, img.width, img.height);
   imgArea.endDraw();
   image(imgArea, leftCenterW, leftCenterH);
   //imgArea.save("imgArea.png");
