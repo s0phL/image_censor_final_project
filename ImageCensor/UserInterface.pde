@@ -15,6 +15,8 @@ int leftCenterH; //y pos of left side of img so it is in the center
 
 private boolean usedUndo = false;
 
+ int count =0;
+
 void setup() {
   size(1000, 500);
   
@@ -124,11 +126,7 @@ void mouseReleased() {
 
 void keyPressed() {
   drawTool.keyPressed();  
-  /* //Maybe try this later with alt user input setup (b/c right now image_path is null)
-  if (key == 'b') {
-    img = loadImage(image_path); 
-  }
-  */
+  
   if (key=='8')println(mouseX,mouseY);
   
   if (key == 'r') { //reset image
@@ -153,7 +151,8 @@ void keyPressed() {
     oldImg = img.get(0, 0, img.width, img.height); //for undo
     img = exOldImg.get(0, 0, img.width, img.height);
     usedUndo = false;
-  }   
+  }
+    
 }
 
 /* asks user for image path of the image they want to edit. 

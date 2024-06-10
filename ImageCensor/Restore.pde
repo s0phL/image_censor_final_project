@@ -29,13 +29,13 @@ public class Restore {
     else { //if leftmost coord on image, restore
       startPixel = constrain(((y * editedImg.width) + x), 0, editedImg.pixels.length-1);
     }
-    println(cropWidth, cropHeight);
+    //println(cropWidth, cropHeight);
     endPixel = constrain(startPixel + ((cropHeight - 1) * editedImg.width) + (cropWidth - 1), 0, (editedImg.pixels.length - 1));
     this.cropWidth = constrain((cropWidth + x), x, editedImg.width) - x;
     
-    println(x, y);
-    println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + cropWidth + "/ cropHeight: " + cropHeight + "/ x: " + x + "/ y: " + startPixel/img.width +  "/ x+cropWidth: " + (x+cropWidth));
-    println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + this.cropWidth + "/ cropHeight: " + this.cropHeight);
+    //println(x, y);
+    //println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + cropWidth + "/ cropHeight: " + cropHeight + "/ x: " + x + "/ y: " + startPixel/img.width +  "/ x+cropWidth: " + (x+cropWidth));
+    //println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + this.cropWidth + "/ cropHeight: " + this.cropHeight);
   }
   
   /* itereates through selected area.

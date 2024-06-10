@@ -13,11 +13,11 @@ public class Selection {
   
   /* shows a rectangle based off mouse initial and last position when mouse is pressed */
   void draw() {
-  stroke(255);
-  strokeWeight(2);
-  noFill();
-  if (mousePressed && (mode != "none")) {
-    rect(xStart, yStart, rectWidth, rectHeight);
+    stroke(255);
+    strokeWeight(2);
+    noFill();
+    if (mousePressed && (mode != "none")) {
+      rect(xStart, yStart, rectWidth, rectHeight);
     }
   }
 

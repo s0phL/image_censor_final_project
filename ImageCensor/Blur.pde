@@ -1,6 +1,6 @@
 public class Blur {
   private PImage img;
-  private int startPixel, endPixel, cropWidth, endHeight; //startPixel = starting index of selected area, endPixel = ending index of selected area, endHeight = last row index of selected area in relation to whole image
+  private int startPixel, endPixel, cropWidth; //startPixel = starting index of selected area, endPixel = ending index of selected area
   private float[][] kernel = {
     {.111, .111, .111},
     {.111, .111, .111},
