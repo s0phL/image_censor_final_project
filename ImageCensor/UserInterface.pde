@@ -166,8 +166,8 @@ private void getImage(String inputPrompt){
     println("image path: " + image_path);
   
     insertImage(image_path);
-     
-  } catch (NullPointerException e) { 
+  } 
+  catch (NullPointerException e) { 
     getImage("Invalid path. Please try again");
   }
 }
