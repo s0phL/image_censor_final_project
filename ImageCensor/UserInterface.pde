@@ -7,7 +7,7 @@ int penSize = 5;
 Button btn, btn2, btn3;
 Slider slide;
 
-boolean onRestore = false;
+static boolean onRestore = false;
 boolean onDraw = false;
 
 int leftCenterW; //x pos of left side of img so it is in the center
@@ -98,7 +98,7 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  //selectionTool.keyPressed();
+  selectionTool.keyPressed();
   drawTool.keyPressed();
   /*
   if (key == 'r') {

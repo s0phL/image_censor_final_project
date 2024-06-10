@@ -21,21 +21,6 @@ public class Selection {
   if (mousePressed && (mode != "none")) {
     rect(xStart, yStart, rectWidth, rectHeight);
     }
-  if (keyPressed && key=='t') {
-
-      count++;
-      println(mode);
-      if (mode == "restore") {
-        mode = "pixelate";
-      }
-      else if (mode == "pixelate") {
-        mode = "restore";
-      }
-    
-    println(count);
-    println("(keypressed):"+mode);
-    println("==========");
-  }
   }
 
   void mousePressed() {
@@ -86,11 +71,13 @@ public class Selection {
     }
   }
   
-  /*
+  
   void keyPressed() {
     if (key == 't') {
+      println(onRestore);
       if (onRestore && (mode != "none")) {
-        mode = "pixelate";
+        println("A");
+        selectionTool = new Selection("pixelate");
         onRestore = false;
       }
       else {
@@ -101,7 +88,7 @@ public class Selection {
     println("(keypressed):"+mode);
     println("==========");
   }
-  */
+  
   
   
   /* edits image based off mode and given start coords */
