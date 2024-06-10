@@ -42,7 +42,10 @@ public class Pixelate {
    * the larger the block size, the more pixelized.
   */
   void pixelate(int blockSize) {
-    // additional pixels to be added to end of each block if img dimentions not evenly divisible by block dimentions
+    if (blockSize > cropWidth) {
+       blockSize = cropWidth;
+    }
+    /* additional pixels to be added to end of each block if img dimentions not evenly divisible by block dimentions */
     int extraXPixels = cropWidth % blockSize;
     int extraYPixels = cropHeight % blockSize;
   
