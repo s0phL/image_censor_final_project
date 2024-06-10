@@ -2,6 +2,8 @@ public class Selection {
   private int xStart, yStart, rectWidth, rectHeight; //selection box outlines
   private String mode;
   
+  int count = 0;
+  
   //initialize to 0 so rectangle selection box doesn't appear
   public Selection(String mode) {
     xStart = 0;
@@ -19,6 +21,21 @@ public class Selection {
   if (mousePressed && (mode != "none")) {
     rect(xStart, yStart, rectWidth, rectHeight);
     }
+  if (keyPressed && key=='t') {
+
+      count++;
+      println(mode);
+      if (mode == "restore") {
+        mode = "pixelate";
+      }
+      else if (mode == "pixelate") {
+        mode = "restore";
+      }
+    
+    println(count);
+    println("(keypressed):"+mode);
+    println("==========");
+  }
   }
 
   void mousePressed() {
@@ -69,6 +86,7 @@ public class Selection {
     }
   }
   
+  /*
   void keyPressed() {
     if (key == 't') {
       if (onRestore && (mode != "none")) {
@@ -83,6 +101,7 @@ public class Selection {
     println("(keypressed):"+mode);
     println("==========");
   }
+  */
   
   
   /* edits image based off mode and given start coords */

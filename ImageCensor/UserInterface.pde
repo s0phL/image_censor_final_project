@@ -98,7 +98,7 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  selectionTool.keyPressed();
+  //selectionTool.keyPressed();
   drawTool.keyPressed();
   /*
   if (key == 'r') {
