@@ -27,15 +27,15 @@ public class Pixelate {
       println((y * img.width) + x);
       startPixel = constrain(((y * img.width) + x), 0, img.pixels.length-1);
     }
-    println(cropWidth, cropHeight);
+    //println(cropWidth, cropHeight);
     endPixel = constrain(startPixel + ((cropHeight - 1) * img.width) + (cropWidth - 1), 0, (img.pixels.length - 1));
     this.cropWidth = constrain((cropWidth + x), x, img.width) - x;
     this.cropHeight = constrain((cropHeight + y), y, img.height) - y;
     endHeight = this.cropHeight + y;
     
-    println(x, y);
-    println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + cropWidth + "/ cropHeight: " + cropHeight + "/ x: " + x + "/ y: " + startPixel/img.width + "/ endHeight: " + endHeight + "/ x+cropWidth: " + (x+cropWidth));
-    println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + this.cropWidth + "/ cropHeight: " + this.cropHeight + "/ endHeight: " + endHeight + ":");
+    //println(x, y);
+    //println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + cropWidth + "/ cropHeight: " + cropHeight + "/ x: " + x + "/ y: " + startPixel/img.width + "/ endHeight: " + endHeight + "/ x+cropWidth: " + (x+cropWidth));
+    //println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + this.cropWidth + "/ cropHeight: " + this.cropHeight + "/ endHeight: " + endHeight + ":");
   }
   
   /* pixelates the image based off block size (finds and sets average RGB for each block).

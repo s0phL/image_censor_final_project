@@ -3,7 +3,6 @@ public class Draw {
   private PGraphics pg2;
   
   public Draw() {
-    pg = createGraphics(img.width, img.height);
     pg2 = createGraphics(img.width, img.height);
   }
   
@@ -30,6 +29,7 @@ public class Draw {
   private void drawOnImage() {
     if (onImage() && penDown) {
       /* what the user sees */
+      //stroke(0);
       strokeWeight(penSize);
       line(pmouseX, pmouseY, mouseX, mouseY);
       
@@ -38,6 +38,7 @@ public class Draw {
       pg.pushMatrix();
       pg.translate(-leftCenterW, -leftCenterH); //move pg pos to img pos
 
+      pg.stroke(0);
       pg.strokeWeight(penSize);
       pg.line(pmouseX, pmouseY, mouseX, mouseY);
 

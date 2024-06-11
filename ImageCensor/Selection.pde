@@ -39,9 +39,9 @@ public class Selection {
     if (mode != "none") {
       
       println("");
-      println("=========");
+      //println("=========");
       
-      println(xStart, yStart, rectWidth, rectHeight);
+      //println(xStart, yStart, rectWidth, rectHeight);
       if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
         editImage((xStart - leftCenterW), (yStart - leftCenterH));
       }

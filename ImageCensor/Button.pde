@@ -48,6 +48,7 @@ public class Button {
             
             drawTool.penDown = false;
             hideExtraDrawBtns();
+            censorStamp.stampDown = false; 
             break;
             
           case "blur" :
@@ -56,6 +57,7 @@ public class Button {
             slide.hide = true;
             drawTool.penDown = false;
             hideExtraDrawBtns();
+            censorStamp.stampDown = false; 
             break;
             
           case "draw" :
@@ -66,6 +68,15 @@ public class Button {
             
             selectionTool.mode = "none";
             slide.hide = true;
+            censorStamp.stampDown = false; 
+            break;
+          
+          case "stamp" :
+            censorStamp.stampDown = true; 
+          
+            slide.hide = true;
+            drawTool.penDown = false;
+            hideExtraDrawBtns();
             break;
             
           case "fullCensor" :
@@ -90,7 +101,9 @@ public class Button {
     rect(x, y, w, h);
     fill(txtColor);
     textSize(fontSize);
-    text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
+    //text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
+    //(stampCenterY + ((a/3 - (textDescent() - textAscent())) / 2 )));
+    text(text, (x + ((w - textWidth(text)) / 2)), (y + ((h - ((2 * padding) + (textDescent() - textAscent()))) / 2)));
   }
     
   private boolean onButton() {
