@@ -15,6 +15,8 @@ int leftCenterH; //y pos of left side of img so it is in the center
 
 private boolean usedUndo = false;
 
+Stamp censorStamp;
+
 void setup() {
   size(1000, 500);
   
@@ -30,6 +32,7 @@ void setup() {
    
    selectionTool = new Selection("none");
    drawTool = new Draw();
+   censorStamp = new Stamp();
    
    pixelizeIcon = loadImage("assets/pixelize.png");
    pixelizeIcon.resize(50, 50);
@@ -105,6 +108,7 @@ void mousePressed() {
   selectionTool.mousePressed();
   drawTool.mousePressed();
   slide.mousePressed();
+  censorStamp.mousePressed();
 }
 
 void mouseDragged() {
