@@ -16,8 +16,8 @@ int leftCenterH; //y pos of left side of img so it is in the center
 
 int zoomSize = 2;
 int zoomCount = 0;
-int thingX; // image centered at mouse x
-int thingY; 
+double thingX; // image centered at mouse x
+double thingY; 
 
 int xStart;
 int yStart;
@@ -99,18 +99,22 @@ void insertImage(String image_path) {
   imgArea.popMatrix();
   imgArea.endDraw();
   
-  //thingX = leftCenterW;
-  //thingY = leftCenterH;
+  thingX = leftCenterW;
+  thingY = leftCenterH;
+  
+  println(leftCenterW, leftCenterH);
   
   image(img, leftCenterW, leftCenterH); // place image at center of screen
   
 }
 
 void draw() {
-  //background(13, 21, 28);
-  //image(pixelizeIcon, 76-pixelizeIcon.width-10, 100);
+  background(13, 21, 28);
+  image(pixelizeIcon, 76-pixelizeIcon.width-10, 100);
   //image(img, leftCenterW, leftCenterH); // place image at center of screen again
-  //image(imgArea, leftCenterW, leftCenterH); // place image at center of screen again
+  image(imgArea, leftCenterW, leftCenterH); // place image at center of screen again
+  
+  //confineImg();
   
   selectionTool.draw();
   for (Button btn : btnArray) {
@@ -152,9 +156,12 @@ void keyPressed() {
   if(key=='1')println(mouseX, mouseY);
   
   if (key == 'r') { //reset image
+  // do image path reset thing
     Restore pixel = new Restore(imgCopy, img, 0, 0, img.width, img.height);
     pixel.restore();
     img.updatePixels();
+    imgArea.beginDraw();
+    imgArea.image(img, 0, 0);
   }
   if (key == '4') { //reset settings
     penSize = 5;
@@ -164,13 +171,30 @@ void keyPressed() {
   if (key == 'q' && zoomCount < 3) { //zoom in
     img.resize(img.width*zoomSize, img.height*zoomSize);
     zoomCount++;
-    //println("Q:" + zoomCount);
-    //thingX = leftCenterW-(mouseX*((int)(Math.pow(zoomSize, zoomCount)))-mouseX);
-    //thingY = leftCenterH-(mouseY*((int)(Math.pow(zoomSize, zoomCount)))-mouseY);
+    println("Q:" + zoomCount);
+    //thingX = (mouseX*((int)(Math.pow(zoomSize, zoomCount)))-mouseX-leftCenterW);
+    //thingY = (mouseY*((int)(Math.pow(zoomSize, zoomCount)))-mouseY-leftCenterH);
     
-    thingX = leftCenterW+(mouseX-(((abs(thingX))+mouseX)*zoomSize));
-    thingY = leftCenterH+(mouseY-(((abs(thingY))+mouseY)*zoomSize)); //<-- doesn't work when zoomCount = 0
-    //println(thingX, thingY);
+    println((thingX)+mouseX);
+    println(leftCenterW-(thingX)+mouseX-leftCenterW);
+     println((thingX)+mouseX-leftCenterW);
+    //println((leftCenterW-(thingX)+mouseX-leftCenterW)*zoomSize); //342/2=171
+    
+    println("");
+    println((thingY)+mouseY);
+    println(leftCenterH-(thingY)+mouseY-leftCenterH);
+    println((leftCenterH-(thingY)+mouseY-leftCenterH)*zoomSize); //342/2=171
+    println(((thingY)+mouseY-leftCenterH)*zoomSize);
+    
+    /*
+    if (thingX > leftCenterW) {
+      thingX = -thingX;
+    }
+    */
+      
+    thingX = mouseX-(((leftCenterW-thingX)+(mouseX-leftCenterW))*zoomSize);
+    thingY = mouseY-(((leftCenterH-thingY)+(mouseY-leftCenterH))*zoomSize); //<-- doesn't work when zoomCount = 0
+    println(thingX, thingY);
 
     resetImgQuality();
     //image(img, (float)thingX, (float)thingY);
@@ -179,51 +203,82 @@ void keyPressed() {
   }
   
   if (key == 'e' && zoomCount > -1) { //zoom out
-    //println("B:" + zoomCount);
+    println("E:" + zoomCount);
     
     //thingX = leftCenterW-(mouseX-(((abs(thingX))+mouseX)/zoomSize));
     //thingY = leftCenterH-(mouseY-(((abs(thingY))+mouseY)/zoomSize));
-    println(thingX+mouseX);
-    println((thingX+mouseX)/zoomSize);
-    println(mouseX - 
-    thingX = 0+(mouseX-(((abs(thingX))+mouseX)/zoomSize));
-    thingY = 0+(mouseY-(((abs(thingY))+mouseY)/zoomSize));
+    
+    /*
+    println(abs(thingX)+mouseX);
+    println(abs(thingX)+mouseX-leftCenterW);
+    println((abs(thingX)+mouseX)/zoomSize); //342/2=171
+    println((abs(thingX)+mouseX-leftCenterW)/zoomSize); //342/2=171
+    println(mouseX - ((abs(thingX)+mouseX)/zoomSize));
+    println(leftCenterW + (mouseX - ((thingX+mouseX)/zoomSize)));
+    */
+    
+    //thingX = mouseX-(((abs(thingX))+mouseX-leftCenterW)/zoomSize);
+    //thingY = mouseY-(((abs(thingY))+mouseY-leftCenterH)/zoomSize);
+    //
+    
+    println((thingX)+mouseX);
+    println(leftCenterW-(thingX)+mouseX-leftCenterW);
+    println((leftCenterW-(thingX)+mouseX-leftCenterW)/zoomSize); //342/2=171
+    
+    println("");
+    println((thingY)+mouseY);
+    println(leftCenterH-(thingY)+mouseY-leftCenterH);
+    println((leftCenterH-(thingY)+mouseY-leftCenterH)/zoomSize); //342/2=171
+    
+    thingX = mouseX-(((leftCenterW-thingX)+(mouseX-leftCenterW))/zoomSize);
+   // thingY = mouseY-((leftCenterH-(abs(thingY))+(mouseY-leftCenterH))/zoomSize);
+    thingY = mouseY-(((leftCenterH-thingY)+(mouseY-leftCenterH))/zoomSize);
+    
+    //thingX = mouseX-(((abs(thingX))+mouseX)/zoomSize);
+    //thingY = mouseY-(((abs(thingY))+mouseY)/zoomSize);
+    
     zoomCount--;
     
     println(thingX, thingY);
+    //image(img, 400, 108);
     img.resize(img.width/zoomSize, img.height/zoomSize);
+    //image(img, 400, 108);
+    //image(img, thingX, thingY);
     
-    background(150);
-    resetImgQuality();
+    //background(150);
+    //resetImgQuality();
     confineImg();
     //img.save("zoomOut.png");
     //image(img, (float)thingX, (float)thingY);
-    
   }
-  if (key == '8') {
+    if (key == '8') {
     println (mouseX, mouseY);
   }
     
 }
 
 private void resetImgQuality() {
+  
   int imgWidth = img.width;
   int imgHeight = img.height;
   img = loadImage("bird.jpg");
   img.resize(imgWidth, imgHeight);
+  
 }
 
 /* confines image to the borders of imgArea */
 private void confineImg() {
-  image(img, thingX, thingY);
+  image(img, (float)thingX, (float)thingY);
   imgArea.beginDraw();
   //imgArea.background(150);
   imgArea.background(255);
-  imgArea.image(img, thingX, thingY);
-  rect(thingX, thingY, img.width, img.height);
+  imgArea.image(img, (float)thingX-leftCenterW, (float)thingY-leftCenterH);
+  //imgArea.image(img, 100, 100);
+  //imgArea.image(img, 0, 0);
+  //rect(thingX, thingY, img.width, img.height);
   imgArea.endDraw();
-  image(imgArea, leftCenterW, leftCenterH);
-  //imgArea.save("imgArea.png");
+  //image(imgArea, leftCenterW, leftCenterH);
+    //imgArea.save("imgArea.png");
 }
 
    
