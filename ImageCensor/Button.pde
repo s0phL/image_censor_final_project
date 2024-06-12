@@ -129,6 +129,8 @@ public class Button {
 
     imgArea.endDraw();
     
+    pg = createGraphics(img.width, img.height); //erase drawings underneath
+    
     img = imgArea.get(0, 0, img.width, img.height);
     img2 = imgArea.get(0, 0, img.width, img.height);
   }

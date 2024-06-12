@@ -25,7 +25,7 @@ private int yStart;
 
 private boolean usedUndo = false;
 private double oldupLeftX, exOldupLeftX;
-private double oldupLeftY, exOldupLeftY;p
+private double oldupLeftY, exOldupLeftY;
 
 void setup() {
   size(1000, 500);
