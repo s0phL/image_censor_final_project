@@ -4,6 +4,7 @@ public class Pixelate {
   
   public Pixelate(PImage img, int x, int y, int cropWidth, int cropHeight) {
     this.img = img;
+    
     if (y < 0) { //if leftmost coord above image
       y = 0;
     }
@@ -31,7 +32,6 @@ public class Pixelate {
     this.cropWidth = constrain((cropWidth + x), x, img.width) - x;
     this.cropHeight = constrain((cropHeight + y), y, img.height) - y;
     endHeight = this.cropHeight + y;
-    
   }
   
   /* pixelates the image based off block size (finds and sets average RGB for each block).
@@ -41,32 +41,34 @@ public class Pixelate {
     if (blockSize > cropWidth) {
        blockSize = cropWidth;
     }
-    /* additional pixels to be added to end of each block if img dimentions not evenly divisible by block dimentions */
-    int extraXPixels = cropWidth % blockSize;
-    int extraYPixels = cropHeight % blockSize;
-  
-    int yBlockSize = blockSize;
+    if (startPixel < endPixel) {
+      /* additional pixels to be added to end of each block if img dimentions not evenly divisible by block dimentions */
+      int extraXPixels = cropWidth % blockSize;
+      int extraYPixels = cropHeight % blockSize;
     
-    int indexPassed = 0;
-    for (int i = startPixel; i < endPixel; i += blockSize) {
+      int yBlockSize = blockSize;
       
-      if ((i / img.width) + blockSize + extraYPixels == endHeight) { //if reach final block chunck before end of selected area. i/img.width == curr row
-          yBlockSize += extraYPixels;
-          extraYPixels = -1; //to prevent future use
-      }
-      
-      if ((indexPassed + blockSize + extraXPixels) % cropWidth == 0) { //if reached end of selected area width
-        color blockColor = avgRGB((blockSize + extraXPixels), yBlockSize, i);
-        setBlockColor(blockColor, (blockSize + extraXPixels), yBlockSize, i);
+      int indexPassed = 0;
+      for (int i = startPixel; i < endPixel; i += blockSize) {
         
-        i += (((yBlockSize - 1) * img.width) + extraXPixels + (img.width - cropWidth)); //get to next block row
-        indexPassed += ((yBlockSize - 1) * cropWidth) + extraXPixels;
+        if ((i / img.width) + blockSize + extraYPixels == endHeight) { //if reach final block chunck before end of selected area. i/img.width == curr row
+            yBlockSize += extraYPixels;
+            extraYPixels = -1; //to prevent future use
+        }
+        
+        if ((indexPassed + blockSize + extraXPixels) % cropWidth == 0) { //if reached end of selected area width
+          color blockColor = avgRGB((blockSize + extraXPixels), yBlockSize, i);
+          setBlockColor(blockColor, (blockSize + extraXPixels), yBlockSize, i);
+          
+          i += (((yBlockSize - 1) * img.width) + extraXPixels + (img.width - cropWidth)); //get to next block row
+          indexPassed += ((yBlockSize - 1) * cropWidth) + extraXPixels;
+        }
+        else {
+          color blockColor = avgRGB(blockSize, yBlockSize, i);
+          setBlockColor(blockColor, blockSize, yBlockSize, i);
+        }
+        indexPassed += blockSize;
       }
-      else {
-        color blockColor = avgRGB(blockSize, yBlockSize, i);
-        setBlockColor(blockColor, blockSize, yBlockSize, i);
-      }
-      indexPassed += blockSize;
     }
   }
   

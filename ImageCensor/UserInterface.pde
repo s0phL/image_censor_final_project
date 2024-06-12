@@ -30,8 +30,8 @@ private double oldupLeftY, exOldupLeftY;
 void setup() {
   size(1000, 500);
   
-  getImage("Enter image path (starting from home dir)");
-  //insertImage("bird.jpg");
+  //getImage("Enter image path (starting from home dir)");
+  insertImage("bird.jpg");
    
    selectionTool = new Selection("none");
    drawTool = new Draw();
