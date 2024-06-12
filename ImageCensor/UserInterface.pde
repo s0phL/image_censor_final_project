@@ -31,8 +31,8 @@ private double oldUpLeftY, exOldUpLeftY;
 void setup() {
   size(1000, 500);
   
-  getImage("Enter image path (starting from home dir)");
-  //insertImage("bird.jpg");
+  //getImage("Enter image path (starting from home dir)");
+  insertImage("bird.jpg");
    
    selectionTool = new Selection("none");
    drawTool = new Draw();
@@ -90,7 +90,9 @@ void setup() {
 }
 
 boolean onImage() {
-  return (((mouseX - leftCenterW) > 0) && ((mouseX - leftCenterW) < img.width) && ((mouseY - leftCenterH) > 0) && ((mouseY - leftCenterH) < img.height));
+  boolean withinImgArea = ((mouseX - leftCenterW) > 0) && ((mouseX - leftCenterW) < img.width) && ((mouseY - leftCenterH) > 0) && ((mouseY - leftCenterH) < img.height);
+  boolean withinImg = (mouseX > upLeftX) && (mouseX < (upLeftX + img.width)) && (mouseY > upLeftY) && (mouseY < (upLeftY + img.height));
+  return withinImgArea && withinImg;
 }
 
 /* save img and other coordinate states before action in case want to undo */
@@ -102,16 +104,6 @@ void saveImageState() {
   usedUndo = false;
 }
 
-/* confines image to the borders of imgArea */
-void confineImg() {
-  if (mouseButton != RIGHT) {
-    imgArea.beginDraw();
-    imgArea.background(240);
-    imgArea.image(img, (float)(upLeftX - leftCenterW), (float)(upLeftY - leftCenterH));
-    imgArea.endDraw();
-  }
-}
-
 /* references img2 to get edited image to reset quality and then resizes it to match current zoom state */
 void resetImageQuality() {
   int imgWidth = img.width;
@@ -120,6 +112,16 @@ void resetImageQuality() {
   img.resize(imgWidth, imgHeight);
 
   pg = createGraphics(img.width, img.height);
+}
+
+/* confines image to the borders of imgArea */
+void confineImg() {
+  if (mouseButton != RIGHT) {
+    imgArea.beginDraw();
+    imgArea.background(240);
+    imgArea.image(img, (float)(upLeftX - leftCenterW), (float)(upLeftY - leftCenterH));
+    imgArea.endDraw();
+  }
 }
 
 void draw() {
@@ -158,6 +160,7 @@ void mousePressed() {
 
 void mouseDragged() {
   if (mouseButton == RIGHT) { //for image drag
+    resetImageQuality();
     imgArea.beginDraw();
     imgArea.background(240);
     imgArea.image(img, (float)upLeftX-leftCenterW+(mouseX-xStart), (float)upLeftY-leftCenterH+(mouseY-yStart));
@@ -189,6 +192,21 @@ void mouseReleased() {
 
 void keyPressed() {
   drawTool.keyPressed();  
+  println(key);
+  
+  if(key=='7'){
+    pg.save("pg.png");
+    img.save("img.png");
+    img2.save("img2.png");
+  }
+  if(key=='6') {
+        imgArea.beginDraw();
+    imgArea.background(240);
+    imgArea.fill(255);
+    imgArea.rect(leftCenterW, leftCenterH, img2.width, img2.height);
+    imgArea.image(img, (float)(upLeftX - leftCenterW), (float)(upLeftY - leftCenterH));
+    imgArea.endDraw();
+  }
   
   /* reset image */
   if (key == 'r') { 
