@@ -1,4 +1,5 @@
-PImage img, img2, imgCopy, oldImg, exOldImg; //img2==reference when resizing to keep quality, imgCopy==reference for restore, oldImg+exOldImg==for undo/redo
+PImage img, img2, imgCopy; //img2==reference when resizing to keep quality, imgCopy==reference for restore
+PImage oldImg, exOldImg, oldImg2, exOldImg2; //for undo/redo
 PImage pixelizeIcon, drawIcon, blurIcon, downloadIcon, fullCensorIcon, censorIcon;
 PGraphics pg;
 PGraphics imgArea; 
@@ -95,6 +96,7 @@ boolean onImage() {
 /* save img and other coordinate states before action in case want to undo */
 void saveImageState() {
   oldImg = img.get(0, 0, img.width, img.height);
+  oldImg2 = img2.get(0, 0, img.width, img.height);
   oldupLeftX = upLeftX;
   oldupLeftY = upLeftY;
   usedUndo = false;
@@ -160,6 +162,7 @@ void mouseDragged() {
     imgArea.background(240);
     imgArea.image(img, (float)upLeftX-leftCenterW+(mouseX-xStart), (float)upLeftY-leftCenterH+(mouseY-yStart));
     imgArea.endDraw();
+    //delay(1);
   }
   else { 
     selectionTool.mouseDragged();
@@ -219,6 +222,10 @@ void keyPressed() {
     oldImg = img.get(0, 0, img.width, img.height); //for redo
     img = exOldImg.get(0, 0, img.width, img.height);
     
+    exOldImg2 = oldImg2.get(0, 0, img.width, img.height);
+    oldImg2 = img2.get(0, 0, img.width, img.height); 
+    img2 = exOldImg2.get(0, 0, img.width, img.height);
+    
     exOldupLeftX = oldupLeftX;
     oldupLeftX = upLeftX;
     upLeftX = exOldupLeftX;
@@ -235,6 +242,10 @@ void keyPressed() {
     exOldImg = oldImg.get(0, 0, img.width, img.height);
     oldImg = img.get(0, 0, img.width, img.height); //for undo
     img = exOldImg.get(0, 0, img.width, img.height);
+    
+    exOldImg2 = oldImg2.get(0, 0, img.width, img.height);
+    oldImg2 = img2.get(0, 0, img.width, img.height); 
+    img2 = exOldImg2.get(0, 0, img.width, img.height);
     
     exOldupLeftX = oldupLeftX;
     oldupLeftX = upLeftX;
