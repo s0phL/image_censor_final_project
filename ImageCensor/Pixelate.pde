@@ -9,37 +9,37 @@ public class Pixelate {
     }
     if (cropWidth == 0) { //if vertical line, no pixelization
       startPixel = img.pixels.length;
-      println("A");
+      //println("A");
     }
     else if (x > img.width) { //if leftmost coord off image (right), no pixelization
       startPixel = img.pixels.length;
-      println("B " + x, img.width);
+      //println("B " + x, img.width);
     }
     else if (x < 0) { //if leftmost coord off image (left):
       cropWidth += x;
       x = 0;
       if (cropWidth > 0) { //if some of the selection box is on the image, pixelize image selection
         startPixel = constrain((y * img.width), 0, img.pixels.length-1);
-        println("C");
+        //println("C");
       }
       else { //if no selection box on image, no pixelization
         startPixel = img.pixels.length;
-        println("D");
+        //println("D");
       }
     }
     else { //if leftmost coord on image, pixelization
-      println("E " + (y * img.width) + x);
+      //println("E " + (y * img.width) + x);
       startPixel = constrain(((y * img.width) + x), 0, img.pixels.length-1);
     }
-    println(cropWidth, cropHeight);
+    //println(cropWidth, cropHeight);
     endPixel = constrain(startPixel + ((cropHeight - 1) * img.width) + (cropWidth - 1), 0, (img.pixels.length - 1));
     this.cropWidth = constrain((cropWidth + x), x, img.width) - x;
     this.cropHeight = constrain((cropHeight + y), y, img.height) - y;
     endHeight = this.cropHeight + y;
     
-    println(x, y);
-    println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + cropWidth + "/ cropHeight: " + cropHeight + "/ x: " + x + "/ y: " + startPixel/img.width + "/ endHeight: " + endHeight + "/ x+cropWidth: " + (x+cropWidth));
-    println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + this.cropWidth + "/ cropHeight: " + this.cropHeight + "/ endHeight: " + endHeight + ":");
+    //println(x, y);
+    //println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + cropWidth + "/ cropHeight: " + cropHeight + "/ x: " + x + "/ y: " + startPixel/img.width + "/ endHeight: " + endHeight + "/ x+cropWidth: " + (x+cropWidth));
+    //println("startPixel: " + startPixel + "/ endPixel: " + endPixel + "/ cropWidth: " + this.cropWidth + "/ cropHeight: " + this.cropHeight + "/ endHeight: " + endHeight + ":");
   }
   
   /* pixelates the image based off block size (finds and sets average RGB for each block).

@@ -39,7 +39,6 @@ public class Button {
           case "download" : 
             String download_path = System.getProperty("user.home") + "/downloads/censored_bird.jpg";
             img.save(download_path);
-            //img.save("censored_bird.jpg");
             break;
             
           case "pixelate" :
@@ -48,6 +47,7 @@ public class Button {
             
             drawTool.penDown = false;
             hideExtraDrawBtns();
+            censorStamp.stampDown = false; 
             break;
             
           case "blur" :
@@ -56,6 +56,7 @@ public class Button {
             slide.hide = true;
             drawTool.penDown = false;
             hideExtraDrawBtns();
+            censorStamp.stampDown = false; 
             break;
             
           case "draw" :
@@ -66,6 +67,16 @@ public class Button {
             
             selectionTool.mode = "none";
             slide.hide = true;
+            censorStamp.stampDown = false; 
+            break;
+          
+          case "stamp" :
+            censorStamp.stampDown = true; 
+          
+            selectionTool.mode = "none";
+            slide.hide = true;
+            drawTool.penDown = false;
+            hideExtraDrawBtns();
             break;
             
           case "fullCensor" :
@@ -90,7 +101,9 @@ public class Button {
     rect(x, y, w, h);
     fill(txtColor);
     textSize(fontSize);
-    text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
+    //text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
+    //(stampCenterY + ((a/3 - (textDescent() - textAscent())) / 2 )));
+    text(text, (x + ((w - textWidth(text)) / 2)), (y + ((h - ((2 * padding) + (textDescent() - textAscent()))) / 2)));
   }
     
   private boolean onButton() {
@@ -109,16 +122,17 @@ public class Button {
     oldImg = img.get(0, 0, img.width, img.height); //save img before action in case want to undo
     delay(90); //to give time to save prev img before pgraphic covers it
     
-    PGraphics tempPG = createGraphics(img.width, img.height);
-    tempPG.beginDraw();
-    tempPG.translate(-leftCenterW, -leftCenterH); //move pg pos to img pos
+    //PGraphics tempPG = createGraphics(img.width, img.height);
+    imgArea.beginDraw();
+    imgArea.translate(-leftCenterW, -leftCenterH); //move pg pos to img pos
 
-    tempPG.fill(0);
-    tempPG.rect(leftCenterW, leftCenterH, img.width, img.height);
+    imgArea.fill(0);
+    imgArea.rect(leftCenterW, leftCenterH, img.width, img.height);
 
-    tempPG.endDraw();
+    imgArea.endDraw();
     
-    img = tempPG.get(0, 0, img.width, img.height);
+    img = imgArea.get(0, 0, img.width, img.height);
+    img2 = imgArea.get(0, 0, img.width, img.height);
   }
   
 }

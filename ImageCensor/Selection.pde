@@ -35,6 +35,10 @@ public class Selection {
   void mouseDragged() {
     rectWidth = mouseX - xStart;
     rectHeight = mouseY - yStart;
+    
+    if (onImage()) {
+      saveImageState();
+    }
   }
   
   /* pixelize/restore image based off what's inside the rectangle selection 
@@ -44,8 +48,9 @@ public class Selection {
   void mouseReleased() {
     if (mode != "none") {
       
-      println("");
-      println("=========");
+      //println("");
+      //println("=========");
+      
       
       scaleFactor = (Math.pow(zoomSize, zoomCount));
       
@@ -66,14 +71,16 @@ public class Selection {
         mouseY2 = (int)((mouseY-thingY) / scaleFactor); 
       }
       
+      /*
       println(xStart, thingX, yStart, thingY);
       println(xStart2, yStart2);
       println(scaleFactor);
       println(rectWidth/scaleFactor, rectHeight/scaleFactor);
+      */
       
       
       
-      println(xStart, yStart, rectWidth, rectHeight);
+      //println(xStart, yStart, rectWidth, rectHeight);
       if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
         //editImage((xStart - leftCenterW), (yStart - leftCenterH));
         //editImage((xStart2 + leftCenterW), (yStart2 + leftCenterH));
@@ -92,13 +99,15 @@ public class Selection {
       }
       
       img2.updatePixels();
-      img2.save("img2.png");
       
       /* make selection rectangle disappear after mouse release */
       xStart = 0;
       yStart = 0;
       rectWidth = 0;
       rectHeight = 0;
+      
+      resetImgQuality();
+      confineImg();
     }
   }
   
@@ -110,7 +119,7 @@ public class Selection {
         pixel.pixelate(slide.getValue());
         break;
       case "blur" :
-        Blur pixel2 = new Blur(img, x, y, abs(rectWidth), abs(rectHeight));
+        Blur pixel2 = new Blur(img2, x, y, abs((int)(rectWidth/scaleFactor)), abs((int)(rectHeight/scaleFactor)));
         pixel2.blur();
         break;
     }
