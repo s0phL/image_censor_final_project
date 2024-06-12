@@ -30,15 +30,8 @@ private double oldupLeftY, exOldupLeftY;
 void setup() {
   size(1000, 500);
   
-  //getImage("Enter image path (starting from home dir)");
-  insertImage("bird.jpg");
-  
-  /*
-   println(img.width); //342   329 start 671 end
-   println(img.height); //400
-   println(img.pixels.length); //136800
-   println(img.height % 3); //1 
-  */
+  getImage("Enter image path (starting from home dir)");
+  //insertImage("bird.jpg");
    
    selectionTool = new Selection("none");
    drawTool = new Draw();
@@ -192,17 +185,7 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  //println(key);
   drawTool.keyPressed();  
-  
-  /*
-  if (key=='7') {
-    pg.save("pg.png");
-    imgArea.save("imgArea.png");
-    img2.save("img2.png");
-    img.save("img.png");
-  }
-  */
   
   /* reset image */
   if (key == 'r') { 
