@@ -1,7 +1,7 @@
 public class Stamp {
   private boolean stampDown = false;
   private PGraphics pg2;
-  private int w;
+  private int w; //stamp width
 
   public Stamp() {
     pg2 = createGraphics(img.width, img.height);

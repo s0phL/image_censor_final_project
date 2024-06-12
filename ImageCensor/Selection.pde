@@ -1,7 +1,6 @@
 public class Selection {
   private int selectXStart, selectYStart, rectWidth, rectHeight; //selection box outlines
   private String mode;
-  
   private double scaleFactor;
   
   //initialize to 0 so rectangle selection box doesn't appear
@@ -97,11 +96,11 @@ public class Selection {
   private void editImage(int x, int y) {
     switch (mode) {
       case "pixelate" : 
-        Pixelate pixel = new Pixelate(img2, x, y, abs((int)(rectWidth/scaleFactor)), abs((int)(rectHeight/scaleFactor)));
+        Pixelate pixel = new Pixelate(img2, x, y, abs((int)(rectWidth / scaleFactor)), abs((int)(rectHeight / scaleFactor)));
         pixel.pixelate(slide.getValue());
         break;
       case "blur" :
-        Blur pixel2 = new Blur(img2, x, y, abs((int)(rectWidth/scaleFactor)), abs((int)(rectHeight/scaleFactor)));
+        Blur pixel2 = new Blur(img2, x, y, abs((int)(rectWidth / scaleFactor)), abs((int)(rectHeight / scaleFactor)));
         pixel2.blur();
         break;
     }

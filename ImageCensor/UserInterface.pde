@@ -1,6 +1,6 @@
 PImage img, img2, imgCopy; //img2==reference when resizing to keep quality, imgCopy==reference for restore
 PImage oldImg, exOldImg, oldImg2, exOldImg2; //for undo/redo
-PImage pixelizeIcon, drawIcon, blurIcon, downloadIcon, fullCensorIcon, censorIcon;
+PImage pixelizeIcon, drawIcon, blurIcon, downloadIcon, censorBarIcon, fullCensorIcon;
 PGraphics pg;
 PGraphics imgArea; 
 Selection selectionTool;
@@ -25,8 +25,8 @@ private int xStart;
 private int yStart;
 
 private boolean usedUndo = false;
-private double oldupLeftX, exOldupLeftX;
-private double oldupLeftY, exOldupLeftY;
+private double oldUpLeftX, exOldUpLeftX;
+private double oldUpLeftY, exOldUpLeftY;
 
 void setup() {
   size(1000, 500);
@@ -47,8 +47,8 @@ void setup() {
    blurIcon = loadImage("assets/blur.png");
    blurIcon.resize(50, 50);
    
-   censorIcon = loadImage("assets/censorBar.png");
-   censorIcon.resize(25, 25);
+   censorBarIcon = loadImage("assets/censorBar.png");
+   censorBarIcon.resize(25, 25);
    
    fullCensorIcon = loadImage("assets/blackSquare.png");
    fullCensorIcon.resize(25, 25);
@@ -97,13 +97,13 @@ boolean onImage() {
 void saveImageState() {
   oldImg = img.get(0, 0, img.width, img.height);
   oldImg2 = img2.get(0, 0, img.width, img.height);
-  oldupLeftX = upLeftX;
-  oldupLeftY = upLeftY;
+  oldUpLeftX = upLeftX;
+  oldUpLeftY = upLeftY;
   usedUndo = false;
 }
 
 /* confines image to the borders of imgArea */
- void confineImg() {
+void confineImg() {
   if (mouseButton != RIGHT) {
     imgArea.beginDraw();
     imgArea.background(240);
@@ -128,7 +128,7 @@ void draw() {
   image(pixelizeIcon, 96-pixelizeIcon.width-10, 70);
   image(drawIcon, 96-drawIcon.width-10, 165);
   image(blurIcon, 96-blurIcon.width-10, 260);
-  image(censorIcon, 86-fullCensorIcon.width-10, 355);
+  image(censorBarIcon, 86-censorBarIcon.width-10, 355);
   image(fullCensorIcon, 86-fullCensorIcon.width-10, 410);
   image(imgArea, leftCenterW, leftCenterH); // place image at center of screen again
   
@@ -226,12 +226,12 @@ void keyPressed() {
     oldImg2 = img2.get(0, 0, img.width, img.height); 
     img2 = exOldImg2.get(0, 0, img.width, img.height);
     
-    exOldupLeftX = oldupLeftX;
-    oldupLeftX = upLeftX;
-    upLeftX = exOldupLeftX;
-    exOldupLeftY = oldupLeftY;
-    oldupLeftY = upLeftY;
-    upLeftY = exOldupLeftY;
+    exOldUpLeftX = oldUpLeftX;
+    oldUpLeftX = upLeftX;
+    upLeftX = exOldUpLeftX;
+    exOldUpLeftY = oldUpLeftY;
+    oldUpLeftY = upLeftY;
+    upLeftY = exOldUpLeftY;
     
     confineImg();
     pg = createGraphics(img.width, img.height); //erase drawing
@@ -247,12 +247,12 @@ void keyPressed() {
     oldImg2 = img2.get(0, 0, img.width, img.height); 
     img2 = exOldImg2.get(0, 0, img.width, img.height);
     
-    exOldupLeftX = oldupLeftX;
-    oldupLeftX = upLeftX;
-    upLeftX = exOldupLeftX;
-    exOldupLeftY = oldupLeftY;
-    oldupLeftY = upLeftY;
-    upLeftY = exOldupLeftY;
+    exOldUpLeftX = oldUpLeftX;
+    oldUpLeftX = upLeftX;
+    upLeftX = exOldUpLeftX;
+    exOldUpLeftY = oldUpLeftY;
+    oldUpLeftY = upLeftY;
+    upLeftY = exOldUpLeftY;
     
     confineImg();
     pg = createGraphics(img.width, img.height); //erase drawing
