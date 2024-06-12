@@ -7,9 +7,6 @@ public class Blur {
     {.111, .111, .111}
   };
 
-  /**Constructor takes the kernel that will be applied to the image
-  *This implementation only allows 3x3 kernels
-  */
   public Blur(PImage img, int x, int y, int cropWidth, int cropHeight) {
     this.img = img;
     if (y < 0) { //if leftmost coord above image

@@ -101,8 +101,6 @@ public class Button {
     rect(x, y, w, h);
     fill(txtColor);
     textSize(fontSize);
-    //text(text, (x + ((w - textWidth(text)) / 2)), (y + (h - ((2 * padding) + (textAscent() - textDescent())))));
-    //(stampCenterY + ((a/3 - (textDescent() - textAscent())) / 2 )));
     text(text, (x + ((w - textWidth(text)) / 2)), (y + ((h - ((2 * padding) + (textDescent() - textAscent()))) / 2)));
   }
     
@@ -122,7 +120,6 @@ public class Button {
     oldImg = img.get(0, 0, img.width, img.height); //save img before action in case want to undo
     delay(90); //to give time to save prev img before pgraphic covers it
     
-    //PGraphics tempPG = createGraphics(img.width, img.height);
     imgArea.beginDraw();
     imgArea.translate(-leftCenterW, -leftCenterH); //move pg pos to img pos
 

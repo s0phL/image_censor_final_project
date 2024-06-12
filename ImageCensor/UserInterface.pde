@@ -1,12 +1,6 @@
-
-// RuntimeException: pushMatrix() cannot use push more than 32 times
-// ^--- especially apparant in Stamp class
-
-PImage img, imgCopy, oldImg, exOldImg; //imgCopy==reference for restore, oldImg+exOldImg==for undo/redo
-PImage img2;
-// NEED BETTER NAMES!!!!!
+PImage img, img2, imgCopy, oldImg, exOldImg; //img2==reference when resizing to keep quality, imgCopy==reference for restore, oldImg+exOldImg==for undo/redo
 PImage pixelizeIcon, drawIcon, blurIcon, downloadIcon, fullCensorIcon, censorIcon;
-PGraphics pg; //so Restore class can edit pg created in Draw class
+PGraphics pg;
 PGraphics imgArea; 
 Selection selectionTool;
 Draw drawTool;
@@ -21,18 +15,17 @@ Slider slide;
 int leftCenterW; //x pos of left side of img so it is in the center
 int leftCenterH; //y pos of left side of img so it is in the center
 
-private boolean usedUndo = false;
-
 int zoomSize = 2;
 int zoomCount = 0;
-double thingX; // image centered at mouse x  // NEED BETTER NAME
-double thingY; 
+double upLeftX; //x-coord of upper left corner of resized image
+double upLeftY; //y-coord of upper left corner of resized image
 
-double oldThingX, exOldThingX;
-double oldThingY, exOldThingY;
+private int xStart;
+private int yStart;
 
-int xStart;
-int yStart;
+private boolean usedUndo = false;
+private double oldupLeftX, exOldupLeftX;
+private double oldupLeftY, exOldupLeftY;
 
 void setup() {
   size(1000, 500);
@@ -106,28 +99,12 @@ boolean onImage() {
   return (((mouseX - leftCenterW) > 0) && ((mouseX - leftCenterW) < img.width) && ((mouseY - leftCenterH) > 0) && ((mouseY - leftCenterH) < img.height));
 }
 
+/* save img and other coordinate states before action in case want to undo */
 void saveImageState() {
-    oldImg = img.get(0, 0, img.width, img.height); //save img before action in case want to undo
-    oldThingX = thingX;
-    oldThingY = thingY;
-    usedUndo = false;
-}
-
-void resetImgQuality() {
-  int imgWidth = img.width;
-  int imgHeight = img.height;
-  img = img2.get(0, 0, img2.width, img2.height);
-  img.resize(imgWidth, imgHeight);
-  
-  pg = createGraphics(img.width, img.height);
-  
-  
-  /*
-  int imgWidth = img.width;
-  int imgHeight = img.height;
-  img = loadImage("bird.jpg");
-  img.resize(imgWidth, imgHeight);
-  */
+  oldImg = img.get(0, 0, img.width, img.height);
+  oldupLeftX = upLeftX;
+  oldupLeftY = upLeftY;
+  usedUndo = false;
 }
 
 /* confines image to the borders of imgArea */
@@ -135,9 +112,19 @@ void resetImgQuality() {
   if (mouseButton != RIGHT) {
     imgArea.beginDraw();
     imgArea.background(240);
-    imgArea.image(img, (float)thingX-leftCenterW, (float)thingY-leftCenterH);
+    imgArea.image(img, (float)(upLeftX - leftCenterW), (float)(upLeftY - leftCenterH));
     imgArea.endDraw();
   }
+}
+
+/* references img2 to get edited image to reset quality and then resizes it to match current zoom state */
+void resetImageQuality() {
+  int imgWidth = img.width;
+  int imgHeight = img.height;
+  img = img2.get(0, 0, img2.width, img2.height);
+  img.resize(imgWidth, imgHeight);
+
+  pg = createGraphics(img.width, img.height);
 }
 
 void draw() {
@@ -148,9 +135,7 @@ void draw() {
   image(blurIcon, 96-blurIcon.width-10, 260);
   image(censorIcon, 86-fullCensorIcon.width-10, 355);
   image(fullCensorIcon, 86-fullCensorIcon.width-10, 410);
-  //image(img, leftCenterW, leftCenterH); // place image at center of screen again
   image(imgArea, leftCenterW, leftCenterH); // place image at center of screen again
-  //confineImg();
   
   selectionTool.draw();
   for (Button btn : btnArray) {
@@ -161,10 +146,10 @@ void draw() {
 
 void mousePressed() {
   if (onImage()) {
-    saveImageState();
+    saveImageState(); //save image before next action
   }
   
-  if (mouseButton == RIGHT) {
+  if (mouseButton == RIGHT) { //for image drag
     xStart = mouseX;
     yStart = mouseY;
   }
@@ -177,11 +162,10 @@ void mousePressed() {
 }
 
 void mouseDragged() {
-  if (mouseButton == RIGHT) {
+  if (mouseButton == RIGHT) { //for image drag
     imgArea.beginDraw();
     imgArea.background(240);
-    //thingX-leftCenterW, (float)thingY-leftCenterH
-    imgArea.image(img, (float)thingX-leftCenterW+(mouseX-xStart), (float)thingY-leftCenterH+(mouseY-yStart));
+    imgArea.image(img, (float)upLeftX-leftCenterW+(mouseX-xStart), (float)upLeftY-leftCenterH+(mouseY-yStart));
     imgArea.endDraw();
   }
   else { 
@@ -194,124 +178,127 @@ void mouseDragged() {
   }
 }
 
-void mouseReleased() {
-  selectionTool.mouseReleased();
-  for (Button btn : btnArray) {
-    btn.mouseReleased();
-  }
-  
-  if (mouseButton == RIGHT) {
-    thingX += (mouseX-xStart);
-    thingY += (mouseY-yStart);
+void mouseReleased() {  
+  if (mouseButton == RIGHT) { //for image drag
+    upLeftX += (mouseX-xStart);
+    upLeftY += (mouseY-yStart);
   }
   else {
-    //resetImgQuality();
-    //confineImg();
+    selectionTool.mouseReleased();
+    for (Button btn : btnArray) {
+      btn.mouseReleased();
+    }
   }
-  
-  //imgArea.save("imgArea.png");
 }
 
 void keyPressed() {
+  //println(key);
   drawTool.keyPressed();  
   
-  if(key=='1')println(mouseX, mouseY);
-  
+  /*
   if (key=='7') {
     pg.save("pg.png");
+    imgArea.save("imgArea.png");
     img2.save("img2.png");
+    img.save("img.png");
   }
+  */
   
-  if (key == 'r') { //reset image
+  /* reset image */
+  if (key == 'r') { 
     zoomCount = 0;
     xStart = 0;
     yStart = 0;
-    thingX = leftCenterW;
-    thingY = leftCenterH;
+    upLeftX = leftCenterW;
+    upLeftY = leftCenterH;
     img = imgCopy.get(0, 0, imgCopy.width, imgCopy.height);
     img2 = imgCopy.get(0, 0, imgCopy.width, imgCopy.height);
     confineImg();
   }
-  if (key == '4') { //reset settings
+  /* reset settings */
+  if (key == '4') { 
     penSize = 5;
     slide.indicatorPos = 152;
     zoomCount = 0;
     xStart = 0;
     yStart = 0;
-    thingX = leftCenterW;
-    thingY = leftCenterH;
+    upLeftX = leftCenterW;
+    upLeftY = leftCenterH;
     img = img2.get(0, 0, img2.width, img2.height);
     confineImg();
-    
-    /*
-    resetImgQuality();
-    imgArea.beginDraw();
-    imgArea.image(img, 0, 0);
-    imgArea.endDraw();
-    */
   }
   
-  if (key == '9' && !usedUndo) { //undo most recent action
+  /* undo most recent action.
+   * sets img to previous saved state that was saved before action was done
+  */
+  if (key == '9' && !usedUndo) {
     exOldImg = oldImg.get(0, 0, img.width, img.height);
     oldImg = img.get(0, 0, img.width, img.height); //for redo
     img = exOldImg.get(0, 0, img.width, img.height);
     
-    exOldThingX = oldThingX;
-    oldThingX = thingX;
-    thingX = exOldThingX;
-    exOldThingY = oldThingY;
-    oldThingY = thingY;
-    thingY = exOldThingY;
-    
+    exOldupLeftX = oldupLeftX;
+    oldupLeftX = upLeftX;
+    upLeftX = exOldupLeftX;
+    exOldupLeftY = oldupLeftY;
+    oldupLeftY = upLeftY;
+    upLeftY = exOldupLeftY;
     
     confineImg();
     pg = createGraphics(img.width, img.height); //erase drawing
     usedUndo = true;
   }
-  if ((key == '0') && usedUndo) { //redo
+  /* redo the undo */
+  if ((key == '0') && usedUndo) { 
     exOldImg = oldImg.get(0, 0, img.width, img.height);
     oldImg = img.get(0, 0, img.width, img.height); //for undo
     img = exOldImg.get(0, 0, img.width, img.height);
     
-    exOldThingX = oldThingX;
-    oldThingX = thingX;
-    thingX = exOldThingX;
-    exOldThingY = oldThingY;
-    oldThingY = thingY;
-    thingY = exOldThingY;
+    exOldupLeftX = oldupLeftX;
+    oldupLeftX = upLeftX;
+    upLeftX = exOldupLeftX;
+    exOldupLeftY = oldupLeftY;
+    oldupLeftY = upLeftY;
+    upLeftY = exOldupLeftY;
     
     confineImg();
+    pg = createGraphics(img.width, img.height); //erase drawing
     usedUndo = false;
   }
   
-  if (key == 'q' && zoomCount < 3) { //zoom in
-    img.resize(img.width*zoomSize, img.height*zoomSize);
+  /* zoom in.
+   * resizes image by multiplying zoom size. 
+   * then translates the upper left corner left so the image is focused on mouse pos
+  */
+  if (key == 'q' && zoomCount < 3) {
+    saveImageState();
+    img.resize((img.width * zoomSize), (img.height * zoomSize));
     zoomCount++;
     println("Q:" + zoomCount);
       
-    thingX = mouseX-(((leftCenterW-thingX)+(mouseX-leftCenterW))*zoomSize);
-    thingY = mouseY-(((leftCenterH-thingY)+(mouseY-leftCenterH))*zoomSize);
-    println(thingX, thingY);
+    upLeftX = mouseX - (((leftCenterW - upLeftX) + (mouseX - leftCenterW)) * zoomSize);
+    upLeftY = mouseY - (((leftCenterH - upLeftY) + (mouseY - leftCenterH)) * zoomSize);
+    //println(upLeftX, upLeftY);
 
-    resetImgQuality();
-    //image(img, (float)thingX, (float)thingY);
+    resetImageQuality();
     confineImg();
-
   }
-  
-  if (key == 'e' && zoomCount > -1) { //zoom out
-    img.resize(img.width/zoomSize, img.height/zoomSize);
+  /* zoom out.
+   * resizes image by dividing by zoom size. 
+   * then translates the upper left corner right so the image is focused on mouse pos
+  */
+  if (key == 'e' && zoomCount > -1) {
+    saveImageState();
+    img.resize((img.width / zoomSize), (img.height / zoomSize));
     zoomCount--;
     println("E:" + zoomCount);
     
-    thingX = mouseX-(((leftCenterW-thingX)+(mouseX-leftCenterW))/zoomSize);
-    thingY = mouseY-(((leftCenterH-thingY)+(mouseY-leftCenterH))/zoomSize);
-    println(thingX, thingY);
+    upLeftX = mouseX-(((leftCenterW-upLeftX)+(mouseX-leftCenterW))/zoomSize);
+    upLeftY = mouseY-(((leftCenterH-upLeftY)+(mouseY-leftCenterH))/zoomSize);
+    println(upLeftX, upLeftY);
 
-    resetImgQuality();
+    resetImageQuality();
     confineImg();
   }
-    
 }
 
 /* asks user for image path of the image they want to edit. 
@@ -339,12 +326,11 @@ private void insertImage(String image_path) {
   img = loadImage(image_path);
   
   while (img.width > width || img.height > height) {
-    //imgCopy.resize(img.width/2, img.height/2);
-    img.resize(img.width/2, img.height/2);
+    img.resize((img.width / 2), (img.height / 2));
   }
-  
   img2 = img.get(0, 0, img.width, img.height);
   imgCopy = img.get(0, 0, img.width, img.height);
+  
   
   leftCenterW = (width - img.width) / 2;
   leftCenterH = (height - img.height) / 2;
@@ -357,10 +343,8 @@ private void insertImage(String image_path) {
   imgArea.popMatrix();
   imgArea.endDraw();
   
-  thingX = leftCenterW;
-  thingY = leftCenterH;
-  
-  //image(img, leftCenterW, leftCenterH); // place image at center of screen
+  upLeftX = leftCenterW;
+  upLeftY = leftCenterH;
 
   pg = createGraphics(img.width, img.height);
 }

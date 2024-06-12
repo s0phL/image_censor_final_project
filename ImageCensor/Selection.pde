@@ -1,17 +1,13 @@
 public class Selection {
-  private int xStart, yStart, rectWidth, rectHeight; //selection box outlines
-  //private int xStart2, yStart2, rectWidth2, rectHeight2;
+  private int selectXStart, selectYStart, rectWidth, rectHeight; //selection box outlines
   private String mode;
   
   private double scaleFactor;
   
   //initialize to 0 so rectangle selection box doesn't appear
   public Selection(String mode) {
-    xStart = 0;
-    yStart = 0;
-    
-
-    
+    selectXStart = 0;
+    selectYStart = 0;
     rectWidth = 0;
     rectHeight = 0;
     this.mode = mode;
@@ -23,20 +19,20 @@ public class Selection {
     strokeWeight(2);
     noFill();
     if (mousePressed && (mode != "none")) {
-      rect(xStart, yStart, rectWidth, rectHeight);
+      rect(selectXStart, selectYStart, rectWidth, rectHeight);
     }
   }
 
   void mousePressed() {
-    xStart = mouseX;
-    yStart = mouseY;
+    selectXStart = mouseX;
+    selectYStart = mouseY;
   }
   
   void mouseDragged() {
-    rectWidth = mouseX - xStart;
-    rectHeight = mouseY - yStart;
+    rectWidth = mouseX - selectXStart;
+    rectHeight = mouseY - selectYStart;
     
-    if (onImage()) {
+    if ((mode != "none") && onImage()) {
       saveImageState();
     }
   }
@@ -48,42 +44,28 @@ public class Selection {
   void mouseReleased() {
     if (mode != "none") {
       
-      //println("");
-      //println("=========");
-      
-      
       scaleFactor = (Math.pow(zoomSize, zoomCount));
       
-      
       int xStart2, yStart2, mouseX2, mouseY2;
-      
+      /* convert zoomed selections into the coordinates user would have if they selected on default zoom size 
+       * so easier for blur and pixelate to process
+       * if zoom is on default zoom (scale factor == 1), no need to translate coordinates
+      */
       if (scaleFactor == 1) {
-        xStart2 = xStart - leftCenterW;
-        yStart2 = yStart - leftCenterH;
+        xStart2 = selectXStart - leftCenterW;
+        yStart2 = selectYStart - leftCenterH;
         mouseX2 = mouseX - leftCenterW;
         mouseY2 = mouseY - leftCenterH;
       }
       else {
-        xStart2 = (int)((xStart-thingX) / scaleFactor);
-        yStart2 = (int)((yStart-thingY) / scaleFactor);
+        xStart2 = (int)((selectXStart - upLeftX) / scaleFactor);
+        yStart2 = (int)((selectYStart - upLeftY) / scaleFactor);
         
-        mouseX2 = (int)((mouseX-thingX) / scaleFactor);
-        mouseY2 = (int)((mouseY-thingY) / scaleFactor); 
+        mouseX2 = (int)((mouseX - upLeftX) / scaleFactor);
+        mouseY2 = (int)((mouseY - upLeftY) / scaleFactor); 
       }
       
-      /*
-      println(xStart, thingX, yStart, thingY);
-      println(xStart2, yStart2);
-      println(scaleFactor);
-      println(rectWidth/scaleFactor, rectHeight/scaleFactor);
-      */
-      
-      
-      
-      //println(xStart, yStart, rectWidth, rectHeight);
       if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
-        //editImage((xStart - leftCenterW), (yStart - leftCenterH));
-        //editImage((xStart2 + leftCenterW), (yStart2 + leftCenterH));
         editImage((xStart2), (yStart2));
       }
       else if (rectWidth < 0 && rectHeight > 0) { //top-right to bottom-left
@@ -93,7 +75,6 @@ public class Selection {
         editImage((xStart2), (mouseY2));
       }
       else { //bottom-right to top-left, end point is start pixel
-        //pixel = new Pixelate(img, (mouseX-(500-(img.width/2))), (mouseY-(250-(img.height/2))), abs(rectWidth), abs(rectHeight));
         Restore pixel = new Restore(imgCopy, img2, (mouseX2), (mouseY2), abs((int)(rectWidth/scaleFactor)), abs((int)(rectHeight/scaleFactor)));
         pixel.restore();
       }
@@ -106,12 +87,13 @@ public class Selection {
       rectWidth = 0;
       rectHeight = 0;
       
-      resetImgQuality();
+      /* apply censor edits */
+      resetImageQuality();
       confineImg();
     }
   }
   
-  /* edits image based off mode and given start coords */
+  /* edits image based off mode and given start coords ((0,0) is the first pixel of image) */
   private void editImage(int x, int y) {
     switch (mode) {
       case "pixelate" : 

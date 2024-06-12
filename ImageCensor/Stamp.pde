@@ -10,6 +10,8 @@ public class Stamp {
   
   void mousePressed() {
     if (stampDown) {
+      float scaleFactor = (float)(Math.pow(zoomSize, zoomCount));
+      
       pg.beginDraw();
       pg.pushMatrix();
       imgArea.beginDraw();
@@ -29,7 +31,8 @@ public class Stamp {
       imgArea.fill(217, 4, 0);
       
       pg.stroke(217, 4, 0);
-      pg.strokeWeight(3);
+      pg.strokeWeight(3/scaleFactor);
+      
       pg.fill(255);
       pg.rect(stampCenterX, stampCenterY, w, w/3); 
       pg.fill(217, 4, 0);
@@ -41,10 +44,12 @@ public class Stamp {
       pg.textSize(w/5);
       pg.text(text, (stampCenterX + ((w - textWidth(text)) / 6)), (stampCenterY + ((w/3 - (textDescent() - textAscent())) / 2 )));
   
+      imgArea.popMatrix();
       imgArea.endDraw();
+      pg.popMatrix();
       pg.endDraw();
       
-      img = imgArea.get(0, 0, img.width, img.height);
+      img = imgArea.get((int)upLeftX-leftCenterW, (int)upLeftY-leftCenterH, img.width, img.height);//imgArea.get(0, 0, img.width, img.height);
       
       /* combines graphic and image. set img as the combination */
       pg2.beginDraw();
