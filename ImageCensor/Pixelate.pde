@@ -9,22 +9,26 @@ public class Pixelate {
     }
     if (cropWidth == 0) { //if vertical line, no pixelization
       startPixel = img.pixels.length;
+      println("A");
     }
     else if (x > img.width) { //if leftmost coord off image (right), no pixelization
       startPixel = img.pixels.length;
+      println("B " + x, img.width);
     }
     else if (x < 0) { //if leftmost coord off image (left):
       cropWidth += x;
       x = 0;
       if (cropWidth > 0) { //if some of the selection box is on the image, pixelize image selection
         startPixel = constrain((y * img.width), 0, img.pixels.length-1);
+        println("C");
       }
       else { //if no selection box on image, no pixelization
         startPixel = img.pixels.length;
+        println("D");
       }
     }
     else { //if leftmost coord on image, pixelization
-      println((y * img.width) + x);
+      println("E " + (y * img.width) + x);
       startPixel = constrain(((y * img.width) + x), 0, img.pixels.length-1);
     }
     println(cropWidth, cropHeight);
