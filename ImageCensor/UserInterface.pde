@@ -202,8 +202,8 @@ void keyPressed() {
   if(key=='6') {
         imgArea.beginDraw();
     imgArea.background(240);
-    imgArea.fill(255);
-    imgArea.rect(leftCenterW, leftCenterH, img2.width, img2.height);
+    imgArea.fill(0);
+    imgArea.rect(0, 0, img2.width, img2.height);
     imgArea.image(img, (float)(upLeftX - leftCenterW), (float)(upLeftY - leftCenterH));
     imgArea.endDraw();
   }
