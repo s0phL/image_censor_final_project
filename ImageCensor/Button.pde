@@ -37,7 +37,7 @@ public class Button {
         
         switch (function) {
           case "download" : 
-            String download_path = System.getProperty("user.home") + "/downloads/censored_bird.jpg";
+            String download_path = System.getProperty("user.home") + "/downloads/censored_image.jpg";
             img.save(download_path);
             break;
             
