@@ -1,4 +1,5 @@
 PImage img, imgCopy;
+PImage img2;
 PImage pixelizeIcon;
 PGraphics pg; //so Restore class can edit pg created in Draw class
 PGraphics imgArea; 
@@ -83,9 +84,12 @@ void insertImage(String image_path) {
   
   img = loadImage(image_path);
   imgCopy = loadImage(image_path); //img to reference when restoring edited img
+  img2 = loadImage(image_path);
   while (img.width > width || img.height > height) {
     imgCopy.resize(img.width/2, img.height/2);
+    img2.resize(img.width/2, img.height/2);
     img.resize(img.width/2, img.height/2);
+    
   }
   
   leftCenterW = (width - img.width) / 2;
@@ -104,7 +108,7 @@ void insertImage(String image_path) {
   
   println(leftCenterW, leftCenterH);
   
-  image(img, leftCenterW, leftCenterH); // place image at center of screen
+  //image(img, leftCenterW, leftCenterH); // place image at center of screen
   
 }
 
@@ -125,12 +129,24 @@ void draw() {
 }
 
 void mousePressed() {
+  if (mouseButton == RIGHT) {
+    xStart = mouseX;
+    yStart = mouseY;
+  }
   selectionTool.mousePressed();
   drawTool.mousePressed();
   slide.mousePressed();
 }
 
 void mouseDragged() {
+  if (mouseButton == RIGHT) {
+    imgArea.beginDraw();
+    imgArea.background(240);
+    //thingX-leftCenterW, (float)thingY-leftCenterH
+    imgArea.image(img, (float)thingX-leftCenterW+(mouseX-xStart), (float)thingY-leftCenterH+(mouseY-yStart));
+    imgArea.endDraw();
+  }
+  
   selectionTool.mouseDragged();
   drawTool.mouseDragged();
   for (Button btn : btnArray) {
@@ -144,6 +160,16 @@ void mouseReleased() {
   for (Button btn : btnArray) {
     btn.mouseReleased();
   }
+  if (mouseButton == RIGHT) {
+    thingX += (mouseX-xStart);
+    thingY += (mouseY-yStart);
+  }
+  else {
+    //resetImgQuality();
+    //confineImg();
+  }
+  
+  //imgArea.save("imgArea.png");
 }
 
 void keyPressed() {
@@ -153,19 +179,38 @@ void keyPressed() {
     img = loadImage(image_path); 
   }
   */
+  if (key=='7') {
+    pg.save("pg.png");
+    img2.save("img2.png");
+  }
   if(key=='1')println(mouseX, mouseY);
   
   if (key == 'r') { //reset image
-  // do image path reset thing
-    Restore pixel = new Restore(imgCopy, img, 0, 0, img.width, img.height);
-    pixel.restore();
-    img.updatePixels();
-    imgArea.beginDraw();
-    imgArea.image(img, 0, 0);
+    zoomCount = 0;
+    xStart = 0;
+    yStart = 0;
+    thingX = leftCenterW;
+    thingY = leftCenterH;
+    img = imgCopy.get(0, 0, imgCopy.width, imgCopy.height);
+    confineImg();
   }
   if (key == '4') { //reset settings
     penSize = 5;
     slide.indicatorPos = 152;
+    zoomCount = 0;
+    xStart = 0;
+    yStart = 0;
+    thingX = leftCenterW;
+    thingY = leftCenterH;
+    img = img2.get(0, 0, img2.width, img2.height);
+    confineImg();
+    
+    /*
+    resetImgQuality();
+    imgArea.beginDraw();
+    imgArea.image(img, 0, 0);
+    imgArea.endDraw();
+    */
   }
   
   if (key == 'q' && zoomCount < 3) { //zoom in
@@ -175,6 +220,7 @@ void keyPressed() {
     //thingX = (mouseX*((int)(Math.pow(zoomSize, zoomCount)))-mouseX-leftCenterW);
     //thingY = (mouseY*((int)(Math.pow(zoomSize, zoomCount)))-mouseY-leftCenterH);
     
+    /*
     println((thingX)+mouseX);
     println(leftCenterW-(thingX)+mouseX-leftCenterW);
      println((thingX)+mouseX-leftCenterW);
@@ -186,6 +232,7 @@ void keyPressed() {
     println((leftCenterH-(thingY)+mouseY-leftCenterH)*zoomSize); //342/2=171
     println(((thingY)+mouseY-leftCenterH)*zoomSize);
     
+    */
     /*
     if (thingX > leftCenterW) {
       thingX = -thingX;
@@ -203,6 +250,8 @@ void keyPressed() {
   }
   
   if (key == 'e' && zoomCount > -1) { //zoom out
+    
+    zoomCount--;
     println("E:" + zoomCount);
     
     //thingX = leftCenterW-(mouseX-(((abs(thingX))+mouseX)/zoomSize));
@@ -237,7 +286,7 @@ void keyPressed() {
     //thingX = mouseX-(((abs(thingX))+mouseX)/zoomSize);
     //thingY = mouseY-(((abs(thingY))+mouseY)/zoomSize);
     
-    zoomCount--;
+    //zoomCount--;
     
     println(thingX, thingY);
     //image(img, 400, 108);
@@ -246,7 +295,7 @@ void keyPressed() {
     //image(img, thingX, thingY);
     
     //background(150);
-    //resetImgQuality();
+    resetImgQuality();
     confineImg();
     //img.save("zoomOut.png");
     //image(img, (float)thingX, (float)thingY);
@@ -254,24 +303,36 @@ void keyPressed() {
     if (key == '8') {
     println (mouseX, mouseY);
   }
+  
+  if (key=='p')resetImgQuality();
     
 }
 
-private void resetImgQuality() {
+ void resetImgQuality() {
+  int imgWidth = img.width;
+  int imgHeight = img.height;
+  img = img2.get(0, 0, img2.width, img2.height);
+  img.resize(imgWidth, imgHeight);
   
+  pg = createGraphics(img.width, img.height);
+  
+  
+  /*
   int imgWidth = img.width;
   int imgHeight = img.height;
   img = loadImage("bird.jpg");
   img.resize(imgWidth, imgHeight);
+  */
+  
   
 }
 
 /* confines image to the borders of imgArea */
-private void confineImg() {
-  image(img, (float)thingX, (float)thingY);
+ void confineImg() {
+  //image(img, (float)thingX, (float)thingY);
   imgArea.beginDraw();
-  //imgArea.background(150);
-  imgArea.background(255);
+  imgArea.background(240);
+  //imgArea.background(255);
   imgArea.image(img, (float)thingX-leftCenterW, (float)thingY-leftCenterH);
   //imgArea.image(img, 100, 100);
   //imgArea.image(img, 0, 0);
