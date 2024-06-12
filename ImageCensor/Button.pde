@@ -124,6 +124,7 @@ public class Button {
     imgArea.translate(-leftCenterW, -leftCenterH); //move pg pos to img pos
 
     imgArea.fill(0);
+    imgArea.stroke(0);
     imgArea.rect(leftCenterW, leftCenterH, img.width, img.height);
 
     imgArea.endDraw();
