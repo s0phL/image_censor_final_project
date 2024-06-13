@@ -16,17 +16,16 @@ public class Stamp {
       imgArea.pushMatrix();
       
       /* move pg pos to img pos */
-      //pg.translate(-leftCenterW, -leftCenterH);
       imgArea.translate(-leftCenterW, -leftCenterH);
       
       w = img.width/3;
-      int stampCenterX = mouseX-(w/2);
-      int stampCenterY = mouseY-(w/6);
+      int stampCenterX = mouseX - (w / 2);
+      int stampCenterY = mouseY - (w / 6);
      
       imgArea.stroke(217, 4, 0);
       imgArea.strokeWeight(3);
       imgArea.fill(255);
-      imgArea.rect(stampCenterX, stampCenterY, w, w/3); 
+      imgArea.rect(stampCenterX, stampCenterY, w, (w / 3)); 
       imgArea.fill(217, 4, 0);
       
       String text = "CENSORED";
@@ -34,8 +33,8 @@ public class Stamp {
       imgArea.text(text, (stampCenterX + ((w - textWidth(text)) / 6)), (stampCenterY + ((w/3 - (textDescent() - textAscent())) / 2 )));
       
       w = (int)(w / scaleFactor);
-      stampCenterX = ((int)((mouseX-upLeftX) / scaleFactor)) - (w/2);
-      stampCenterY = ((int)((mouseY-upLeftY) / scaleFactor)) - (w/6);
+      stampCenterX = ((int)((mouseX - upLeftX) / scaleFactor)) - (w / 2);
+      stampCenterY = ((int)((mouseY - upLeftY) / scaleFactor)) - (w / 6);
       
       pg.stroke(217, 4, 0);
       //pg.strokeWeight(3/scaleFactor);
