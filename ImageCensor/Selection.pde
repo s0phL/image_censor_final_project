@@ -90,13 +90,17 @@ public class Selection {
   }
   
   /* edits image based off mode and given start coords ((0,0) is the first pixel) */
+  /* edits image based off mode and given start coords ((0,0) is the first pixel) */
   private void editImage(int x, int y) {
     switch (mode) {
       case "pixelate" : 
         Pixelate pixel = new Pixelate(img2, x, y, abs((int)(rectWidth / scaleFactor)), abs((int)(rectHeight / scaleFactor)));
         pixel.pixelate(slide.getValue());
         break;
-      
+      case "blur" :
+        Blur pixel2 = new Blur(img2, x, y, abs((int)(rectWidth / scaleFactor)), abs((int)(rectHeight / scaleFactor)));
+        pixel2.blur();
+        break;
     }
   }
     

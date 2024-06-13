@@ -37,8 +37,8 @@ private double oldUpLeftY, exOldUpLeftY;
 void setup() {
   size(1000, 500);
   
-  //getImage("Enter image path (starting from home dir)");
-  insertImage("bird.jpg");
+  getImage("Enter image path (starting from home dir)");
+  //insertImage("bird.jpg");
    
    selectionTool = new Selection("none");
    drawTool = new Draw();
@@ -222,13 +222,15 @@ void mouseReleased() {
 
 void keyPressed() {
   drawTool.keyPressed();  
-  println(key);
+  //println(key);
   
+  /*
   if(key=='7'){
     //pg.save("pg.png");
     img.save("img.png");
     img2.save("img2.png");
   }
+  */
   
   /* reset image */
   if (key == 'r') { 

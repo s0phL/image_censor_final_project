@@ -28,9 +28,8 @@ public class Draw {
   
   /* draws a black line under user's cursor if cursor is on the image */
   private void drawOnImage() {
-    if (onImage() && penDown) {
-
-      //double scaleFactor = (Math.pow(zoomSize, zoomCount));
+   // if (onImage() && penDown) {
+     if (penDown) {
       
       pg.beginDraw();
       pg.pushMatrix();
@@ -49,8 +48,8 @@ public class Draw {
       /* graphic to be combined with reference image */
       pg.stroke(0);
       pg.strokeWeight(penSize/(float)scaleFactor);
-      pg.line((float)(leftCenterW + ((pmouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((pmouseY - upLeftY) / scaleFactor)), (float)(leftCenterW + ((mouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((mouseY - upLeftY) / scaleFactor)));
       /* converting line on zoomed image to what it would be on normal zoom */
+      pg.line((float)(leftCenterW + ((pmouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((pmouseY - upLeftY) / scaleFactor)), (float)(leftCenterW + ((mouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((mouseY - upLeftY) / scaleFactor)));
       
       //stroke(50);    
       //strokeWeight(penSize);
@@ -75,6 +74,6 @@ public class Draw {
       
       img2 = pg2.get(0, 0, img2.width, img2.height);
       
-    }
+     }
   }
 }
