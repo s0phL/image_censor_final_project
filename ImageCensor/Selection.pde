@@ -36,7 +36,7 @@ public class Selection {
   }
   
   /* pixelize/restore image based off what's inside the rectangle selection 
-   * if user selects from top-left to bottom-right, top-right to bottom-left, or bottom-left to top-right --> pixelizes
+   * if user selects from top-left to bottom-right, top-right to bottom-left, or bottom-left to top-right --> pixelizes/blur
    * if user selects from bottom-right to top-left --> restores
   */
   void mouseReleased() {

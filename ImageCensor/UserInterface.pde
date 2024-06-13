@@ -173,7 +173,6 @@ void draw() {
 
 void mousePressed() {
   if (onImage()) {
-    println("L");
     saveImageState(); //save image before next action
   }
   
