@@ -29,10 +29,9 @@ public class Blur {
       }
     }
     else { //if leftmost coord on image, pixelization
-      println((y * img.width) + x);
       startPixel = constrain(((y * img.width) + x), 0, img.pixels.length-1);
     }
-    println(cropWidth, cropHeight);
+    
     endPixel = constrain(startPixel + ((cropHeight - 1) * img.width) + (cropWidth - 1), 0, (img.pixels.length - 1));
     this.cropWidth = constrain((cropWidth + x), x, img.width) - x;
   }

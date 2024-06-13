@@ -50,6 +50,7 @@ public class Restore {
       
       indexPassed ++;
     }
-    pg = createGraphics(img2.width, img2.height); //erase existing drawings
+    
+    eraseDrawings();
   }
 }

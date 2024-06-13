@@ -1,5 +1,7 @@
+/* creates a censor bar stamp. center at mouse pos */
 public class Stamp {
   private boolean stampDown = false;
+  private String text = "CENSORED";
   private PGraphics pg, pg2;
   private int w; //stamp width
 
@@ -18,7 +20,8 @@ public class Stamp {
       /* move pg pos to img pos */
       imgArea.translate(-leftCenterW, -leftCenterH);
       
-      w = img.width/3;
+      /* what the user sees (when drawing) */
+      w = img.width / 3;
       int stampCenterX = mouseX - (w / 2);
       int stampCenterY = mouseY - (w / 6);
      
@@ -27,14 +30,14 @@ public class Stamp {
       imgArea.fill(255);
       imgArea.rect(stampCenterX, stampCenterY, w, (w / 3)); 
       imgArea.fill(217, 4, 0);
-      
-      String text = "CENSORED";
+    
       imgArea.textSize(w/5);
       imgArea.text(text, (stampCenterX + ((w - textWidth(text)) / 6)), (stampCenterY + ((w/3 - (textDescent() - textAscent())) / 2 )));
       
+      /* graphic to be combined with reference image */
       w = (int)(w / scaleFactor);
-      stampCenterX = ((int)((mouseX - upLeftX) / scaleFactor)) - (w / 2);
-      stampCenterY = ((int)((mouseY - upLeftY) / scaleFactor)) - (w / 6);
+      stampCenterX = ((int)(defaultZoomPositionX(mouseX))) - (w / 2);
+      stampCenterY = ((int)(defaultZoomPositionY(mouseY))) - (w / 6);
       
       pg.stroke(217, 4, 0);
       //pg.strokeWeight(3/scaleFactor);
@@ -52,13 +55,16 @@ public class Stamp {
       pg.popMatrix();
       pg.endDraw();
       
-      /* combines graphic and image. set img as the combination */
+      /* combines graphic and image. set img2 as the combination */
       pg2.beginDraw();
       pg2.image(img2, 0, 0);
       pg2.image(pg, 0, 0);
       pg2.endDraw();
       
       img2 = pg2.get(0, 0, img2.width, img2.height);
+      
+      resetImageQuality();
+      confineImg();
     }
   }
 }

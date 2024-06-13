@@ -54,11 +54,11 @@ public class Selection {
         mouseY2 = mouseY - leftCenterH;
       }
       else {
-        xStart2 = (int)((selectXStart - upLeftX) / scaleFactor);
-        yStart2 = (int)((selectYStart - upLeftY) / scaleFactor);
+        xStart2 = (int)(defaultZoomPositionX(selectXStart));
+        yStart2 = (int)(defaultZoomPositionY(selectYStart));
         
-        mouseX2 = (int)((mouseX - upLeftX) / scaleFactor);
-        mouseY2 = (int)((mouseY - upLeftY) / scaleFactor); 
+        mouseX2 = (int)(defaultZoomPositionX(mouseX));
+        mouseY2 = (int)(defaultZoomPositionY(mouseY)); 
       }
       
       if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
