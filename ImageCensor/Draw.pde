@@ -50,13 +50,11 @@ public class Draw {
       pg.strokeWeight(penSize/(float)scaleFactor);
       /* converting line on zoomed image to what it would be on normal zoom */
       pg.line((float)(leftCenterW + ((pmouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((pmouseY - upLeftY) / scaleFactor)), (float)(leftCenterW + ((mouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((mouseY - upLeftY) / scaleFactor)));
-
+      
       imgArea.popMatrix();
       imgArea.endDraw();
       pg.popMatrix();
       pg.endDraw();
-      
-      //pg.save("pg.png");
       
       /* combines graphic and image. set img as the combination */
       pg2.beginDraw();

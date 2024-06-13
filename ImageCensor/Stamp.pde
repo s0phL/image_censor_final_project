@@ -41,11 +41,11 @@ public class Stamp {
       pg.strokeWeight(3);
       
       pg.fill(255);
-      pg.rect(stampCenterX, stampCenterY, w, w/3); 
+      pg.rect(stampCenterX, stampCenterY, w, (w / 3)); 
       pg.fill(217, 4, 0);
       
-      pg.textSize(w/5);
-      pg.text(text, (stampCenterX + ((w - textWidth(text)) / 6)), (stampCenterY + ((w/3 - (textDescent() - textAscent())) / 2 )));
+      pg.textSize(w / 5);
+      pg.text(text, (stampCenterX + ((w - textWidth(text)) / 6)), (stampCenterY + (((w / 3) - (textDescent() - textAscent())) / 2)));
   
       imgArea.popMatrix();
       imgArea.endDraw();
