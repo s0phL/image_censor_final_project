@@ -117,7 +117,7 @@ public class Button {
   
   /* blackens entire image */
   private void blackenImage() {
-    oldImg = img.get(0, 0, img.width, img.height); //save img before action in case want to undo
+    saveImageState();
     delay(90); //to give time to save prev img before pgraphic covers it
     
     imgArea.beginDraw();
@@ -129,7 +129,7 @@ public class Button {
 
     imgArea.endDraw();
     
-    pg = createGraphics(img.width, img.height); //erase drawings underneath
+    pg = createGraphics(img2.width, img2.height); //erase drawings underneath
     
     img = imgArea.get(0, 0, img.width, img.height);
     img2 = imgArea.get(0, 0, img.width, img.height);

@@ -1,7 +1,6 @@
 public class Selection {
   private int selectXStart, selectYStart, rectWidth, rectHeight; //selection box outlines
   private String mode;
-  private double scaleFactor;
   
   //initialize to 0 so rectangle selection box doesn't appear
   public Selection(String mode) {
@@ -42,8 +41,6 @@ public class Selection {
   */
   void mouseReleased() {
     if (mode != "none") {
-      
-      scaleFactor = (Math.pow(zoomSize, zoomCount));
       
       int xStart2, yStart2, mouseX2, mouseY2;
       /* convert zoomed selections into the coordinates user would have if they selected on default zoom size 
@@ -99,10 +96,7 @@ public class Selection {
         Pixelate pixel = new Pixelate(img2, x, y, abs((int)(rectWidth / scaleFactor)), abs((int)(rectHeight / scaleFactor)));
         pixel.pixelate(slide.getValue());
         break;
-      case "blur" :
-        Blur pixel2 = new Blur(img2, x, y, abs((int)(rectWidth / scaleFactor)), abs((int)(rectHeight / scaleFactor)));
-        pixel2.blur();
-        break;
+      
     }
   }
     
