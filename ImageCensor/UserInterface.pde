@@ -97,8 +97,8 @@ void setup() {
 }
 
 /* save img and other coordinate states before action in case want to undo */
-void saveImageState() {;
-  oldImg2 = img2.get(0, 0, img.width, img.height);
+void saveImageState() {
+  oldImg2 = img2.get(0, 0, img2.width, img2.height);
   oldUpLeftX = upLeftX;
   oldUpLeftY = upLeftY;
   usedUndo = false;
@@ -208,15 +208,16 @@ void mouseReleased() {
 
 void keyPressed() {
   drawTool.keyPressed();  
-  //println(key);
+  println(key);
   
-  /*
+  
   if(key=='7'){
-    drawTool.pg.save("pg.png");
+    //drawTool.pg.save("pg.png");
     img.save("img.png");
     img2.save("img2.png");
+    oldImg2.save("oldImg2.png");
   }
-  */
+  
   
   /* reset image */
   if (key == 'r') { 
@@ -349,7 +350,7 @@ private void insertImage(String image_path) {
 */
 private void swapImageState() {
   exOldImg2 = oldImg2.get(0, 0, img2.width, img2.height);
-  //oldImg2.save("exoldImage2.png");
+  //exOldImg2.save("exoldImage2.png");
   oldImg2 = img2.get(0, 0, img2.width, img2.height); 
   //oldImg2.save("oldImg2.png");
   img2 = exOldImg2.get(0, 0, img2.width, img2.height);
@@ -366,7 +367,10 @@ private void swapImageState() {
   oldScaleFactor = upLeftX;
   upLeftX = exOldUpLeftX;
   
-  img.resize(img2.width * (int)scaleFactor, img2.height * (int)scaleFactor);
+  println(img.width, img.height);
+  println(img2.width, scaleFactor, img2.height,(int)(img2.width * scaleFactor), (int)(img2.height * scaleFactor));
+   
+  img.resize((int)(img2.width * scaleFactor), (int)(img2.height * scaleFactor));
   resetImageQuality();
   confineImg();
 }

@@ -16,7 +16,7 @@ public class Selection {
     stroke(255);
     strokeWeight(2);
     noFill();
-    if (mousePressed && (mode != "none")) {
+    if (mousePressed && (mouseButton != RIGHT) && (mode != "none")) {
       rect(selectXStart, selectYStart, rectWidth, rectHeight);
     }
   }
@@ -60,6 +60,8 @@ public class Selection {
         mouseX2 = (int)(defaultZoomPositionX(mouseX));
         mouseY2 = (int)(defaultZoomPositionY(mouseY)); 
       }
+      
+      //println("Select: " + xStart2, yStart2, mouseX2, mouseY2);
       
       if (rectWidth > 0 && rectHeight > 0) { //top-left to bottom-right, start point is start pixel
         editImage((xStart2), (yStart2));
