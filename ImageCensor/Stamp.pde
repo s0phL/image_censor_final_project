@@ -14,44 +14,23 @@ public class Stamp {
     if (stampDown) {
       pg.beginDraw();
       pg.pushMatrix();
-      imgArea.beginDraw();
-      imgArea.pushMatrix();
-      
-      /* move pg pos to img pos */
-      imgArea.translate(-leftCenterW, -leftCenterH);
-      
-      /* what the user sees (when drawing) */
-      w = img.width / 3;
-      int stampCenterX = mouseX - (w / 2);
-      int stampCenterY = mouseY - (w / 6);
-     
-      imgArea.stroke(217, 4, 0);
-      imgArea.strokeWeight(3);
-      imgArea.fill(255);
-      imgArea.rect(stampCenterX, stampCenterY, w, (w / 3)); 
-      imgArea.fill(217, 4, 0);
-    
-      imgArea.textSize(w/5);
-      imgArea.text(text, (stampCenterX + ((w - textWidth(text)) / 6)), (stampCenterY + ((w/3 - (textDescent() - textAscent())) / 2 )));
       
       /* graphic to be combined with reference image */
-      w = (int)(w / scaleFactor);
-      stampCenterX = ((int)(defaultZoomPositionX(mouseX))) - (w / 2);
-      stampCenterY = ((int)(defaultZoomPositionY(mouseY))) - (w / 6);
+      //w = (int)(w / scaleFactor);
+      w = img2.width / 3;
+      int stampCenterX = ((int)(defaultZoomPositionX(mouseX))) - (w / 2);
+      int stampCenterY = ((int)(defaultZoomPositionY(mouseY))) - (w / 6);
       
       pg.stroke(217, 4, 0);
-      //pg.strokeWeight(3/scaleFactor);
+      //pg.strokeWeight(3 / scaleFactor);
       pg.strokeWeight(3);
-      
       pg.fill(255);
-      pg.rect(stampCenterX, stampCenterY, w, (w / 3)); 
+      pg.rect(stampCenterX, stampCenterY, w, (w / 3)); //stamp
       pg.fill(217, 4, 0);
       
       pg.textSize(w / 5);
       pg.text(text, (stampCenterX + ((w - textWidth(text)) / 6)), (stampCenterY + (((w / 3) - (textDescent() - textAscent())) / 2)));
   
-      imgArea.popMatrix();
-      imgArea.endDraw();
       pg.popMatrix();
       pg.endDraw();
       

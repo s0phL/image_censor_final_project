@@ -39,7 +39,8 @@ void setup() {
   size(1000, 500);
   
   //getImage("Enter image path (starting from home dir)");
-  insertImage("bird.jpg");
+  //insertImage("bird.jpg");
+  insertImage("IMG_6968.jpg");
    
   selectionTool = new Selection("none");
   drawTool = new Draw();
@@ -176,6 +177,10 @@ void mousePressed() {
 }
 
 void mouseDragged() {
+  for (Button btn : btnArray) {
+    btn.mouseDragged();
+  }
+  
   if (mouseButton == RIGHT) { //for image drag
     resetImageQuality();
     imgArea.beginDraw();
@@ -186,23 +191,21 @@ void mouseDragged() {
   else { 
     selectionTool.mouseDragged();
     drawTool.mouseDragged();
-    for (Button btn : btnArray) {
-      btn.mouseDragged();
-    }
     slide.mouseDragged();
   }
 }
 
 void mouseReleased() {  
+  for (Button btn : btnArray) {
+    btn.mouseReleased();
+  }
+  
   if (mouseButton == RIGHT) { //for image drag
     upLeftX += (mouseX - xStart);
     upLeftY += (mouseY - yStart);
   }
   else {
     selectionTool.mouseReleased();
-    for (Button btn : btnArray) {
-      btn.mouseReleased();
-    }
   }
 }
 
@@ -290,7 +293,7 @@ void keyPressed() {
     
     upLeftX = mouseX - (((leftCenterW - upLeftX) + (mouseX - leftCenterW)) / zoomSize);
     upLeftY = mouseY - (((leftCenterH - upLeftY) + (mouseY - leftCenterH)) / zoomSize);
-    println(upLeftX, upLeftY);
+    //println(upLeftX, upLeftY);
 
     resetImageQuality();
     confineImg();
@@ -315,15 +318,19 @@ private void getImage(String inputPrompt){
   catch (NullPointerException e) { 
     getImage("Invalid path. Please try again");
   }
+  catch (RuntimeException e) {
+    getImage("Invalid path. Please try again");
+  }
 }
 
 /* inserts image into the processing screen 
  * makes image smaller if it exceeds processing screen dimentions or goes over buttons
 */
 private void insertImage(String image_path) {
+  
   img = loadImage(image_path);
   
-  while (img.width > width-505 || img.height > height) {
+  while (img.width > width-405 || img.height > height) {
     img.resize((img.width / 2), (img.height / 2));
   }
   img2 = img.get(0, 0, img.width, img.height);

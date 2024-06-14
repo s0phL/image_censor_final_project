@@ -1,5 +1,5 @@
 public class Button {
-  private boolean mouseDragged = false;
+  private boolean mouseDragged = false; //to detect if user is dragging onto key or directly clicking
   private float x, y, w, h, padding, fontSize;
   private String text, function;
   private color c;
