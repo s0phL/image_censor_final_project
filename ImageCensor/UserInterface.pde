@@ -39,8 +39,8 @@ void setup() {
   size(1000, 500);
   
   //getImage("Enter image path (starting from home dir)");
-  //insertImage("bird.jpg");
-  insertImage("IMG_6968.jpg");
+  insertImage("bird.jpg");
+  //insertImage("IMG_6968.jpg");
    
   selectionTool = new Selection("none");
   drawTool = new Draw();
@@ -373,13 +373,12 @@ private void swapImageState() {
   exOldScaleFactor = oldScaleFactor;
   oldScaleFactor = upLeftX;
   upLeftX = exOldUpLeftX;
-  
-  println(img.width, img.height);
-  println(img2.width, scaleFactor, img2.height,(int)(img2.width * scaleFactor), (int)(img2.height * scaleFactor));
    
   img.resize((int)(img2.width * scaleFactor), (int)(img2.height * scaleFactor));
   resetImageQuality();
   confineImg();
+  
+  eraseDrawings();
 }
 
 
