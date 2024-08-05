@@ -38,7 +38,7 @@ public class Selection {
    * if user selects from bottom-right to top-left --> restores
   */
   void mouseReleased() {
-    println(mode);
+    //println(mode);
     if (mode != "none") {
       //mode = "restore";
       //mode = "pixelate";
@@ -74,10 +74,8 @@ public class Selection {
   
   void keyPressed() {
     if (key == 't') {
-      println(onRestore);
-      if (onRestore && (mode != "none")) {
-        println("A");
-        selectionTool = new Selection("pixelate");
+      if (onRestore) {
+        selectionTool.mode = "pixelate";
         onRestore = false;
       }
       else {
@@ -85,8 +83,6 @@ public class Selection {
         onRestore = true;
       }
     }
-    println("(keypressed):"+mode);
-    println("==========");
   }
   
   

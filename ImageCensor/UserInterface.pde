@@ -8,7 +8,7 @@ Button btn, btn2, btn3;
 Slider slide;
 
 static boolean onRestore = false;
-boolean onDraw = false;
+static boolean onDraw = false;
 
 int leftCenterW; //x pos of left side of img so it is in the center
 int leftCenterH; //y pos of left side of img so it is in the center
@@ -98,8 +98,14 @@ void mouseReleased() {
 }
 
 void keyPressed() {
-  selectionTool.keyPressed();
-  drawTool.keyPressed();
+  //println(onDraw + " " + selectionTool.mode);
+  if (onDraw) {
+    drawTool.keyPressed();
+  }
+  else if (!onDraw && selectionTool.mode != "none") {
+    selectionTool.keyPressed();
+  }
+ // drawTool.keyPressed();
   /*
   if (key == 'r') {
     img = loadImage(image_path);

@@ -1,7 +1,7 @@
 public class Draw {
   private PGraphics pg2;
   private boolean penDown = false;
-  private boolean onDraw = false;
+  //private boolean onDraw = false;
   
   public Draw() {
     pg = createGraphics(img.width, img.height);
@@ -45,8 +45,10 @@ public class Draw {
     }
     
     if (key == 't') {
-      if (onRestore && onDraw) {
+      if (onRestore) {
+       // println("ajsdlaj");
         drawTool.penDown = true;
+        selectionTool.mode = "none";
         onRestore = false;
       }
       else {

@@ -41,6 +41,8 @@ public class Button {
         fill(0);
         rect(x, y, w, h);
         
+        onRestore = false;
+        
         switch (function) {
           case "download" : 
             img.save("censored_bird.jpg");
@@ -53,8 +55,8 @@ public class Button {
             break;
           case "draw" :
             drawTool.penDown = true;
-            onDraw = true;
             selectionTool = new Selection("none");
+            onDraw = true;
             break;
         } 
       }
