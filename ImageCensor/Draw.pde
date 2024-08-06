@@ -47,23 +47,17 @@ public class Draw {
       /* graphic to be combined with reference image */
       pg.stroke(0);
       pg.strokeWeight(penSize/(float)scaleFactor);
-      /* converting line on zoomed image to what it would be on default zoom */
+      /* convert line on zoomed image to what it would be on default zoom */
       pg.line((float)(leftCenterW + (defaultZoomPositionX(pmouseX))), (float)(leftCenterH + (defaultZoomPositionY(pmouseY))), (float)(leftCenterW + (defaultZoomPositionX(mouseX))), (float)(leftCenterH + (defaultZoomPositionY(mouseY))));
       
-      //stroke(50);    
-      //strokeWeight(penSize);
-      //line((float)(leftCenterW + ((pmouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((pmouseY - upLeftY) / scaleFactor)), (float)(leftCenterW + ((mouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((mouseY - upLeftY) / scaleFactor)));
-      //println(pmouseX, upLeftX, scaleFactor);
-      //println((float)(leftCenterW + ((pmouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((pmouseY - upLeftY) / scaleFactor)), (float)(leftCenterW + ((mouseX - upLeftX) / scaleFactor)), (float)(leftCenterH + ((mouseY - upLeftY) / scaleFactor)));
-
       imgArea.popMatrix();
       imgArea.endDraw();
       pg.popMatrix();
       pg.endDraw();
       
-      //pg.save("pg.png");
+      //pg.save("pg-devcheck.png");
       
-      /* combines graphic and image. set img2 as the combination */
+      /* combine graphic and image. set img2 as the combination */
       pg2.beginDraw();
       pg2.image(img2, 0, 0);
       pg2.image(pg, 0, 0);

@@ -2,11 +2,10 @@ public class Selection {
   private int selectXStart, selectYStart, rectWidth, rectHeight; //selection box outlines
   private String mode;
   
-  //initialize to 0 so rectangle selection box doesn't appear
   public Selection(String mode) {
     selectXStart = 0;
     selectYStart = 0;
-    rectWidth = 0;
+    rectWidth = 0; //initialize to 0 so rectangle selection box doesn't appear
     rectHeight = 0;
     this.mode = mode;
   }

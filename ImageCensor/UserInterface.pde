@@ -33,7 +33,7 @@ private boolean usedUndo = false;
 private PImage oldImg2, exOldImg2; //for undo/redo
 private double oldUpLeftX, exOldUpLeftX;
 private double oldUpLeftY, exOldUpLeftY;
-private double oldScaleFactor, exOldScaleFactor;
+private double oldScaleFactor;
 
 void setup() {
   size(1000, 500);
@@ -211,16 +211,16 @@ void mouseReleased() {
 
 void keyPressed() {
   drawTool.keyPressed();  
-  println(key);
+  println("key pressed: " + key);
   
-  
-  if(key=='7'){
-    //drawTool.pg.save("pg.png");
-    img.save("img.png");
-    img2.save("img2.png");
-    oldImg2.save("oldImg2.png");
+  /* for dev */
+  /*
+  if (key == '7') {
+    img.save("img-devcheck.png");
+    img2.save("img2-devcheck.png");
+    oldImg2.save("oldImg2-devcheck.png");
   }
-  
+  */
   
   /* reset image */
   if (key == 'r') { 
@@ -270,7 +270,7 @@ void keyPressed() {
     saveImageState();
     img.resize((img.width * zoomSize), (img.height * zoomSize));
     zoomCount++;
-    println("Q:" + zoomCount);
+    println("zoom-in:" + zoomCount);
       
     upLeftX = mouseX - (((leftCenterW - upLeftX) + (mouseX - leftCenterW)) * zoomSize);
     upLeftY = mouseY - (((leftCenterH - upLeftY) + (mouseY - leftCenterH)) * zoomSize);
@@ -289,7 +289,7 @@ void keyPressed() {
     saveImageState();
     img.resize((img.width / zoomSize), (img.height / zoomSize));
     zoomCount--;
-    println("E:" + zoomCount);
+    println("zoom-out:" + zoomCount);
     
     upLeftX = mouseX - (((leftCenterW - upLeftX) + (mouseX - leftCenterW)) / zoomSize);
     upLeftY = mouseY - (((leftCenterH - upLeftY) + (mouseY - leftCenterH)) / zoomSize);
@@ -357,11 +357,11 @@ private void insertImage(String image_path) {
 */
 private void swapImageState() {
   exOldImg2 = oldImg2.get(0, 0, img2.width, img2.height);
-  //exOldImg2.save("exoldImage2.png");
+  //exOldImg2.save("exoldImage2-devcheck.png");
   oldImg2 = img2.get(0, 0, img2.width, img2.height); 
-  //oldImg2.save("oldImg2.png");
+  //oldImg2.save("oldImg2-devcheck.png");
   img2 = exOldImg2.get(0, 0, img2.width, img2.height);
-  //img2.save("img2.png");
+  //img2.save("img2-devcheck.png");
   
   exOldUpLeftX = oldUpLeftX;
   oldUpLeftX = upLeftX;
@@ -370,7 +370,6 @@ private void swapImageState() {
   oldUpLeftY = upLeftY;
   upLeftY = exOldUpLeftY;
   
-  exOldScaleFactor = oldScaleFactor;
   oldScaleFactor = upLeftX;
   upLeftX = exOldUpLeftX;
    
@@ -380,7 +379,3 @@ private void swapImageState() {
   
   eraseDrawings();
 }
-
-
-   
-    
