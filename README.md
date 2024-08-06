@@ -1,4 +1,3 @@
-for my own happiness and content:
 # APCS Final Project After Deadline -- Image Censor
 **Name:** Sophie Liu
 
