@@ -1,4 +1,4 @@
-# APCS Final Project After Deadline -- Image Censor
+# APCS Final Project -- Image Censor
 **Name:** Sophie Liu
 
 **Email:** sliu50@stuy.edu
